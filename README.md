@@ -70,11 +70,11 @@ We use [Github](http://github.com/) for versioning.
 * **Michael Brown** - *Front end* - [Michael](https://github.com/michaelbrownie)
 * **Frank Grevelink** - *Front end* - [Frank](https://github.com/fgrevelink)
 
-See also the list of [contributors](https://github.com/Waro1234/ceespot/settings/collaboration) who participated in this project.
+See also the list of [contributors](https://github.com/orgs/CeeSpot/people) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/CeeSpot/Frontend/blob/master/LICENSE) file for details
 
 ## Acknowledgments
 
