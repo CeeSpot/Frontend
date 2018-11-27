@@ -7,7 +7,7 @@
 
 <script>
 
-import Navigation from '@/components/Navigation/Navigation' // Import the navigation into the base app
+import Navigation from '@/components/Core/Navigation/Navigation' // Import the navigation into the base app
 export default {
   name: 'App',
   components: {

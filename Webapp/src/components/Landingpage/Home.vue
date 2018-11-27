@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="pizza">hai</div>
+    <div id="pizza" class="pizza">hai</div>
     <b-container class="bv-example-row">
       <b-row>
         <b-col>CeeSpot</b-col>
@@ -10,12 +10,18 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'Home',
+  name: 'Landingpage',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  mounted () {
+    axios.post('http://localhost:3000/example', 'data').then(res => {
+      document.getElementById('pizza').innerText = JSON.stringify(res.data)
+    })
   }
 }
 </script>

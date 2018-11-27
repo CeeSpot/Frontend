@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import Home from '@/components/Home/Home'
+import Home from '@/components/Landingpage/Landingpage'
 
-describe('Home.vue', () => {
-  // const Constructor = Vue.extend(Home)
+describe('Landingpage.vue', () => {
+  // const Constructor = Vue.extend(Landingpage)
   // const wrapper = mount(Constructor)
   it('should render correct contents', () => {
     const Constructor = Vue.extend(Home)
