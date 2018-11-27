@@ -1,5 +1,6 @@
 <template>
   <div>
+    <carousel></carousel>
     <div id="pizza" class="pizza">hai</div>
     <b-container class="bv-example-row">
       <b-row>
@@ -11,6 +12,7 @@
 
 <script>
 import axios from 'axios'
+import Carousel from '@/components/Core/Carousel/Carousel' // Import the navigation into the base app
 export default {
   name: 'Landingpage',
   data () {
@@ -22,6 +24,9 @@ export default {
     axios.post('http://localhost:3000/example', 'data').then(res => {
       document.getElementById('pizza').innerText = JSON.stringify(res.data)
     })
+  },
+  components: {
+    Carousel
   }
 }
 </script>
