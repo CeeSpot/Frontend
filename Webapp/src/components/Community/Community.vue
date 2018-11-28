@@ -76,6 +76,23 @@ export default {
     width: 15%;
 }
 
+.card-img-top{
+    display:block;
+    margin:auto;
+    margin-top: 25px;
+    border-radius: 50%;
+    height: 145px;
+    width: 145px;
+}
+
+.card-title{
+  text-align: center;
+}
+
+.card-text{
+  text-align: center;
+}
+
 .container-search-toggle{
     overflow: hidden;
 }
