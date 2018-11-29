@@ -1,6 +1,6 @@
 <template>
 <div class="margin-div">
-<b-container class="search-toggle-container" fluid>
+<b-container class="search-toggle-container">
    <b-row>
         <b-col md="2">
           <div>
@@ -29,7 +29,7 @@
     <div class="tags">
     </div>
 
-    <b-container class="bv-example-row" fluid>
+    <b-container class="bv-example-row">
       <b-row>
           <b-col v-for="companie in companies" :key="companie.id">
             <b-card
