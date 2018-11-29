@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
 
 import BootstrapVue from 'bootstrap-vue' // Imports bootstrap vue library
 
@@ -23,6 +24,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon) // create the vue-component 
 Vue.config.productionTip = false // production release
 
 Vue.use(BootstrapVue) // Let vue use bootstrap vue across the whole project
+
+ // Set baseURL
+ axios.defaults.baseURL = 'http://localhost:3000'
 
 /* eslint-disable no-new */
 new Vue({
