@@ -31,20 +31,19 @@
 
     <b-container class="bv-example-row">
       <b-row>
-          <b-col v-for="companie in companies" :key="companie.id">
+          <b-col md="4" v-for="companie in companies" :key="companie.id">
             <b-card
-            :key="companie.id"
-            :title="companie.name"
-            img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem;"
-            class="mb-2">
-          <p class="card-text">
-              {{companie.description}}
-          </p>
-          </b-card>
+                :key="companie.id"
+                :title="companie.name"
+                img-src="https://picsum.photos/600/300/?image=25"
+                img-alt="Image"
+                img-top
+                tag="article"
+                class="mb-2">
+              <p class="card-text">
+                  {{companie.description}}
+              </p>
+            </b-card>
           </b-col>
       </b-row>
     </b-container>
