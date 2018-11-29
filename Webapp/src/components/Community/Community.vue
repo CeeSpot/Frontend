@@ -52,18 +52,18 @@
 </template>
 
 <script>
-import axios from 'axios'
+import CommunityApi from '@/services/api/community.js'
 export default {
   name: 'Community',
   data () {
     return {
-      companies: []
+      companies: [],
+      users: []
     }
   },
   mounted () {
-    axios.get('http://localhost:3000/api/companies', 'data').then(res => {
-      this.companies = res.data
-    })
+    CommunityApi.getUsers().then(response => this.users = response.data)
+    CommunityApi.getCompanies().then(response => this.companies = response.data)
   },
   components: {
   }
