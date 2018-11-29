@@ -1,32 +1,38 @@
 <template>
-<div class="padding-div">
-
-    <div class="container-search-toggle">
-        <div class="search-bar float-left">
-            <b-input-group>
-                <b-form-input placeholder="Search..."></b-form-input>
-                <b-input-group-append>
-                    <b-btn class="search-button-color"><font-awesome-icon icon="search"/></b-btn>
-                </b-input-group-append>
-            </b-input-group>
-        </div>
-
-        <div class="toggle float-right">
-         <div class="switch">
-            <input type="radio" class="switch-input" name="view" value="week" id="week" checked>
-            <label for="week" class="switch-label switch-label-off">&nbsp;Members </label>
-            <input type="radio" class="switch-input" name="view" value="month" id="month">
-            <label for="month" class="switch-label switch-label-on">&nbsp;Companies</label>
-            <span class="switch-selection"></span>
-         </div>
-        </div>
-    </div>
+<div class="margin-div">
+<b-container class="search-toggle-container" fluid>
+   <b-row>
+        <b-col md="2">
+          <div>
+              <b-input-group>
+                  <b-form-input placeholder="Search..."></b-form-input>
+                  <b-input-group-append>
+                      <b-btn class="search-button-color"><font-awesome-icon icon="search"/></b-btn>
+                  </b-input-group-append>
+              </b-input-group>
+          </div>
+        </b-col>
+        <b-col md="1" offset-md="9">
+          <div class="toggle">
+            <div class="switch">
+                <input type="radio" class="switch-input" name="view" value="week" id="week" checked>
+                <label for="week" class="switch-label switch-label-off">&nbsp;Members </label>
+                <input type="radio" class="switch-input" name="view" value="month" id="month">
+                <label for="month" class="switch-label switch-label-on">&nbsp;Companies</label>
+                <span class="switch-selection"></span>
+            </div>
+          </div>
+        </b-col>
+    </b-row>
+</b-container>
 
     <div class="tags">
     </div>
 
-    <div class="cards">
-        <b-card v-for="companie in companies"
+    <b-container class="bv-example-row" fluid>
+      <b-row>
+          <b-col v-for="companie in companies" :key="companie.id">
+            <b-card
             :key="companie.id"
             :title="companie.name"
             img-src="https://picsum.photos/600/300/?image=25"
@@ -35,11 +41,14 @@
             tag="article"
             style="max-width: 20rem;"
             class="mb-2">
-        <p class="card-text">
-            {{companie.description}}
-        </p>
-        </b-card>
-    </div>
+          <p class="card-text">
+              {{companie.description}}
+          </p>
+          </b-card>
+          </b-col>
+      </b-row>
+    </b-container>
+
 </div>
 </template>
 
@@ -64,16 +73,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.padding-div{
-    padding: 100px;
+.margin-div{
+    margin-top: 100px;
 }
 
 .search-button-color{
     background-color: #E60000;
-}
-
-.search-bar{
-    width: 15%;
 }
 
 .card-img-top{
