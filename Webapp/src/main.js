@@ -9,6 +9,7 @@ import BootstrapVue from 'bootstrap-vue' // Imports bootstrap vue library
 
 import 'bootstrap/dist/css/bootstrap.css' // Imports the Bootstrap CSS
 import 'bootstrap-vue/dist/bootstrap-vue.css' // Imports the bootstrap-vue css
+import './assets/css/main.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core' // Imports svg core
 import { faCoffee } from '@fortawesome/free-solid-svg-icons' // Imports base icons

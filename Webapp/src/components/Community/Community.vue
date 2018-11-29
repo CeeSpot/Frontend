@@ -1,54 +1,66 @@
 <template>
-<div class="margin-div">
-<b-container class="search-toggle-container">
-   <b-row>
-        <b-col md="2">
+<b-container>
+   <b-row class="search-toggle-container">
+        <b-col md="4">
           <div>
               <b-input-group>
-                  <b-form-input placeholder="Search..."></b-form-input>
+                  <b-form-input v-model="search" placeholder="Search..." ></b-form-input>
                   <b-input-group-append>
                       <b-btn class="search-button-color"><font-awesome-icon icon="search"/></b-btn>
                   </b-input-group-append>
               </b-input-group>
           </div>
         </b-col>
-        <b-col md="1" offset-md="9">
+        <b-col md="3" offset-md="5">
           <div class="toggle">
             <div class="switch">
-                <input type="radio" class="switch-input" name="view" value="week" id="week" checked>
+                <input type="radio" class="switch-input" v-on:change="toggle('members')" name="view" value="week" id="week" checked>
                 <label for="week" class="switch-label switch-label-off">&nbsp;Members </label>
-                <input type="radio" class="switch-input" name="view" value="month" id="month">
+                <input type="radio" class="switch-input" v-on:change="toggle('companies')" name="view" value="month" id="month">
                 <label for="month" class="switch-label switch-label-on">&nbsp;Companies</label>
                 <span class="switch-selection"></span>
             </div>
           </div>
         </b-col>
     </b-row>
-</b-container>
 
-    <div class="tags">
-    </div>
-
-    <b-container class="bv-example-row">
-      <b-row>
-          <b-col md="4" v-for="companie in companies" :key="companie.id">
+    <b-row>
+    <!-- Tagrow -->
+    </b-row>
+    <b-row v-if="showMembers">
+          <b-col md="4" v-for="user in userList" :key="user.id">
             <b-card
-                :key="companie.id"
-                :title="companie.name"
+                :key="user.id"
+                :title="user.email"
                 img-src="https://picsum.photos/600/300/?image=25"
                 img-alt="Image"
                 img-top
                 tag="article"
                 class="mb-2">
               <p class="card-text">
-                  {{companie.description}}
+                  {{user.country}}
               </p>
             </b-card>
           </b-col>
       </b-row>
-    </b-container>
-
-</div>
+    <b-row v-if="!showMembers">
+          <b-col md="4" v-for="company in companyList" :key="company.id">
+            <b-card
+                :key="company.id"
+                :title="company.name"
+                img-src="https://picsum.photos/600/300/?image=25"
+                img-alt="Image"
+                img-top
+                tag="article"
+                class="mb-2">
+              <p class="card-text">
+                  {{company.description}}
+              </p>
+            </b-card>
+          </b-col>
+      </b-row>
+      
+</b-container>
 </template>
 
 <script>
@@ -58,14 +70,34 @@ export default {
   data () {
     return {
       companies: [],
-      users: []
+      users: [],
+      showMembers: true,
+      search: ''
     }
   },
   mounted () {
     CommunityApi.getUsers().then(response => this.users = response.data)
     CommunityApi.getCompanies().then(response => this.companies = response.data)
   },
+  methods: {
+    toggle : function(value) {
+      if(value === 'members') { this.showMembers = true }
+      else { this.showMembers = false }
+    }
+  },
   components: {
+  },
+  computed: {
+    userList() {
+      return this.users.filter(user => {
+        return user.email.toLowerCase().includes(this.search.toLowerCase())
+      })
+    },
+    companyList() {
+      return this.companies.filter(company => {
+        return company.name.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
   }
 }
 </script>
@@ -73,7 +105,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .margin-div{
-    margin-top: 100px;
+    margin-top: 56px;
 }
 
 .search-button-color{
@@ -97,8 +129,9 @@ export default {
   text-align: center;
 }
 
-.container-search-toggle{
-    overflow: hidden;
+.search-toggle-container{
+  margin-top: 76px;
+  margin-bottom: 20px;
 }
 
 .switch {
