@@ -31,14 +31,13 @@
           <b-col md="4" v-for="user in userList" :key="user.id">
             <b-card
                 :key="user.id"
-                :title="user.email"
+                :title="user.username"
                 img-src="https://picsum.photos/600/300/?image=25"
                 img-alt="Image"
                 img-top
-                tag="article"
-                class="mb-2">
+                tag="article">
               <p class="card-text">
-                  {{user.country}}
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porta rutrum justo, nec molestie orci elementum non.
               </p>
             </b-card>
           </b-col>
@@ -51,8 +50,7 @@
                 img-src="https://picsum.photos/600/300/?image=25"
                 img-alt="Image"
                 img-top
-                tag="article"
-                class="mb-2">
+                tag="article">
               <p class="card-text">
                   {{company.description}}
               </p>
@@ -90,7 +88,7 @@ export default {
   computed: {
     userList() {
       return this.users.filter(user => {
-        return user.email.toLowerCase().includes(this.search.toLowerCase())
+        return user.username.toLowerCase().includes(this.search.toLowerCase())
       })
     },
     companyList() {
@@ -130,8 +128,8 @@ export default {
 }
 
 .search-toggle-container{
-  margin-top: 76px;
-  margin-bottom: 20px;
+  margin-top: 130px;
+  margin-bottom: 30px;
 }
 
 .switch {

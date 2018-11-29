@@ -20,6 +20,7 @@ body{
 	box-shadow: 0 3px 5px #d2d2d2;
 	transition: 0.2s ease;
 	cursor: pointer;
+	margin-bottom: 30px;
 }
 
 .card:hover {
