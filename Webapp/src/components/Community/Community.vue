@@ -57,7 +57,6 @@
             </b-card>
           </b-col>
       </b-row>
-      
 </b-container>
 </template>
 
@@ -91,7 +90,7 @@ export default {
       }
       return full_name;
     },
-    descriptionLimited(description){
+    descriptionLimited: function(description){
       if (description.length > 100) {
         return description.substring(0,100) + '...'
       } else {
@@ -104,7 +103,7 @@ export default {
   computed: {
     userList() {
       return this.users.filter(user => {
-        return user.username.toLowerCase().includes(this.search.toLowerCase())
+        return this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase())
       })
     },
     companyList() {
