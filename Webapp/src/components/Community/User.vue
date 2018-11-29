@@ -6,15 +6,13 @@
                 <div class="bg-white box-shadow">
                     <b-row>
                         <b-col style="padding-top: 20px;">
-                            <div style="width: 100%; text-align: center; margin-top: -100px; padding-bottom: 20px;">
+                            <div id="image-container">
                                 <b-img style="width: 150px;" rounded="circle" src="/static/person.png" class="box-shadow"></b-img>
                             </div>
                             <h1 class="text-center">Henkie Janssen</h1>
                             <b-row>
                                 <b-col class="text-justify" style="padding-left: 25px; padding-right: 25px;">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab assumenda eveniet impedit ipsum, iusto laborum molestias neque officia saepe sit! Ex illum labore maiores nostrum placeat. Aperiam ex provident voluptatum?
-                                    </p>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab assumenda eveniet impedit ipsum, iusto laborum molestias neque officia saepe sit! Ex illum labore maiores nostrum placeat. Aperiam ex provident voluptatum?</p>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta dolorum ex nostrum quae vitae? Aliquam animi at commodi culpa cupiditate deserunt dignissimos dolorum enim ipsum laborum magni, possimus quis sapiente?</p>
                                 </b-col>
                             </b-row>
@@ -46,7 +44,16 @@ export default {
     return {
       msg: 'Halloooo'
     }
-  }
+  },
+  mounted () {
+      // import axios from 'axios'
+      // axios.get("http://localhost:3000");
+      console.log(this.id);
+  },
+  created() {
+    this.id = this.$route.params.id;
+  },
+
 }
 </script>
 
@@ -59,4 +66,7 @@ export default {
         box-shadow: 0 3px 5px #d2d2d2;
     }
 
+    #image-container {
+        width: 100%; text-align: center; margin-top: -100px; padding-bottom: 20px;
+    }
 </style>
