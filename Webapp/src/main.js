@@ -25,8 +25,8 @@ Vue.config.productionTip = false // production release
 
 Vue.use(BootstrapVue) // Let vue use bootstrap vue across the whole project
 
- // Set baseURL
- axios.defaults.baseURL = 'http://localhost:3000'
+// Set baseURL
+axios.defaults.baseURL = 'http://localhost:3000'
 
 /* eslint-disable no-new */
 new Vue({
