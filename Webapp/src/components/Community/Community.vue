@@ -31,13 +31,13 @@
           <b-col md="4" v-for="user in userList" :key="user.id">
             <b-card
                 :key="user.id"
-                :title="user.username"
+                :title="fullName(user.first_name, user.insertions, user.last_name)"
                 img-src="https://picsum.photos/600/300/?image=25"
                 img-alt="Image"
                 img-top
                 tag="article">
               <p class="card-text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porta rutrum justo, nec molestie orci elementum non.
+                  {{descriptionLimited(user.description)}}
               </p>
             </b-card>
           </b-col>
@@ -52,7 +52,7 @@
                 img-top
                 tag="article">
               <p class="card-text">
-                  {{company.description}}
+                  {{descriptionLimited(company.description)}}
               </p>
             </b-card>
           </b-col>
@@ -81,6 +81,22 @@ export default {
     toggle : function(value) {
       if(value === 'members') { this.showMembers = true }
       else { this.showMembers = false }
+    },
+    fullName: function(first_name, insertion, last_name) {
+      let full_name;
+      if(insertion){
+          full_name = first_name + ' ' + insertion + ' ' + last_name;
+      } else {
+            full_name = first_name + ' ' + last_name;
+      }
+      return full_name;
+    },
+    descriptionLimited(description){
+      if (description.length > 100) {
+        return description.substring(0,100) + '...'
+      } else {
+        return description
+      }
     }
   },
   components: {
@@ -177,7 +193,7 @@ export default {
 }
 
 .switch-label-off {
-  padding-left: 1px;
+  padding-left: 2px;
 }
 
 .switch-label-on {
