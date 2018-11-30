@@ -25,7 +25,13 @@
     </b-row>
 
     <b-row>
-    <!-- Tagrow -->
+    <b-col style="margin-bottom: 30px;">
+                                <ul>
+                                    <li v-for="tag in tags">
+                                        <div v-bind:id="tag.id" v-on:click="updateSelectedTag(tag.id)" class="btn-ceecee-oval-red">{{tag.description}}</div>
+                                    </li>
+                                </ul>
+                            </b-col>
     </b-row>
     <b-row v-if="showMembers">
           <b-col md="4" v-for="user in userList" :key="user.id">
@@ -61,22 +67,27 @@
 </template>
 
 <script>
+
 import CommunityApi from '@/services/api/community.js'
 import TagApi from '@/services/api/tags.js'
+import Tag from '@/components/Core/Other/Tag' // Import the navigation into the base app
+
 export default {
   name: 'Community',
   data () {
     return {
       companies: [],
       users: [],
+      tags: [],
       showMembers: true,
+      selectedTag: 0,
       search: ''
     }
   },
   mounted () {
     CommunityApi.getUsers().then(response => this.users = response.data.message)
     CommunityApi.getCompanies().then(response => this.companies = response.data)
-    TagApi.getTags().then(response => console.log(response.data))
+    TagApi.getTags().then(response => this.tags = response.data)
   },
   methods: {
     toggle : function(value) {
@@ -101,6 +112,12 @@ export default {
         }
         return '';
       }
+    },
+    containsTag: function(user){
+      return false;
+    },
+    updateSelectedTag: function(id){
+      this.selectedTag = id
     }
   },
   components: {
@@ -108,13 +125,18 @@ export default {
   computed: {
     userList() {
       return this.users.filter(user => {
-        return this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase())
+        return (this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase()) ||
+        this.containsTag(user)
+        )
       })
     },
     companyList() {
       return this.companies.filter(company => {
         return company.name.toLowerCase().includes(this.search.toLowerCase())
       })
+    },
+    selectedTagId(){
+      return this.selectedTag;
     }
   }
 }
@@ -170,6 +192,17 @@ export default {
   margin-top: 130px;
   margin-bottom: 30px;
 }
+
+ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    li {
+        float: left;
+    }
 
 .switch {
     position: relative;

@@ -28,3 +28,27 @@ body{
     -webkit-transform: scale(1.05); /* Safari */
     transform: scale(1.05);
 }
+
+.btn-ceecee-oval-red {
+    border: 2px solid #E60000;
+    border-radius: 15px;
+    background-color: transparent;
+    color: #E60000;
+    height: 30px;
+    line-height: 15px;
+    text-align: center;
+    min-width: 70px;
+    font-weight: 500;
+    padding: 5px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.btn-ceecee-oval-red:hover {
+    transition: 0.2s;
+    background-color: #E60000;
+    color: white;
+}
+.btn-ceecee-oval-red:not(:hover) {
+    transition: 0.2s;
+}
