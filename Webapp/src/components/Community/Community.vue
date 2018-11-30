@@ -62,6 +62,7 @@
 
 <script>
 import CommunityApi from '@/services/api/community.js'
+import TagApi from '@/services/api/tags.js'
 export default {
   name: 'Community',
   data () {
@@ -75,6 +76,7 @@ export default {
   mounted () {
     CommunityApi.getUsers().then(response => this.users = response.data.message)
     CommunityApi.getCompanies().then(response => this.companies = response.data)
+    TagApi.getTags().then(response => console.log(response.data))
   },
   methods: {
     toggle : function(value) {
