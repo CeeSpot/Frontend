@@ -28,13 +28,13 @@
     <b-col style="margin-bottom: 30px;">
                                 <ul>
                                     <li v-for="tag in tags">
-                                        <div v-bind:id="tag.id" v-on:click="updateSelectedTag(tag.id)" class="btn-ceecee-oval-red">{{tag.description}}</div>
+                                        <div v-bind:id="tag.id" v-on:click="updateSelectedTag(tag.id);filterSearchAndTags();" class="btn-ceecee-oval-red">{{tag.description}}</div>
                                     </li>
                                 </ul>
                             </b-col>
     </b-row>
     <b-row v-if="showMembers">
-          <b-col md="4" v-for="user in userList" :key="user.id">
+          <b-col md="4" v-for="user in filterSearchAndTags()" :key="user.id">
             <b-card
                 :key="user.id"
                 :title="fullName(user.first_name, user.insertions, user.last_name)"
@@ -113,11 +113,26 @@ export default {
         return '';
       }
     },
-    containsTag: function(user){
-      return false;
-    },
     updateSelectedTag: function(id){
       this.selectedTag = id
+    },
+    filterSearchAndTags(){
+      let newUserList = [];
+      let filteredTags = 0;
+      this.userList.forEach(user => {
+        if(user.tags.length > 0 && this.selectedTag > 0){
+          user.tags.forEach(tag =>{
+            if(tag.id === this.selectedTag){
+              newUserList.push(user);
+              filteredTags++;
+            }
+          });
+        }
+      }) 
+      if(filteredTags == 0){
+        newUserList = this.userList;
+      }
+      return newUserList;
     }
   },
   components: {
@@ -125,9 +140,7 @@ export default {
   computed: {
     userList() {
       return this.users.filter(user => {
-        return (this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase()) ||
-        this.containsTag(user)
-        )
+        return this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase())
       })
     },
     companyList() {
