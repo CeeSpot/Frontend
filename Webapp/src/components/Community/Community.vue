@@ -73,7 +73,7 @@ export default {
     }
   },
   mounted () {
-    CommunityApi.getUsers().then(response => this.users = response.data)
+    CommunityApi.getUsers().then(response => this.users = response.data.message)
     CommunityApi.getCompanies().then(response => this.companies = response.data)
   },
   methods: {
