@@ -29,6 +29,8 @@ Vue.use(BootstrapVue) // Let vue use bootstrap vue across the whole project
 // Set baseURL
 axios.defaults.baseURL = 'http://localhost:3000'
 
+window.Emitter = new Vue();
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

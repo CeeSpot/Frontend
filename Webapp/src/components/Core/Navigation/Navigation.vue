@@ -17,15 +17,17 @@
           <b-nav-item href="#">
             <b-img id="language-img" v-on:click="switchLanguage()" src="https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg" width="30"></b-img>
           </b-nav-item>
+          <b-nav-item right href="/lr">User</b-nav-item>
 
-          <b-nav-item-dropdown right>
-            <!-- Using button-content slot -->
-            <template slot="button-content">
-              <em>User</em>
-            </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Signout</b-dropdown-item>
-          </b-nav-item-dropdown>
+          <!--<b-nav-item-dropdown right>-->
+            <!--&lt;!&ndash; Using button-content slot &ndash;&gt;-->
+            <!--<template slot="button-content">-->
+              <!--<em>User</em>-->
+            <!--</template>-->
+            <!--<b-dropdown-item href="#">Profile</b-dropdown-item>-->
+            <!--<b-dropdown-item href="/register">Register</b-dropdown-item>-->
+            <!--<b-dropdown-item href="#">Login</b-dropdown-item>-->
+          <!--</b-nav-item-dropdown>-->
         </b-navbar-nav>
 
       </b-collapse>

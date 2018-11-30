@@ -86,16 +86,12 @@ export default {
       if(insertion){
           full_name = first_name + ' ' + insertion + ' ' + last_name;
       } else {
-            full_name = first_name + ' ' + last_name;
+          full_name = first_name + ' ' + last_name;
       }
       return full_name;
     },
     descriptionLimited: function(description){
-      if (description.length > 100) {
-        return description.substring(0,100) + '...'
-      } else {
-        return description
-      }
+        return description.length > 100 ? description.substring(0,100) + '...' : description;
     }
   },
   components: {

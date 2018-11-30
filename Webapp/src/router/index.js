@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Landingpage/Home'
-import Community from '@/components/Community/Community'
-import Spaces from '@/components/Spaces/Spaces'
-import Events from '@/components/Events/Events'
-import Contact from '@/components/Contact/Contact'
+import Home from '@/components/Landingpage/Home' // Home base page
+import Community from '@/components/Community/Community' // Community base page
+import Spaces from '@/components/Spaces/Spaces' // Spaces base page
+import Events from '@/components/Events/Events' // Events base page
+import Contact from '@/components/Contact/Contact' // Contact base page
+
+//Authentication
+import Register from '@/components/Core/Authentication/RegisterAndLogin'
 
 Vue.use(Router)
 
@@ -37,6 +40,11 @@ export default new Router({
       path: '/contact',
       name: 'Contact',
       component: Contact
+    },
+    {
+      path: '/lr',
+      name: 'Register',
+      component: Register
     }
 
   ]

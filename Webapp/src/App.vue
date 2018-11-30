@@ -10,6 +10,18 @@
 import Navigation from '@/components/Core/Navigation/Navigation' // Import the navigation into the base app
 export default {
   name: 'App',
+    data () {
+      return {
+          token : ''
+      }
+    },
+    mounted() {
+      Emitter.$on('tokenReceived', (token) =>{
+
+          this.token = token;
+          console.log(token);
+      });
+    },
   components: {
     Navigation
   }
