@@ -1,0 +1,30 @@
+body{
+	background-color: #F2F2F2;
+}
+
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0px;
+	border-radius: 0.25rem;
+	box-shadow: 0 3px 5px #d2d2d2;
+	transition: 0.2s ease;
+	cursor: pointer;
+	margin-bottom: 30px;
+}
+
+.card:hover {
+	-ms-transform: scale(1.05); /* IE 9 */
+    -webkit-transform: scale(1.05); /* Safari */
+    transform: scale(1.05);
+}
