@@ -91,10 +91,13 @@ export default {
       return full_name;
     },
     descriptionLimited: function(description){
-      if (description.length > 100) {
-        return description.substring(0,100) + '...'
-      } else {
-        return description
+      if(description){
+        if (description.length > 100) {
+          return description.substring(0,100) + '...'
+        } else {
+          return description
+        }
+        return '';
       }
     }
   },
