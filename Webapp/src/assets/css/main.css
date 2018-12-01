@@ -73,3 +73,8 @@ body{
     background-color: #E60000;
     color: white;
 }
+
+.btn-ceecee-oval-red-active:hover {
+    background-color: transparent;
+    color: #E60000;
+}
