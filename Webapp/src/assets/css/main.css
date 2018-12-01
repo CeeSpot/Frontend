@@ -68,3 +68,8 @@ body{
 .btn-ceecee-oval-red:not(:hover) {
     transition: 0.2s;
 }
+
+.btn-ceecee-oval-red-active {
+    background-color: #E60000;
+    color: white;
+}
