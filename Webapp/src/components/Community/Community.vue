@@ -152,9 +152,6 @@ export default {
       return this.companies.filter(company => {
         return company.name.toLowerCase().includes(this.search.toLowerCase())
       })
-    },
-    selectedTagId(){
-      return this.selectedTag;
     }
   }
 }
