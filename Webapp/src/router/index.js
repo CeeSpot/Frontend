@@ -5,6 +5,7 @@ import Community from '@/components/Community/Community' // Community base page
 import Spaces from '@/components/Spaces/Spaces' // Spaces base page
 import Events from '@/components/Events/Events' // Events base page
 import Contact from '@/components/Contact/Contact' // Contact base page
+import User from '@/components/Community/User'
 
 //Authentication
 import Register from '@/components/Core/Authentication/RegisterAndLogin'
@@ -19,7 +20,11 @@ export default new Router({
       path: '/',
       name: 'Landingpage',
       component: Home
-
+    },
+    {
+      path: '/user/:id',
+      name: 'User',
+      component: User
     },
     {
       path: '/community',
@@ -46,6 +51,5 @@ export default new Router({
       name: 'Register',
       component: Register
     }
-
   ]
 })

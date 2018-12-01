@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="820px" viewBox="0 0 1024 820" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>loginForm</title>
+    <desc>Created with Sketch.</desc>
+    <g id="loginForm" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M637.082917,-173.269738 L637.082917,812.046095 C637.082917,834.492238 625.831757,845.715309 603.329436,845.715309 C580.827115,845.715309 569.411609,834.492238 569.082917,812.046095 L569.082917,-105.220863 L637.082917,-173.269738 Z" id="Rectangle" fill="#E60000" fill-rule="nonzero" transform="translate(603.082917, 336.222786) rotate(-315.000000) translate(-603.082917, -336.222786) "></path>
+        <polygon id="Rectangle" fill="#1275B3" fill-rule="nonzero" transform="translate(753.260553, 290.952148) rotate(-315.000000) translate(-753.260553, -290.952148) " points="758.760553 -86.4247977 758.760553 679.289249 747.760553 679.289249 747.760553 -97.3849528"></polygon>
+        <polygon id="Rectangle" fill="#E60000" fill-rule="nonzero" transform="translate(529.385553, 226.827148) rotate(-315.000000) translate(-529.385553, -226.827148) " points="534.885553 -99.4613328 534.885553 553.115629 523.885553 553.115629 523.885553 -88.5011777"></polygon>
+        <path d="M488.574031,-92.6215852 L488.574031,431.357268 C487.709802,439.762423 481.043135,443.759931 468.574031,443.349792 C456.104926,442.939653 449.438259,438.942145 448.574031,431.357268 L448.574031,-52.651719 L488.574031,-92.6215852 Z" id="Rectangle" fill="#1275B3" fill-rule="nonzero" transform="translate(468.574031, 175.378415) rotate(-315.000000) translate(-468.574031, -175.378415) "></path>
+        <polygon id="Rectangle" fill="#E60000" fill-rule="nonzero" transform="translate(825.260553, 280.952148) rotate(-315.000000) translate(-825.260553, -280.952148) " points="830.760553 5.39857878 830.760553 567.465873 819.760553 567.465873 819.760553 -5.56157633"></polygon>
+        <polygon id="Rectangle" fill="#000000" fill-rule="nonzero" transform="translate(711.751300, 414.924388) rotate(-315.000000) translate(-711.751300, -414.924388) " points="717.2513 -21.1293343 717.2513 861.938266 706.2513 861.938266 706.2513 -32.0894894"></polygon>
+        <polygon id="Rectangle" fill="#000000" fill-rule="nonzero" transform="translate(512.626300, 259.049388) rotate(-315.000000) translate(-512.626300, -259.049388) " points="518.1263 -112.834394 518.1263 630.93317 507.1263 630.93317 507.1263 -101.874239"></polygon>
+        <path d="M812.29054,421.764872 C860.891598,421.764872 900.29054,382.142072 900.29054,333.264872 C840.933678,333.264872 860.891598,333.264872 812.29054,333.264872 C763.689482,333.264872 787.443481,333.264872 724.29054,333.264872 C724.29054,382.142072 763.689482,421.764872 812.29054,421.764872 Z" id="Oval" fill="#000000" fill-rule="nonzero" transform="translate(812.290540, 377.514872) rotate(-45.000000) translate(-812.290540, -377.514872) "></path>
+        <path d="M640.29054,465.764872 C688.891598,465.764872 728.29054,426.142072 728.29054,377.264872 C668.933678,377.264872 688.891598,377.264872 640.29054,377.264872 C591.689482,377.264872 615.443481,377.264872 552.29054,377.264872 C552.29054,426.142072 591.689482,465.764872 640.29054,465.764872 Z" id="Oval" fill="#000000" fill-rule="nonzero" transform="translate(640.290540, 421.514872) rotate(-225.000000) translate(-640.290540, -421.514872) "></path>
+        <rect id="Rectangle" fill-opacity="0.792487545" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="1024" height="820"></rect>
+    </g>
+</svg>

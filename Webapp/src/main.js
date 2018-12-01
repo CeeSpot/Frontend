@@ -32,7 +32,7 @@ axios.defaults.baseURL = 'http://localhost:3000'
 window.Emitter = new Vue();
 
 /* eslint-disable no-new */
-new Vue({
+window.App = new Vue({
   el: '#app',
   router,
   components: { App },

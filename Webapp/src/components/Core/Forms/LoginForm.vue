@@ -1,6 +1,10 @@
 <template>
     <b-form @submit="onSubmit">
-        <b-alert show variant="danger" v-if="loginFailedMessage.length > 0">{{loginFailedMessage}}</b-alert>
+        <b-row>
+            <b-col md="10" offset-md="1">
+                <b-alert show variant="danger" v-if="loginFailedMessage.length > 0">{{loginFailedMessage}}</b-alert>
+            </b-col>
+        </b-row>
         <b-row>
             <b-col md="10" offset-md="1">
                 <b-form-group id="usernameGroup"
@@ -78,7 +82,6 @@
                         Emitter.$emit('tokenReceived', resp.data.token);
                     } else {
                         this.loginFailedMessage = resp.data.message;
-                        console.log(this.loginFailedMessage);
                     }
                 }).catch((resp) => {
                     this.loginFailedMessage = resp.data.message;
@@ -87,3 +90,9 @@
         }
     }
 </script>
+
+<style>
+    .col-form-label{
+        font-weight: bold;
+    }
+</style>

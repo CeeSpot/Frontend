@@ -2,9 +2,13 @@
     <b-container class="mt-12">
         <b-row v-if="registerActive">
             <b-col md="8" offset-md="2">
-                <b-card class="no-scale" tag="article" style="background-image: url('/static/loginForm.svg')">
-                    <h4>Register</h4>
-                    <b-link v-on:click="switchLoginRegister()">Already a member</b-link>
+                <b-card class="no-scale" tag="article" style="background-image: url('/static/images/loginForm.svg');background-position: 80px -80px; background-size: 120% 800px;background-repeat: no-repeat;">
+                    <b-row class="pt-4">
+                        <b-col class="text-center"  md="6" offset-md="3">
+                            <b-img src="/static/images/ceecee-logo-black.svg" style="height: 100px;"></b-img>
+                        </b-col>
+                    </b-row>
+                    <registerform class="mt-5 pb-4"></registerform>
                 </b-card>
             </b-col>
         </b-row>
@@ -12,10 +16,10 @@
             <b-col sm="10" offset-sm="1" md="8" offset-md="2" >
                 <b-card class="no-scale"
                         tag="article"
-                        style="background-image: url('/static/loginForm.svg');background-position: center left;min-height: 400px;">
+                        style="background-image: url('/static/images/loginForm.svg');background-position: top left;background-position: 80px -80px; background-size: 120% 800px;background-repeat: no-repeat;min-height: 400px;">
                     <b-row class="pt-4">
                         <b-col class="text-center"  md="6" offset-md="3">
-                            <b-img src="/static/ceecee-logo-black.svg" style="height: 100px;"></b-img>
+                            <b-img src="/static/images/ceecee-logo-black.svg" style="height: 100px;"></b-img>
                         </b-col>
                     </b-row>
                     <!--<b-row>-->
@@ -32,13 +36,14 @@
 
 <script>
     import loginform from '@/components/Core/Forms/LoginForm'
+    import registerform from '@/components/Core/Forms/RegisterForm'
     export default {
         name: 'Register',
         data () {
             return {
                 msg: 'Welcome to register',
-                registerActive: true,
-                loginActive: false,
+                registerActive: false,
+                loginActive: true,
             }
         },
         methods: {
@@ -49,9 +54,12 @@
         },
         mounted () {
             Emitter.$on('goToRegisterFromLogin', () => this.switchLoginRegister())
+            Emitter.$on('goToLoginFromRegister', () => this.switchLoginRegister())
+            Emitter.$on('registerred', () => this.switchLoginRegister())
         },
         components: {
-            loginform
+            loginform,
+            registerform
         }
     }
 </script>

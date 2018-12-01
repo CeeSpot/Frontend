@@ -73,7 +73,10 @@ export default {
     }
   },
   mounted () {
-    CommunityApi.getUsers().then(response => this.users = response.data)
+    CommunityApi.getUsers().then(response => {
+        console.log("hi");
+        this.users = response.data.message
+    })
     CommunityApi.getCompanies().then(response => this.companies = response.data)
   },
   methods: {
@@ -163,7 +166,7 @@ export default {
   margin: 20px auto;
   height: 30px;
   border-radius:5px;
-  width: 130px;
+  width: 150px;
   top:-20px;
   right:0;
   background-color:white;
@@ -174,17 +177,16 @@ export default {
   position: relative;
   z-index: 2;
   float: left;
-  width: 58px;
+  width: 72px;
   line-height: 26px;
   color: rgba(0, 0, 0, 1);
   text-align: center;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
   cursor: pointer;
   font-size:12px;
   padding-top:2px;
 }
 .switch-label:active {
-  font-weight: bold;
+  /*font-weight: bold;*/
 }
 
 .switch-label-off {
@@ -199,25 +201,24 @@ export default {
   display: none;
 }
 .switch-input:checked + .switch-label {
-  font-weight: bold;
+  /*font-weight: bold;*/
   color:white;
-  text-shadow: 0 1px rgba(255, 255, 255, 0.25);
   -webkit-transition: 0.15s ease-out;
   -moz-transition: 0.15s ease-out;
   -o-transition: 0.15s ease-out;
   transition: 0.15s ease-out;
 }
 .switch-input:checked + .switch-label-off ~ .switch-selection{
-  width: 54px;
+  width: 65px;
   left: 5px;
 }
 .switch-input:checked + .switch-label-on ~ .switch-selection {
-  left: 57px;
-  width: 70px;
+  left: 70px;
+  width: 75px;
   /* Note: left: 50% doesn't transition in WebKit */
 }
 .switch-input:checked + .switch-label-3~ .switch-selection{
-  width: 80px;
+  width: 100px;
   left: 114px;
 }
 
@@ -227,7 +228,9 @@ export default {
   z-index: 1;
   top: 4px;
   left: 4px;
-  width: 58px;
+    padding-left: 10px;
+    padding-right: 10px;
+  width: 78px;
   height: 22px;
   background: #E60000;
   border-radius: 5px;
