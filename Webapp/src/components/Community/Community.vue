@@ -24,14 +24,14 @@
         </b-col>
     </b-row>
 
-    <b-row>
+    <b-row v-if="showMembers">
     <b-col style="margin-bottom: 30px;">
-                                <ul>
-                                    <li v-for="tag in tags">
-                                        <div v-bind:id="tag.id" v-on:click="updateSelectedTag(tag.id);filterSearchAndTags();" class="btn-ceecee-oval-red">{{tag.description}}</div>
-                                    </li>
-                                </ul>
-                            </b-col>
+      <ul>
+        <li v-for="tag in tags">
+          <div :id="'tag' + tag.id" v-on:click="updateSelectedTags(tag.id);filterSearchAndTags();" class="btn-ceecee-oval-red">{{tag.description}}</div>
+        </li>
+      </ul>
+    </b-col>
     </b-row>
     <b-row v-if="showMembers">
           <b-col md="4" v-for="user in filterSearchAndTags()" :key="user.id">
@@ -80,8 +80,8 @@ export default {
       users: [],
       tags: [],
       showMembers: true,
-      selectedTag: 0,
-      search: ''
+      search: '',
+      selectedTags: []
     }
   },
   mounted () {
@@ -113,18 +113,27 @@ export default {
         return '';
       }
     },
-    updateSelectedTag: function(id){
-      this.selectedTag = id
+    updateSelectedTags: function(id){
+      let button = document.getElementById("tag" + id);
+      if(button.classList.contains('btn-ceecee-oval-red-active')){
+        button.classList.remove("btn-ceecee-oval-red-active");
+        this.selectedTags.splice(this.selectedTags.indexOf(id),1);
+      } else {
+        button.classList.add("btn-ceecee-oval-red-active");
+        this.selectedTags.push(id);
+      }
     },
     filterSearchAndTags(){
       let newUserList = [];
       let filteredTags = 0;
       this.userList.forEach(user => {
-        if(user.tags.length > 0 && this.selectedTag > 0){
+        if(user.tags.length > 0){
           user.tags.forEach(tag =>{
-            if(tag.id === this.selectedTag){
-              newUserList.push(user);
-              filteredTags++;
+            if(this.selectedTags.includes(tag.id)){
+              if(!newUserList.includes(user)){
+                newUserList.push(user);
+                filteredTags++;
+              }
             }
           });
         }
