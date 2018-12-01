@@ -134,7 +134,7 @@ export default {
           });
         }
       }) 
-      if(filteredTags == 0){
+      if(this.selectedTags.length === 0){
         newUserList = this.userList;
       }
       return newUserList;
