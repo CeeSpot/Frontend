@@ -2,15 +2,16 @@
     <div>
         <b-container id="userContainer">
             <b-row>
-                <b-col md="8" id="userDesc">
+                <b-col v-bind:md="user.user.companies.length ? 8: 12" id="userDesc">
                     <div class="bg-white box-shadow">
                         <b-row>
                             <b-col id="userProfileCol">
                                 <b-row>
                                     <div id="image-container">
-                                        <b-img style="width: 150px;" rounded="circle"
-                                               v-bind:src="'/static/images/users/' + user.user.id + '.png'"
-                                               class="box-shadow"></b-img>
+                                        <b-img  @error="imageLoadError"
+                                                style="width: 150px;" rounded="circle"
+                                                v-bind:src="imageURL"
+                                                class="box-shadow"></b-img>
                                     </div>
                                 </b-row>
                                 <b-row>
@@ -32,7 +33,7 @@
                         </b-row>
                     </div>
                 </b-col>
-                <b-col cols="4" style="padding: 25px;" class="company-images">
+                <b-col v-if="user.user.companies.length" cols="4" style="padding: 25px;" class="company-images">
                     <div class="bg-white box-shadow" style="padding: 20px;">
                         <b-row v-for="company in user.user.companies">
                             <b-col>
@@ -72,11 +73,25 @@
             id: 1,
             name: 'MySQL'
           }
-        ]
+        ],
+        imageURL: ''
       }
     },
     mounted() {
-      CommunityApi.getUser(this.id).then(response => this.user = response.data);
+      let self = this;
+      CommunityApi.getUser(this.id).then(function(response){
+        self.user = response.data;
+        self.imageURL = '/static/images/users/' + self.id + '.png';
+
+        if(null == response.data.user.companies) {
+          self.user.user.companies = [];
+        }
+      });
+    },
+    methods: {
+      imageLoadError () {
+        this.imageURL = '/static/images/users/user-icon.svg';
+      }
     },
     created() {
       this.id = this.$route.params.id;

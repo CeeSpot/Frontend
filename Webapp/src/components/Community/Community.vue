@@ -3,11 +3,11 @@
    <b-row class="search-toggle-container">
         <b-col md="4">
           <div>
-              <b-input-group>
-                  <b-form-input v-model="search" placeholder="Search..." ></b-form-input>
-                  <b-input-group-append>
-                      <b-btn class="search-button-color"><font-awesome-icon icon="search"/></b-btn>
-                  </b-input-group-append>
+              <b-input-group class="form-group-search">
+                  <b-form-input v-model="search" placeholder="Search..." class="form-control"></b-form-input>
+                  <span class="form-control-icon">
+                      <font-awesome-icon icon="search" class="search-color"/>
+                  </span>
               </b-input-group>
           </div>
         </b-col>
@@ -25,7 +25,13 @@
     </b-row>
 
     <b-row>
-    <!-- Tagrow -->
+    <b-col style="margin-bottom: 30px;">
+                                <ul>
+                                    <li v-for="tag in tags">
+                                        <div v-bind:id="tag.id" v-on:click="updateSelectedTag(tag.id)" class="btn-ceecee-oval-red">{{tag.description}}</div>
+                                    </li>
+                                </ul>
+                            </b-col>
     </b-row>
     <b-row v-if="showMembers">
           <b-col md="4" v-for="user in userList" :key="user.id">
@@ -61,23 +67,27 @@
 </template>
 
 <script>
+
 import CommunityApi from '@/services/api/community.js'
+import TagApi from '@/services/api/tags.js'
+import Tag from '@/components/Core/Other/Tag' // Import the navigation into the base app
+
 export default {
   name: 'Community',
   data () {
     return {
       companies: [],
       users: [],
+      tags: [],
       showMembers: true,
+      selectedTag: 0,
       search: ''
     }
   },
   mounted () {
-    CommunityApi.getUsers().then(response => {
-        console.log("hi");
-        this.users = response.data.message
-    })
+    CommunityApi.getUsers().then(response => this.users = response.data.message)
     CommunityApi.getCompanies().then(response => this.companies = response.data)
+    TagApi.getTags().then(response => this.tags = response.data)
   },
   methods: {
     toggle : function(value) {
@@ -94,7 +104,16 @@ export default {
       return full_name;
     },
     descriptionLimited: function(description){
-        return description.length > 100 ? description.substring(0,100) + '...' : description;
+        if (description){
+          return description.length > 100 ? description.substring(0,100) + '...' : description;
+        }
+        return '';
+    },
+    containsTag: function(user){
+      return false;
+    },
+    updateSelectedTag: function(id){
+      this.selectedTag = id
     }
   },
   components: {
@@ -102,13 +121,18 @@ export default {
   computed: {
     userList() {
       return this.users.filter(user => {
-        return this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase())
+        return (this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase()) ||
+        this.containsTag(user)
+        )
       })
     },
     companyList() {
       return this.companies.filter(company => {
         return company.name.toLowerCase().includes(this.search.toLowerCase())
       })
+    },
+    selectedTagId(){
+      return this.selectedTag;
     }
   }
 }
@@ -120,14 +144,32 @@ export default {
     margin-top: 56px;
 }
 
-.search-button-color{
-    background-color: #E60000;
+.search-color{
+    color: #E60000;
+    font-size: 25px;
+}
+
+.form-group-search .form-control {
+    padding-left: 0rem;
+}
+
+.form-group-search .form-control-icon {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    right: 5px;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    padding-top: 5px;
+    pointer-events: none;
+    color: #aaa;
 }
 
 .card-img-top{
     display:block;
-    margin:auto;
-    margin-top: 25px;
+    margin: 25px auto auto;
     border-radius: 50%;
     height: 145px;
     width: 145px;
@@ -145,6 +187,17 @@ export default {
   margin-top: 130px;
   margin-bottom: 30px;
 }
+
+ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    li {
+        float: left;
+    }
 
 .switch {
     position: relative;
