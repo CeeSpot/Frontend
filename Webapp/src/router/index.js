@@ -10,6 +10,9 @@ import User from '@/components/Community/User'
 //Authentication
 import Register from '@/components/Core/Authentication/RegisterAndLogin'
 
+// Admin
+import Users from '@/components/Admin/Users'
+
 Vue.use(Router)
 
 export default new Router({
@@ -50,6 +53,11 @@ export default new Router({
       path: '/lr',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/admin/users',
+      name: 'Users',
+      component: Users
     }
   ]
 })
