@@ -23,6 +23,10 @@ body{
 	margin-bottom: 30px;
 }
 
+.shadow {
+    box-shadow: 0 3px 5px #d2d2d2 !important;
+}
+
 .card:hover {
 	-ms-transform: scale(1.05); /* IE 9 */
     -webkit-transform: scale(1.05); /* Safari */

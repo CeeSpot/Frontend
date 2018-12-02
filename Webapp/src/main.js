@@ -14,20 +14,22 @@ import './assets/css/main.css';
 import { library } from '@fortawesome/fontawesome-svg-core' // Imports svg core
 import { faCoffee } from '@fortawesome/free-solid-svg-icons' // Imports base icons
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch' // Imports Fa search
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown' // Imports Fa chevron down
 import { fab } from '@fortawesome/free-brands-svg-icons' // Imports brand icons
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' // Imports the font awesome core js
 
-library.add(faCoffee) // add svg icons to the library
-library.add(fab) // Add the brand icons to the library
-library.add(faSearch) // Add the brand icons to the library
-Vue.component('font-awesome-icon', FontAwesomeIcon) // create the vue-component so you can use it
+library.add(faChevronDown);
+library.add(faCoffee); // add svg icons to the library
+library.add(fab); // Add the brand icons to the library
+library.add(faSearch); // Add the brand icons to the library
+Vue.component('font-awesome-icon', FontAwesomeIcon); // create the vue-component so you can use it
 
-Vue.config.productionTip = false // production release
+Vue.config.productionTip = false; // production release
 
-Vue.use(BootstrapVue) // Let vue use bootstrap vue across the whole project
+Vue.use(BootstrapVue); // Let vue use bootstrap vue across the whole project
 
 // Set baseURL
-axios.defaults.baseURL = 'http://localhost:3000'
+axios.defaults.baseURL = 'http://localhost:3000';
 
 /* eslint-disable no-new */
 new Vue({
@@ -35,4 +37,4 @@ new Vue({
   router,
   components: { App },
   template: '<App/>'
-}).$mount(document.querySelector('#app'))
+}).$mount(document.querySelector('#app'));

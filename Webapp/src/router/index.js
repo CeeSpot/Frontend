@@ -7,6 +7,9 @@ import Spaces from '@/components/Spaces/Spaces'
 import Events from '@/components/Events/Events'
 import Contact from '@/components/Contact/Contact'
 
+// Admin
+import Users from '@/components/Admin/Users'
+
 Vue.use(Router)
 
 export default new Router({
@@ -42,6 +45,11 @@ export default new Router({
       path: '/contact',
       name: 'Contact',
       component: Contact
+    },
+    {
+      path: '/admin/users',
+      name: 'Users',
+      component: Users
     }
   ]
 })
