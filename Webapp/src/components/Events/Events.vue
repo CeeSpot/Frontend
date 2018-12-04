@@ -4,8 +4,15 @@
 
         <div>
             <!-- Modal Component -->
-            <b-modal id="EventModal" ref="EventModalRef" :title="SelectedEvent.title" hide-footer>
-              <p class="my-4">Hello from modal!</p>
+            <b-modal id="EventModal" ref="EventModalRef" size="lg" :title="selectedEvent.title" hide-footer>
+              <p class="my-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis</p>
+              <b-row>
+                <b-col md="12" class="text-center">
+                  <button v-on:click="signUpEvent()" type="button" class="btn btn-ceecee-red text-center">
+                    Sign up for this event!
+                  </button>
+                </b-col>
+              </b-row>
             </b-modal>
         </div>
   </b-container>
@@ -36,7 +43,7 @@ export default {
         defaultView: 'month',
         editable: false
       },
-      SelectedEvent: {
+      selectedEvent: {
         title: '',
         description: ''
       } 
@@ -46,8 +53,11 @@ export default {
   },
   methods: {
     eventSelected(event, jsEvent, view){
-      this.SelectedEvent.title = event.title;
+      this.selectedEvent.title = event.title;
       this.$refs.EventModalRef.show()
+    },
+    signUpEvent(){
+      this.$refs.EventModalRef.hide()
     }
   }
 }
@@ -63,9 +73,5 @@ export default {
 
   .container-margin {
     margin-top: 130px;
-  }
-
-  .modal-header {
-    background-color: #E60000;
   }
 </style>
