@@ -23,6 +23,7 @@ body{
 	margin-bottom: 30px;
 }
 
+
 .card.no-scale{
     cursor: auto;
 }
@@ -82,4 +83,16 @@ body{
 .btn-ceecee-oval-red-active:hover {
     background-color: transparent;
     color: #E60000;
+}
+
+.fc-event-container{
+    cursor: pointer;
+}
+
+.modal-header {
+    background-color: #E60000;
+}
+
+.modal-title {
+    color: white;
 }

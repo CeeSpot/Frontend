@@ -6,10 +6,12 @@ import router from './router'
 import axios from 'axios'
 
 import BootstrapVue from 'bootstrap-vue' // Imports bootstrap vue library
+import FullCalendar from 'vue-full-calendar'
 
 import 'bootstrap/dist/css/bootstrap.css' // Imports the Bootstrap CSS
 import 'bootstrap-vue/dist/bootstrap-vue.css' // Imports the bootstrap-vue css
 import './assets/css/main.css';
+import 'fullcalendar/dist/fullcalendar.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core' // Imports svg core
 import { faCoffee } from '@fortawesome/free-solid-svg-icons' // Imports base icons
@@ -27,6 +29,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon); // create the vue-component
 Vue.config.productionTip = false; // production release
 
 Vue.use(BootstrapVue); // Let vue use bootstrap vue across the whole project
+Vue.use(FullCalendar)
 
 // Set baseURL
 axios.defaults.baseURL = 'http://localhost:3000';
