@@ -11,8 +11,8 @@
                   <button v-if="!selectedEvent.attend" v-on:click="signUpEvent()" type="button" class="btn btn-ceecee-red text-center">
                     Sign up for this event!
                   </button>
-                  <button v-else v-on:click="signUpEvent()" type="button" class="btn btn-ceecee-red text-center">
-                    Unsubscribe
+                  <button v-else v-on:click="removeUserEvent()" type="button" class="btn btn-ceecee-red text-center">
+                    Unsubscribe 
                   </button>
                 </b-col>
               </b-row>
@@ -70,6 +70,7 @@ export default {
         eventColor: '#E60000'
       },
       selectedEvent: {
+        id: '',
         title: '',
         description: '',
         attend: false
@@ -80,6 +81,7 @@ export default {
   },
   methods: {
     eventSelected(event, jsEvent, view){
+      this.selectedEvent.id = event.id;
       this.selectedEvent.title = event.title;
       this.selectedEvent.description = event.description;
       if(event.attend){
@@ -90,12 +92,26 @@ export default {
       this.$refs.EventModalRef.show()
     },
     signUpEvent(){
-      this.$refs.EventModalRef.hide()
+      let data = { event_id : this.selectedEvent.id};
+      eventApi.addUserEvent(data).then(response => {
+         this.refreshEvents(); 
+         this.$refs.EventModalRef.hide()
+      });
+    },
+    removeUserEvent(){
+      let data = { event_id : this.selectedEvent.id};
+      eventApi.removeUserEvent(data).then(response => {
+         this.refreshEvents();
+         this.$refs.EventModalRef.hide()
+      });
     },
     changeView(view) {
       //Month : month - Week : agendaWeek - Day : agendaDay
       this.$refs.CalendarRef.fireMethod('changeView', view)
     },
+    refreshEvents() {
+      this.$refs.CalendarRef.$emit('refetch-events')
+    }
   }
 }
 </script>
