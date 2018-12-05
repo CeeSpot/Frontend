@@ -300,8 +300,8 @@ ul {
   z-index: 1;
   top: 4px;
   left: 4px;
-    padding-left: 10px;
-    padding-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   width: 78px;
   height: 22px;
   background: #E60000;
