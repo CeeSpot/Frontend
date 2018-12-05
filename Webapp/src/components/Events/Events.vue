@@ -5,11 +5,14 @@
         <div>
             <!-- Modal Component -->
             <b-modal id="EventModal" ref="EventModalRef" size="lg" :title="selectedEvent.title" hide-footer>
-              <p class="my-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis</p>
+              <p class="my-4">{{selectedEvent.description}}</p>
               <b-row>
                 <b-col md="12" class="text-center">
-                  <button v-on:click="signUpEvent()" type="button" class="btn btn-ceecee-red text-center">
+                  <button v-if="!selectedEvent.attend" v-on:click="signUpEvent()" type="button" class="btn btn-ceecee-red text-center">
                     Sign up for this event!
+                  </button>
+                  <button v-else v-on:click="signUpEvent()" type="button" class="btn btn-ceecee-red text-center">
+                    Unsubscribe
                   </button>
                 </b-col>
               </b-row>
@@ -68,7 +71,8 @@ export default {
       },
       selectedEvent: {
         title: '',
-        description: ''
+        description: '',
+        attend: false
       } 
     }
   },
@@ -76,9 +80,13 @@ export default {
   },
   methods: {
     eventSelected(event, jsEvent, view){
-      console.log(view);
-      console.log(this.$refs.CalendarRef);
       this.selectedEvent.title = event.title;
+      this.selectedEvent.description = event.description;
+      if(event.attend){
+        this.selectedEvent.attend = event.attend;
+      } else {
+        this.selectedEvent.attend = false;
+      }
       this.$refs.EventModalRef.show()
     },
     signUpEvent(){
