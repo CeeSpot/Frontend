@@ -15,6 +15,34 @@
               </b-row>
             </b-modal>
         </div>
+        <social-sharing url="https://vuejs.org/"
+                      title="The Progressive JavaScript Framework"
+                      description="Intuitive, Fast and Composable MVVM for building interactive interfaces."
+                      quote="Vue is a progressive framework for building user interfaces."
+                      hashtags="vuejs,javascript,framework"
+                      twitter-user="vuejs"
+                      v-cloak inline-template>
+        <div>
+      <network network="facebook">
+        <i class="fa fa-facebook"></i> Facebook
+      </network>
+      <network network="linkedin">
+        <i class="fa fa-linkedin"></i> LinkedIn
+      </network>
+      <network network="reddit">
+        <i class="fa fa-reddit"></i> Reddit
+      </network>
+      <network network="telegram">
+        <i class="fa fa-telegram"></i> Telegram
+      </network>
+      <network network="twitter">
+        <i class="fa fa-twitter"></i> Twitter
+      </network>
+      <network network="whatsapp">
+        <i class="fa fa-whatsapp"></i> Whatsapp
+      </network>
+        </div>
+      </social-sharing>
   </b-container>
 </template>
 

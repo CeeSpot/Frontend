@@ -7,6 +7,7 @@ import axios from 'axios'
 
 import BootstrapVue from 'bootstrap-vue' // Imports bootstrap vue library
 import FullCalendar from 'vue-full-calendar'
+import SocialSharing from 'vue-social-sharing'
 
 import 'bootstrap/dist/css/bootstrap.css' // Imports the Bootstrap CSS
 import 'bootstrap-vue/dist/bootstrap-vue.css' // Imports the bootstrap-vue css
@@ -28,6 +29,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon); // create the vue-component
 
 Vue.config.productionTip = false; // production release
 
+Vue.use(SocialSharing);
 Vue.use(BootstrapVue); // Let vue use bootstrap vue across the whole project
 Vue.use(FullCalendar)
 
