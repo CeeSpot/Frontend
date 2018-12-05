@@ -1,6 +1,6 @@
 <template>
   <b-container class="p-3 container-margin">
-    <full-calendar :events="events" :config="config" @event-selected="eventSelected"></full-calendar>
+    <full-calendar ref="CalendarRef" :events="events" :config="config" @event-selected="eventSelected"></full-calendar>
 
         <div>
             <!-- Modal Component -->
@@ -26,22 +26,24 @@ export default {
       events: [
         {
             title  : 'BlaBla',
-            start  : '2018-12-04',
+            start  : '2018-12-04'
         },
         {
             title  : 'event2',
             start  : '2018-12-05',
             end    : '2018-12-06',
+            allDay : false
         },
         {
             title  : 'event3',
             start  : '2018-12-07T12:30:00',
-            allDay : false,
+            allDay : false
         },
       ],
       config: {
         defaultView: 'month',
-        editable: false
+        editable: false,
+        eventTextColor: '#FFFFFF'
       },
       selectedEvent: {
         title: '',
@@ -53,12 +55,18 @@ export default {
   },
   methods: {
     eventSelected(event, jsEvent, view){
+      console.log(view);
+      console.log(this.$refs.CalendarRef);
       this.selectedEvent.title = event.title;
       this.$refs.EventModalRef.show()
     },
     signUpEvent(){
       this.$refs.EventModalRef.hide()
-    }
+    },
+    changeView(view) {
+      //Month : month - Week : agendaWeek - Day : agendaDay
+      this.$refs.CalendarRef.fireMethod('changeView', view)
+    },
   }
 }
 </script>
