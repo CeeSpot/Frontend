@@ -1,6 +1,6 @@
 <template>
   <b-container class="p-3 container-margin">
-    <full-calendar ref="CalendarRef" :events="events" :config="config" @event-selected="eventSelected"></full-calendar>
+    <full-calendar ref="CalendarRef" :event-sources="eventSources" :config="config" @event-selected="eventSelected"></full-calendar>
 
         <div>
             <!-- Modal Component -->
@@ -19,31 +19,24 @@
 </template>
 
 <script>
+import eventApi from '@/services/api/events.js'
+
 export default {
   name: 'Events',
   data() {
     return {
-      events: [
+      eventSources: [
         {
-            title  : 'BlaBla',
-            start  : '2018-12-04'
-        },
-        {
-            title  : 'event2',
-            start  : '2018-12-05',
-            end    : '2018-12-06',
-            allDay : false
-        },
-        {
-            title  : 'event3',
-            start  : '2018-12-07T12:30:00',
-            allDay : false
-        },
+          events(start, end, timezone, callback) {
+            eventApi.getEvents().then(response => { callback(response.data) })
+          }
+        }
       ],
       config: {
         defaultView: 'month',
         editable: false,
-        eventTextColor: '#FFFFFF'
+        eventTextColor: '#FFFFFF',
+        eventColor: '#E60000'
       },
       selectedEvent: {
         title: '',
