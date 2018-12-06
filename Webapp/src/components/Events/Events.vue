@@ -1,12 +1,16 @@
 <template>
   <b-container class="p-3 container-margin">
        <b-row>
-        <b-col md="4">
-            <button v-on:click="fireMethodCalendar('prev')"><</button>
-            <button v-on:click="fireMethodCalendar('next')">></button>
-            {{headerTitle}}
+        <b-col xs="6">
+            <b-button style="background-color: white; color: black; height: 30px; line-height: 15px;" v-on:click="fireMethodCalendar('prev')">
+                <font-awesome-icon icon="chevron-left"/>
+            </b-button>
+            <b-button style="background-color: white; color: black; height: 30px; line-height: 15px;" v-on:click="fireMethodCalendar('next')">
+                <font-awesome-icon icon="chevron-right"/>
+            </b-button>
+            <span class="header-title">{{headerTitle}}</span>
         </b-col>
-        <b-col md="3" offset-md="5">
+        <b-col xs="6" class="text-right">
             <div class="toggle">
               <div class="switch">
                 <input type="radio" class="switch-input" name="view" value="day" id="day" v-on:click="changeView('month')" checked>
@@ -20,9 +24,9 @@
             </div>
         </b-col>
     </b-row>
-    <b-row>
+    <b-row class="mt-3">
       <b-col>
-        <full-calendar ref="CalendarRef" :event-sources="eventSources" :config="config" @event-selected="eventSelected"></full-calendar>
+        <full-calendar style="background-color: white; box-shadow: 0 3px 5px #d2d2d2;" ref="CalendarRef" :event-sources="eventSources" :config="config" @event-selected="eventSelected"></full-calendar>
       </b-col>
     </b-row>
         <div>
@@ -251,4 +255,17 @@ export default {
   -o-transition: left 0.15s ease-out;
   transition: left 0.15s ease-out;
 }
+
+.header-title {
+    font-size: 1.5em;
+    padding-left: 25px;
+}
+
+@media (max-width: 992px) {
+    .header-title {
+        font-size: 1.2em;
+        padding-left: 5px;
+    }
+}
+
 </style>
