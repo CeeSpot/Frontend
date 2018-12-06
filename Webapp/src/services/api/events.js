@@ -8,6 +8,6 @@ export default{
     return axios.post('http://localhost:3000/api/events/userevent',data)
   },
   removeUserEvent (data) {
-    return axios.post('http://localhost:3000/api/events/userevent/remove',data)
+    return axios.delete('http://localhost:3000/api/events/userevent',data)
   }
 }

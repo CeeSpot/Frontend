@@ -2,8 +2,8 @@
   <b-container class="p-3 container-margin">
        <b-row>
         <b-col md="4">
-            <button v-on:click="fireMethodCalendar('prev')">Prev</button>
-            <button v-on:click="fireMethodCalendar('next')">Next</button>
+            <button v-on:click="fireMethodCalendar('prev')"><</button>
+            <button v-on:click="fireMethodCalendar('next')">></button>
             {{headerTitle}}
         </b-col>
         <b-col md="3" offset-md="5">
@@ -20,11 +20,18 @@
             </div>
         </b-col>
     </b-row>
-    <full-calendar ref="CalendarRef" :event-sources="eventSources" :config="config" @event-selected="eventSelected"></full-calendar>
+    <b-row>
+      <b-col>
+        <full-calendar ref="CalendarRef" :event-sources="eventSources" :config="config" @event-selected="eventSelected"></full-calendar>
+      </b-col>
+    </b-row>
         <div>
             <!-- Modal Component -->
             <b-modal id="EventModal" ref="EventModalRef" size="lg" :title="selectedEvent.title" hide-footer>
-              <p class="my-4">{{selectedEvent.description}}</p>
+              <b-row>
+                <b-col><p class="my-4">{{selectedEvent.description}}</p></b-col>
+                <b-col><b-img src="https://picsum.photos/1024/400/?image=41" fluid alt="Responsive image" /></b-col>
+              </b-row>
               <b-row>
                 <b-col md="12" class="text-center">
                   <button v-if="!selectedEvent.attend" v-on:click="signUpEvent()" type="button" class="btn btn-ceecee-red text-center">
@@ -121,7 +128,7 @@ export default {
       });
     },
     removeUserEvent(){
-      let data = { event_id : this.selectedEvent.id};
+      let data = { params: {event_id : this.selectedEvent.id } };
       eventApi.removeUserEvent(data).then(response => {
          this.refreshEvents();
          this.$refs.EventModalRef.hide()
@@ -149,12 +156,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .col{
-    background: #000;
-    border:1px solid green;
-    color: #fff;
-  }
-
   .container-margin {
     margin-top: 130px;
   }
