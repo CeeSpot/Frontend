@@ -38,7 +38,7 @@
                     Sign up for this event!
                   </button>
                   <button v-else v-on:click="removeUserEvent()" type="button" class="btn btn-ceecee-red text-center">
-                    Unsubscribe 
+                    Unsubscribe
                   </button>
                 </b-col>
               </b-row>
@@ -102,7 +102,7 @@ export default {
         description: '',
         attend: false
       },
-      headerTitle: '' 
+      headerTitle: ''
     }
   },
   mounted () {
@@ -123,12 +123,16 @@ export default {
     signUpEvent(){
       let data = { event_id : this.selectedEvent.id};
       eventApi.addUserEvent(data).then(response => {
-         this.refreshEvents(); 
+         this.refreshEvents();
          this.$refs.EventModalRef.hide()
       });
     },
     removeUserEvent(){
-      let data = { params: {event_id : this.selectedEvent.id } };
+      let data = { data :
+                    {
+                      event_id : this.selectedEvent.id
+                    }
+                  };
       eventApi.removeUserEvent(data).then(response => {
          this.refreshEvents();
          this.$refs.EventModalRef.hide()
