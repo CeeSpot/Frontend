@@ -2,72 +2,73 @@
   <b-container class="p-3 container-margin">
     <full-calendar :events="events" :config="config" @event-selected="eventSelected"></full-calendar>
 
-        <div>
-            <!-- Modal Component -->
-            <b-modal id="EventModal" ref="EventModalRef" size="lg" :title="selectedEvent.title" hide-footer>
-              <p class="my-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis</p>
-              <b-row>
-                <b-col md="12" class="text-center">
-                  <button v-on:click="signUpEvent()" type="button" class="btn btn-ceecee-red text-center">
-                    Sign up for this event!
-                  </button>
-                </b-col>
-              </b-row>
-            </b-modal>
-        </div>
+    <div>
+      <!-- Modal Component -->
+      <b-modal id="EventModal" ref="EventModalRef" size="lg" :title="selectedEvent.title" hide-footer>
+        <p class="my-4">
+          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis</p>
+        <b-row>
+          <b-col md="12" class="text-center">
+            <button v-on:click="signUpEvent()" type="button" class="btn btn-ceecee-red text-center">
+              Sign up for this event!
+            </button>
+          </b-col>
+        </b-row>
+      </b-modal>
+    </div>
   </b-container>
 </template>
 
 <script>
-export default {
-  name: 'Events',
-  data() {
-    return {
-      events: [
-        {
-            title  : 'BlaBla',
-            start  : '2018-12-04',
+  export default {
+    name: 'Events',
+    data() {
+      return {
+        events: [
+          {
+            title: 'BlaBla',
+            start: '2018-12-04',
+          },
+          {
+            title: 'event2',
+            start: '2018-12-05',
+            end: '2018-12-06',
+          },
+          {
+            title: 'event3',
+            start: '2018-12-07T12:30:00',
+            allDay: false,
+          },
+        ],
+        config: {
+          defaultView: 'month',
+          editable: false
         },
-        {
-            title  : 'event2',
-            start  : '2018-12-05',
-            end    : '2018-12-06',
-        },
-        {
-            title  : 'event3',
-            start  : '2018-12-07T12:30:00',
-            allDay : false,
-        },
-      ],
-      config: {
-        defaultView: 'month',
-        editable: false
-      },
-      selectedEvent: {
-        title: '',
-        description: ''
-      } 
-    }
-  },
-  mounted () {
-  },
-  methods: {
-    eventSelected(event, jsEvent, view){
-      this.selectedEvent.title = event.title;
-      this.$refs.EventModalRef.show()
+        selectedEvent: {
+          title: '',
+          description: ''
+        }
+      }
     },
-    signUpEvent(){
-      this.$refs.EventModalRef.hide()
+    mounted() {
+    },
+    methods: {
+      eventSelected(event, jsEvent, view) {
+        this.selectedEvent.title = event.title;
+        this.$refs.EventModalRef.show()
+      },
+      signUpEvent() {
+        this.$refs.EventModalRef.hide()
+      }
     }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .col{
+  .col {
     background: #000;
-    border:1px solid green;
+    border: 1px solid green;
     color: #fff;
   }
 
