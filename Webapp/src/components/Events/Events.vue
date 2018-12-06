@@ -104,7 +104,9 @@ export default {
         id: '',
         title: '',
         description: '',
-        attend: false
+        attend: false,
+        start: '',
+        end: ''
       },
       headerTitle: ''
     }
@@ -117,6 +119,8 @@ export default {
       this.selectedEvent.id = event.id;
       this.selectedEvent.title = event.title;
       this.selectedEvent.description = event.description;
+      this.selectedEvent.start = event.start.format('MM/DD/YYYY hh:mm');
+      this.selectedEvent.end = event.end.format('MM/DD/YYYY hh:mm');
       if(event.attend){
         this.selectedEvent.attend = event.attend;
       } else {
