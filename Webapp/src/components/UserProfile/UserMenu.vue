@@ -17,7 +17,7 @@
     data() {
       return {
         items: [
-          "Profile", "Settings", "Events", "Activity"
+          "Profile", "Companies", "Settings", "Events", "Activity"
         ]
       }
     }
