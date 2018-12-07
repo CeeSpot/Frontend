@@ -15,11 +15,13 @@ import './assets/css/main.css';
 import 'fullcalendar/dist/fullcalendar.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core' // Imports svg core
+
 import { faCoffee } from '@fortawesome/free-solid-svg-icons' // Imports base icons
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch' // Imports Fa search
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown' // Imports Fa chevron down
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft' // Imports Fa chevron left
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight' // Imports Fa chevron right
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { fab } from '@fortawesome/free-brands-svg-icons' // Imports brand icons
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' // Imports the font awesome core js
 
@@ -29,6 +31,8 @@ library.add(fab); // Add the brand icons to the library
 library.add(faSearch); // Add the brand icons to the library
 library.add(faChevronLeft);
 library.add(faChevronRight);
+library.add(faTimes);
+
 
 Vue.component('font-awesome-icon', FontAwesomeIcon); // create the vue-component so you can use it
 
