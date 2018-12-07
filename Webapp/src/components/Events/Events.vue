@@ -60,6 +60,28 @@
                     </b-col>
                 </b-row>
                 <b-row>
+                    <b-col md="12">
+                        <social-sharing url="http://localhost:8080/events"
+                                        :title="selectedEvent.title"
+                                        :description="selectedEvent.description"
+                                        hashtags="TheCeeSpot"
+                                        twitter-user="vuejs"
+                                        v-cloak inline-template>
+                            <div>
+                                <network network="facebook" class="pr-2">
+                                    <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'facebook' }"/>
+                                </network>
+                                <network network="linkedin" class="pr-2">
+                                    <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'linkedin' }"/>
+                                </network>
+                                <network network="twitter" class="pr-2">
+                                    <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'twitter' }"/>
+                                </network>
+                            </div>
+                        </social-sharing>
+                    </b-col>
+                </b-row>
+                <b-row>
                     <b-col md="12" class="text-center">
                         <button v-if="!selectedEvent.attend" v-on:click="signUpEvent()" type="button"
                                 class="btn btn-ceecee-red text-center">
@@ -70,26 +92,6 @@
                             Unsubscribe
                         </button>
                     </b-col>
-                </b-row>
-                <b-row>
-                    <social-sharing url="http://localhost:8080/events"
-                                    :title="selectedEvent.title"
-                                    :description="selectedEvent.description"
-                                    hashtags="TheCeeSpot"
-                                    twitter-user="vuejs"
-                                    v-cloak inline-template>
-                        <div>
-                            <network network="facebook">
-                                <i class="fa fa-facebook"></i> Facebook
-                            </network>
-                            <network network="linkedin">
-                                <i class="fa fa-linkedin"></i> LinkedIn
-                            </network>
-                            <network network="twitter">
-                                <i class="fa fa-twitter"></i> Twitter
-                            </network>
-                        </div>
-                    </social-sharing>
                 </b-row>
             </b-modal>
         </div>
