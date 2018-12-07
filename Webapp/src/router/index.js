@@ -10,6 +10,10 @@ import User from '@/components/Community/User'
 //Authentication
 import Register from '@/components/Core/Authentication/RegisterAndLogin'
 
+// User
+import Profile from '@/components/UserProfile/Profile'
+import Settings from '@/components/UserProfile/Settings'
+
 // Admin
 import Users from '@/components/Admin/Users'
 
@@ -53,6 +57,16 @@ export default new Router({
       path: '/lr',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/account',
+      name: 'User',
+      component: Profile
+    },
+    {
+      path: '/account/settings',
+      name: 'User',
+      component: Settings
     },
     {
       path: '/admin/users',
