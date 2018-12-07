@@ -16,6 +16,7 @@ import Settings from '@/components/UserProfile/Settings'
 
 // Admin
 import Users from '@/components/Admin/Users'
+import AdminEvents from '@/components/Admin/Events'
 
 Vue.use(Router)
 
@@ -72,6 +73,11 @@ export default new Router({
       path: '/admin/users',
       name: 'Users',
       component: Users
+    },
+    {
+      path: '/admin/events',
+      name: 'Events',
+      component: AdminEvents
     }
   ]
 })

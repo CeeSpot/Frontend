@@ -2,6 +2,31 @@ body{
 	background-color: #F2F2F2;
 }
 
+.mb15{
+    margin-bottom: 15px;
+}
+
+.vdatetime-popup__header{
+    background: #E60000 !important;
+}
+
+.vdatetime-calendar__month__day--selected > span > span{
+    background: #E60000 !important;
+}
+
+.btn-fab-add{
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    background: #E60000;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
 .card {
     position: relative;
     display: -ms-flexbox;
@@ -22,7 +47,6 @@ body{
 	cursor: pointer;
 	margin-bottom: 30px;
 }
-
 
 .card.no-scale{
     cursor: auto;

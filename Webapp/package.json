@@ -25,7 +25,12 @@
     "vue-full-calendar": "^2.7.0",
     "vue-router": "^3.0.1",
     "vue-social-sharing": "^2.3.3",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "luxon": "^1.8.2",
+    "uiv": "^0.28.0",
+    "vue": "^2.5.2",
+    "vue-datetime": "^1.0.0-beta.8",
+    "weekstart": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

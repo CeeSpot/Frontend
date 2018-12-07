@@ -10,6 +10,7 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import VueAxios from 'vue-axios'
 import Vuex from 'vuex'
+import Datetime from 'vue-datetime'
 
 import BootstrapVue from 'bootstrap-vue' // Imports bootstrap vue library
 import FullCalendar from 'vue-full-calendar'
@@ -17,8 +18,9 @@ import SocialSharing from 'vue-social-sharing'
 
 import 'bootstrap/dist/css/bootstrap.css' // Imports the Bootstrap CSS
 import 'bootstrap-vue/dist/bootstrap-vue.css' // Imports the bootstrap-vue css
-import './assets/css/main.css';
+import './assets/css/main.css'
 import 'fullcalendar/dist/fullcalendar.css'
+import 'vue-datetime/dist/vue-datetime.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core' // Imports svg core
 
@@ -27,6 +29,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch' // Imports
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown' // Imports Fa chevron down
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft' // Imports Fa chevron left
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight' // Imports Fa chevron right
+import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash' // Imports Fa trash
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
@@ -40,11 +43,11 @@ library.add(fab); // Add the brand icons to the library
 library.add(faSearch); // Add the brand icons to the library
 library.add(faChevronLeft);
 library.add(faChevronRight);
+library.add(faTrash);
 library.add(faTimes);
 library.add(faFacebook);
 library.add(faTwitter);
 library.add(faLinkedin);
-
 
 Vue.component('font-awesome-icon', FontAwesomeIcon); // create the vue-component so you can use it
 
@@ -54,6 +57,7 @@ Vue.use(VueAxios, axios);
 Vue.use(SocialSharing);
 Vue.use(BootstrapVue); // Let vue use bootstrap vue across the whole project
 Vue.use(FullCalendar);
+Vue.use(Datetime);
 
 // Set baseURL
 axios.defaults.baseURL = 'http://localhost:3000';
