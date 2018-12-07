@@ -20,7 +20,7 @@
                    width="30"></b-img>
           </b-nav-item>
           <b-nav-item v-if="typeof user === 'undefined' || user === null" right href="/lr">User</b-nav-item>
-          <b-nav-item v-if="typeof user !== 'undefined' && user !== null" right href="/lr">{{user.first_name}} {{user.last_name}}</b-nav-item>
+          <b-nav-item v-if="typeof user !== 'undefined' && user !== null" right href="/account">{{user.first_name}} {{user.last_name}}</b-nav-item>
 
           <!--<b-nav-item-dropdown right>-->
           <!--&lt;!&ndash; Using button-content slot &ndash;&gt;-->

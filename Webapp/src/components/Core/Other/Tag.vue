@@ -14,6 +14,7 @@
 
 <style scoped>
     button {
+        margin-top: 4px;
         border: 2px solid #E60000;
         border-radius: 15px;
         background-color: transparent;
