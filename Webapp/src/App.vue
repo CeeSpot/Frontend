@@ -16,12 +16,12 @@
       }
     },
     mounted() {
-      Emitter.$on('tokenReceived', (token) => {
-        localStorage.setItem(JSON_TOKEN, JSON.stringify(token))
-        this.token = token
-        window.location.href = '/'
-      });
-      this.token = JSON.parse(localStorage.getItem(JSON_TOKEN))
+//      Emitter.$on('tokenReceived', (token) => {
+//        localStorage.setItem(JSON_TOKEN, JSON.stringify(token))
+//        this.token = token
+//        window.location.href = '/'
+//      });
+//      this.token = JSON.parse(localStorage.getItem(JSON_TOKEN))
     },
     components: {
       Navigation
