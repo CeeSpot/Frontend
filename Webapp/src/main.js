@@ -1,12 +1,16 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+const JSON_TOKEN = "CCJSON_Token";
+
 import Vue from 'vue'
+import constants from './constants'
 import App from './App'
 import router from './router'
 import axios from 'axios'
 
 import BootstrapVue from 'bootstrap-vue' // Imports bootstrap vue library
 import FullCalendar from 'vue-full-calendar'
+import SocialSharing from 'vue-social-sharing'
 
 import 'bootstrap/dist/css/bootstrap.css' // Imports the Bootstrap CSS
 import 'bootstrap-vue/dist/bootstrap-vue.css' // Imports the bootstrap-vue css
@@ -28,8 +32,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon); // create the vue-component
 
 Vue.config.productionTip = false; // production release
 
+Vue.use(SocialSharing);
 Vue.use(BootstrapVue); // Let vue use bootstrap vue across the whole project
-Vue.use(FullCalendar)
+Vue.use(FullCalendar);
 
 // Set baseURL
 axios.defaults.baseURL = 'http://localhost:3000';

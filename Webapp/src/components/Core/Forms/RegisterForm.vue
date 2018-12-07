@@ -117,7 +117,7 @@
                 auth.register(this.form).then((resp) => {
                     console.log(resp.data);
                     if (resp.data.success) {
-                        Emitter.$emit('registerred', resp.data.token);
+                       Emitter.$emit('registerred', resp.data.token);
                     } else {
                         this.registerFailedMessage = resp.data.message;
                         console.log(this.registerFailedMessage);
