@@ -117,9 +117,9 @@
       }
     },
     mounted() {
-      CommunityApi.getUsers().then(response => this.userList = response.data);
+      CommunityApi.getUsers().then(response => this.userList = response.data.message);
       CommunityApi.getUsers().then(function(response) {
-        console.log(response.data);
+        console.log(response.data.message);
       });
     }
   }

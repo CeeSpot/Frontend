@@ -35,11 +35,15 @@ import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
 import { fab } from '@fortawesome/free-brands-svg-icons' // Imports brand icons
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' // Imports the font awesome core js
 
 library.add(faChevronDown);
 library.add(faCoffee); // add svg icons to the library
 library.add(fab); // Add the brand icons to the library
+library.add(far); // Add the regular icons to the library
+library.add(fas); // Add the regular icons to the library
 library.add(faSearch); // Add the brand icons to the library
 library.add(faChevronLeft);
 library.add(faChevronRight);
@@ -76,6 +80,9 @@ export const store = new Vuex.Store({
   },
   getters : {
     getUser: state => {
+      if(!state.jwt){
+        return null;
+      }
       return jwt_decode(state.jwt);
     }
   },
@@ -99,6 +106,10 @@ export const store = new Vuex.Store({
         username: data[0],
         password: data[1]
       });
+    },
+    updateToken(context, newToken){
+      console.log(newToken);
+      this.commit('updateToken', newToken)
     },
     refreshToken(context) {
       const payload = {

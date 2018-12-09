@@ -20,17 +20,16 @@
                    width="30"></b-img>
           </b-nav-item>
           <b-nav-item v-if="typeof user === 'undefined' || user === null" right href="/lr">User</b-nav-item>
-          <b-nav-item v-if="typeof user !== 'undefined' && user !== null" right href="/account">{{user.first_name}} {{user.last_name}}</b-nav-item>
+          <!--<b-nav-item v-if="typeof user !== 'undefined' && user !== null" right href="/account">{{user.first_name}} {{user.last_name}}</b-nav-item>-->
 
-          <!--<b-nav-item-dropdown right>-->
-          <!--&lt;!&ndash; Using button-content slot &ndash;&gt;-->
-          <!--<template slot="button-content">-->
-          <!--<em>User</em>-->
-          <!--</template>-->
-          <!--<b-dropdown-item href="#">Profile</b-dropdown-item>-->
-          <!--<b-dropdown-item href="/register">Register</b-dropdown-item>-->
-          <!--<b-dropdown-item href="#">Login</b-dropdown-item>-->
-          <!--</b-nav-item-dropdown>-->
+          <b-nav-item-dropdown v-if="typeof user !== 'undefined' && user !== null" right>
+          <!-- Using button-content slot -->
+          <template slot="button-content">
+            <em>{{user.first_name}} {{user.last_name}}</em>
+          </template>
+          <b-dropdown-item href="/account">Profile</b-dropdown-item>
+          <b-dropdown-item v-on:click="logout()">Logout</b-dropdown-item>
+          </b-nav-item-dropdown>
         </b-navbar-nav>
 
       </b-collapse>
@@ -74,6 +73,9 @@
         } else {
           document.getElementById('language-img').src = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg'
         }
+      },
+      logout(){
+        this.$store.dispatch('logout');
       },
 
       /**

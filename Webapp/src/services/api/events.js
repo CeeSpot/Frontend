@@ -16,7 +16,6 @@ export default {
     })
   },
   addUserEvent(data) {
-    console.log(config);
     return axios.post('http://localhost:3000/api/events/userevent', data, {
       headers: {
         'x-access-token': store.state.jwt
