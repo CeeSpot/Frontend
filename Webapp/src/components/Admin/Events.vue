@@ -151,7 +151,7 @@
       }
     },
     mounted() {
-      EventApi.getEvents().then(response => this.events = response.data)
+      EventApi.getEvents().then(response => this.events = response.data.message)
     }
   }
 </script>
