@@ -4,84 +4,15 @@
             <admin-menu v-bind:active="active"></admin-menu>
             <b-col md="8">
                 <b-row v-for="event in events" class="user-list-item">
-                    <b-col md="12" class="bg-white shadow user-card">
+                    <b-col md="12" class="shadow user-card" v-b-modal.editevent v-on:click="fillEditModal(event)">
                         <b-row>
                             <b-col md="4">{{ formatDate(event.start) }}</b-col>
                             <b-col md="4">{{ event.title }}</b-col>
-                            <b-col md="4" class="text-right"><font-awesome-icon style="cursor: pointer;" icon="trash" v-on:click="deleteEvent(event)"/></b-col>
+                            <b-col md="4" class="text-right">
+                            <b-button v-on:click="getparticipants(event.id)">Clickme!</b-button>
+                            <font-awesome-icon style="cursor: pointer;" icon="trash" v-on:click="deleteEvent(event)"/>
+                            </b-col>
                         </b-row>
-                        <!--<transition name="fade">
-                            <b-row v-show="openUser === user.id">
-                                <b-col>
-                                    <b-row>
-                                        <hr style="border-bottom: 1px solid #e5e5e5; width: 100%;">
-                                    </b-row>
-                                    <b-row>
-                                        <b-col md="8" id="inputFields">
-                                            <b-row>
-                                                <b-col md="4">
-                                                    <span>First name</span>
-                                                </b-col>
-                                                <b-col md="8">
-                                                    <input type="text" class="form-control" v-bind:value="user.first_name">
-                                                </b-col>
-                                            </b-row>
-                                            <b-row class="mt-1">
-                                                <b-col md="4">
-                                                    <span>Last name</span>
-                                                </b-col>
-                                                <b-col md="8">
-                                                    <input type="text" class="form-control" v-bind:value="user.last_name">
-                                                </b-col>
-                                            </b-row>
-                                            <b-row class="mt-1">
-                                                <b-col md="4">
-                                                    <span>Address</span>
-                                                </b-col>
-                                                <b-col md="8">
-                                                    <input type="text" class="form-control" v-bind:value="user.address">
-                                                </b-col>
-                                            </b-row>
-                                            <b-row class="mt-1">
-                                                <b-col md="4">
-                                                    <span>Zip code</span>
-                                                </b-col>
-                                                <b-col md="8">
-                                                    <input type="text" class="form-control" v-bind:value="user.zipcode">
-                                                </b-col>
-                                            </b-row>
-                                            <b-row class="mt-1">
-                                                <b-col md="4">
-                                                    <span>City</span>
-                                                </b-col>
-                                                <b-col md="8">
-                                                    <input type="text" class="form-control" v-bind:value="user.city">
-                                                </b-col>
-                                            </b-row>
-                                            <b-row class="mt-1">
-                                                <b-col md="4">
-                                                    <span>E-mail</span>
-                                                </b-col>
-                                                <b-col md="8">
-                                                    <input type="text" class="form-control" v-bind:value="user.email">
-                                                </b-col>
-                                            </b-row>
-                                            <b-row class="mt-1">
-                                                <b-col md="4">
-                                                    <span>Phone</span>
-                                                </b-col>
-                                                <b-col md="8">
-                                                    <input type="text" class="form-control" v-bind:value="user.phone">
-                                                </b-col>
-                                            </b-row>
-                                        </b-col>
-                                        <b-col md="4" class="text-right">
-                                            <b-badge variant="success">Geactiveerd</b-badge>
-                                        </b-col>
-                                    </b-row>
-                                </b-col>
-                            </b-row>
-                        </transition> -->
                     </b-col>
                 </b-row>
             </b-col>
@@ -95,6 +26,14 @@
         <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Eindtijd" format="dd-MM-yyyy HH:mm:ss" v-model="newEventEnd"></datetime>
         
         <b-button class="float-right" v-on:click="addEvent">Opslaan</b-button>
+  </b-modal>
+  <b-modal ref="editEventModal" hide-footer id="editevent" :title="editEventTitle">
+        <b-form-input class="mb15" v-model="editEventTitle" type="text" placeholder="Titel"></b-form-input>
+        <b-form-textarea class="mb15" rows="3" v-model="editEventDescription" type="text" placeholder="Omschrijving"></b-form-textarea>
+        <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Starttijd" format="dd-MM-yyyy HH:mm:ss" v-model="editEventStart"></datetime>
+        <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Eindtijd" format="dd-MM-yyyy HH:mm:ss" v-model="editEventEnd"></datetime>
+        
+        <b-button class="float-right" v-on:click="updateEvent">Opslaan</b-button>
   </b-modal>
     </b-container>
 </template>
@@ -121,8 +60,14 @@
         newEventDescription: '',
         newEventStart: '',
         newEventEnd: '',
+        editEventID: '',
+        editEventTitle: '',
+        editEventDescription: '',
+        editEventStart: '',
+        editEventEnd: '',
         date: '',
-        popoverShow: false
+        openEvent: null,
+        editEvent: null
       }
     },
     methods: {
@@ -148,6 +93,39 @@
           AdminEventApi.deleteEvent(data).then(response => {
               this.events = this.events.filter(e => e.id != event.id);
           });
+      },
+      openEventCard(id) {
+        if(this.openEvent === id) {
+          this.openEvent = 0;
+        } else {
+          this.openEvent = id;
+        }
+      },
+      updateEvent() {
+          var event = {event_id: this.editEventID, title: this.editEventTitle, description: this.editEventDescription, 
+          start: moment(this.editEventStart).format('YYYY-MM-DD HH:mm:ss'), end: moment(this.editEventEnd).format('YYYY-MM-DD HH:mm:ss')}
+          AdminEventApi.updateEvent(event).then(response => {
+              for (var i = 0; i < this.events.length; i++){
+                  if (this.events[i].id == this.editEventID) {
+                      this.events[i].title = this.editEventTitle;
+                      this.events[i].description = this.editEventDescription;
+                      this.events[i].start = this.editEventStart;
+                      this.events[i].end = this.editEventEnd;
+                    }
+                }
+                this.$refs.editEventModal.hide();
+            });
+      },
+      fillEditModal(event) {
+          this.editEventTitle = event.title;
+          this.editEventDescription = event.description;
+          this.editEventStart = event.start;
+          this.editEventEnd = event.end;
+          this.editEventID = event.id;
+      },
+      getparticipants(id) {
+          console.log(id);
+          AdminEventApi.getParticipants(id).then(response => { console.log(response.data.message) });
       }
     },
     mounted() {
@@ -159,6 +137,7 @@
 <style scoped>
     .user-list-item {
         margin-top: 15px;
+        cursor: pointer;
     }
 
     .user-list-item:first-of-type {
@@ -168,5 +147,11 @@
     .user-card {
         border-radius: 4px;
         padding: 20px;
+        background-color: white;
+    }
+
+    .user-card:hover {
+        background-color: #E60000;
+        color: white;
     }
 </style>
