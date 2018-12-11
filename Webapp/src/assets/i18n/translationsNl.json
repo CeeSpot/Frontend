@@ -1,0 +1,12 @@
+{
+    "community": {
+      "search": "Zoeken...",
+      "members": "Leden",
+      "companies": "Bedrijven"
+    },
+    "events": {
+      "month": "Maand",
+      "week": "Week",
+      "day": "Dag"
+    }
+}

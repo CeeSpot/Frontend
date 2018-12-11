@@ -1,0 +1,12 @@
+{
+    "community": {
+      "search": "Search...",
+      "members": "Members",
+      "companies": "Companies"
+    },
+    "events": {
+      "month": "Month",
+      "week": "Week",
+      "day": "Day"
+    }
+}
