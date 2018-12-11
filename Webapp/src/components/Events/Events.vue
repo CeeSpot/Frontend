@@ -187,9 +187,7 @@
         var view = this.$refs.CalendarRef.fireMethod('getView');
         this.headerTitle = view.title;
       },
-      toggleLocale(){
-          var locale = this.$refs.CalendarRef.fireMethod('option', 'locale');
-          let newLocale = locale == 'en' ? 'nl' : 'en';
+      toggleLocale(newLocale){
           this.$refs.CalendarRef.fireMethod('option', 'locale', newLocale);
       }
     }
