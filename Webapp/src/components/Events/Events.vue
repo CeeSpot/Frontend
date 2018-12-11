@@ -118,7 +118,8 @@
           editable: false,
           eventTextColor: '#FFFFFF',
           eventColor: '#E60000',
-          header: false
+          header: false,
+          locale: 'en'
         },
         selectedEvent: {
           id: '',
@@ -131,9 +132,8 @@
         headerTitle: ''
       }
     },
-
     mounted() {
-      this.getTitle();
+      this.getTitle()
     },
     methods: {
       eventSelected(event, jsEvent, view) {
@@ -186,6 +186,11 @@
       getTitle() {
         var view = this.$refs.CalendarRef.fireMethod('getView');
         this.headerTitle = view.title;
+      },
+      toggleLocale(){
+          var locale = this.$refs.CalendarRef.fireMethod('option', 'locale');
+          let newLocale = locale == 'en' ? 'nl' : 'en';
+          this.$refs.CalendarRef.fireMethod('option', 'locale', newLocale);
       }
     }
   }
