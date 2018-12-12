@@ -75,8 +75,12 @@
         this.language = lang
         if (lang === 'nl') {
           document.getElementById('language-img').src = 'https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg'
+          Vue.i18n.set('nl');
+          this.$root.$emit('toggleLocaleCalendar','nl');
         } else {
           document.getElementById('language-img').src = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg'
+          Vue.i18n.set('en');
+          this.$root.$emit('toggleLocaleCalendar','en');
         }
       },
       logout(){

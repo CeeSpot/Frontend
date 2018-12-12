@@ -62,32 +62,37 @@
                     </b-row>
                     <b-row class="mt-2">
                         <b-col class="text-center">
-                            <button v-if="true" type="button" style="width:100%;"
+                            <button disabled v-if="user === null" type="button" style="width:100%;"
                                     class="btn btn-ceecee-red text-center">
-                                Sign up for this event!
+                                Login to join this event!
+                            </button>
+                            <button v-if="user !== null && user_attend === false" type="button" style="width:100%;"
+                                    class="btn btn-ceecee-red text-center" v-on:click="signUpEvent()">
+                                Join this event!
                             </button>
                             <button v-else type="button" style="width:100%;"
-                                    class="btn btn-ceecee-red text-center">
-                                Unsubscribe
+                                    class="btn btn-ceecee-red text-center" v-on:click="removeUserEvent()">
+                                Unsubscribe!
                             </button>
                     </b-col>
                     </b-row>
                 </b-card>
             </b-col>
         </b-row>
-        <b-row v-if="event.show_attendees" >
+        <b-row v-if="event.show_attendees">
             <b-col>
                  <b-card class="no-scale">
-                     <b-row>
+                     <b-row class="text-center">
                          <b-col>
-                            <b-img rounded="circle" class="image-profile-chips" width="100" height="100" src="https://images.pexels.com/photos/555790/pexels-photo-555790.png?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"></b-img>
-                         </b-col>
-                         <b-col>
-                            <b-img rounded="circle" class="image-profile-chips" width="100" height="100" src="https://images.pexels.com/photos/634021/pexels-photo-634021.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"></b-img>
-                         </b-col>
-                         <b-col>
-                            <b-img rounded="circle" class="image-profile-chips" width="100" height="100" src="https://images.pexels.com/photos/209790/pexels-photo-209790.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"></b-img>
-                         </b-col>
+                            <ul>
+                                <li v-for="participant in participants">
+                                    <b-img rounded="circle" v-b-tooltip.hover :title="fullName(participant.first_name, participant.insertions, participant.last_name)"
+                                     class="image-profile-chips" width="100" height="100" 
+                                     src="https://images.pexels.com/photos/555790/pexels-photo-555790.png?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                                     </b-img>
+                                </li>
+                            </ul>
+                        </b-col>
                      </b-row>
                  </b-card>
             </b-col>
@@ -104,15 +109,17 @@
     name: 'Event',
     data() {
       return {
-          event: []
+          event: [],
+          participants: [],
+          user: [],
+          user_attend: false
       }
     },
     created() {
         this.id = this.$route.params.id;
     },
     mounted() {
-        let self = this;
-        eventApi.getEvent(this.id).then(response => {this.event = response.data.message[0]})
+        this.getEvent();
     },
     methods: {
         changeDateFormat(dateString, start){
@@ -121,7 +128,52 @@
             } else {
                 return moment(String(dateString)).format('hh:mm @ MM MMMM YYYY')
             }
-        }
+        },
+        getEvent(){
+            eventApi.getEvent(this.id).then(response => {
+                this.event = response.data.message[0]
+                this.user = this.$store.getters.getUser;
+                if(this.event.show_attendees){
+                    eventApi.getParticipants(this.id).then(response => { 
+                        this.participants = response.data.message 
+                        if(this.user){
+                            this.participants.forEach(participant => {
+                                if(participant.user_id === this.user.id){
+                                    this.user_attend = true;
+                                } 
+                            });
+                        }
+                    });
+                }
+            });
+        },
+        fullName(first_name, insertion, last_name) {
+            let full_name;
+            if(insertion){
+                full_name = first_name + ' ' + insertion + ' ' + last_name;
+            } else {
+                full_name = first_name + ' ' + last_name;
+            }
+            return full_name;
+        },
+         signUpEvent() {
+            let data = {event_id: this.event.id};
+            eventApi.addUserEvent(data).then(response => {
+            this.getEvent();
+            });
+        },
+        removeUserEvent() {
+            let data = {
+            data:
+                {
+                event_id: this.event.id
+                }
+            };
+            eventApi.removeUserEvent(data).then(response => {
+            this.getEvent();
+            this.user_attend = false;
+            });
+        },
     }
   }
 </script>
@@ -139,4 +191,15 @@
   .image-profile-chips {
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); 
   }
+
+  ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        float: left;
+        margin: 15px;
+    }
 </style>

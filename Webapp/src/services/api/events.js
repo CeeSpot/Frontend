@@ -30,4 +30,7 @@ export default {
   getEvent(event_id) {
     return axios.get('http://localhost:3000/api/event/' + event_id)
   },
+  getParticipants(event_id) {
+    return axios.get('http://localhost:3000/api/events/participants/' + event_id)
+  }
 }
