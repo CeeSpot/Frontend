@@ -4,7 +4,7 @@
         <b-col md="4">
           <div>
               <b-input-group class="form-group-search">
-                  <b-form-input v-model="search" placeholder="Search..." class="form-control"></b-form-input>
+                  <b-form-input v-model="search" :placeholder="$t('community.search')" class="form-control"></b-form-input>
                   <span class="form-control-icon">
                       <font-awesome-icon icon="search" class="search-color"/>
                   </span>
@@ -15,9 +15,9 @@
           <div class="toggle">
             <div class="switch">
                 <input type="radio" class="switch-input" v-on:change="toggle('members')" name="view" value="week" id="week" checked>
-                <label for="week" class="switch-label switch-label-off">&nbsp;Members </label>
+                <label for="week" class="switch-label switch-label-off">&nbsp;{{$t('community.members')}} </label>
                 <input type="radio" class="switch-input" v-on:change="toggle('companies')" name="view" value="month" id="month">
-                <label for="month" class="switch-label switch-label-on">&nbsp;Companies</label>
+                <label for="month" class="switch-label switch-label-on">&nbsp;{{$t('community.companies')}}</label>
                 <span class="switch-selection"></span>
             </div>
           </div>

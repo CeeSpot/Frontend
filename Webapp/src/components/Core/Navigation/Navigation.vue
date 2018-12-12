@@ -39,6 +39,7 @@
 </template>
 
 <script>
+  import Vue from 'vue'
   const LANGUAGE_KEY = 'CCLanguage'
   export default {
     name: 'Navigation',
@@ -56,8 +57,12 @@
       switchLanguage() {
         if (this.language === 'nl') {
           this.setLanguage('en')
+          Vue.i18n.set('en');
+          this.$root.$emit('toggleLocaleCalendar','en');
         } else {
           this.setLanguage('nl')
+          Vue.i18n.set('nl');
+          this.$root.$emit('toggleLocaleCalendar','nl');
         }
         this.save()
       },

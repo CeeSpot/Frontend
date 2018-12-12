@@ -17,13 +17,13 @@
                     <div class="switch">
                         <input type="radio" class="switch-input" name="view" value="day" id="day"
                                v-on:click="changeView('month')" checked>
-                        <label for="day" class="switch-label switch-label-off">&nbsp;Month</label>
+                        <label for="day" class="switch-label switch-label-off">&nbsp;{{$t('events.month')}}</label>
                         <input type="radio" class="switch-input" name="view" value="week"
                                v-on:click="changeView('agendaWeek')" id="week">
-                        <label for="week" class="switch-label switch-label-on">&nbsp;Week</label>
+                        <label for="week" class="switch-label switch-label-on">&nbsp;{{$t('events.week')}}</label>
                         <input type="radio" class="switch-input" name="view" value="month"
                                v-on:click="changeView('agendaDay')" id="month">
-                        <label for="month" class="switch-label switch-label-3">&nbsp;Day</label>
+                        <label for="month" class="switch-label switch-label-3">&nbsp;{{$t('events.day')}}</label>
                         <span class="switch-selection"></span>
                     </div>
                 </div>
@@ -118,7 +118,8 @@
           editable: false,
           eventTextColor: '#FFFFFF',
           eventColor: '#E60000',
-          header: false
+          header: false,
+          locale: 'en'
         },
         selectedEvent: {
           id: '',
@@ -131,9 +132,11 @@
         headerTitle: ''
       }
     },
-
     mounted() {
-      this.getTitle();
+      this.getTitle()
+      this.$root.$on('toggleLocaleCalendar', (locale) => {
+          this.toggleLocale(locale);
+      })
     },
     methods: {
       eventSelected(event, jsEvent, view) {
@@ -186,6 +189,9 @@
       getTitle() {
         var view = this.$refs.CalendarRef.fireMethod('getView');
         this.headerTitle = view.title;
+      },
+      toggleLocale(newLocale){
+          this.$refs.CalendarRef.fireMethod('option', 'locale', newLocale);
       }
     }
   }
