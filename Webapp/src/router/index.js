@@ -4,6 +4,7 @@ import Home from '@/components/Landingpage/Home' // Home base page
 import Community from '@/components/Community/Community' // Community base page
 import Spaces from '@/components/Spaces/Spaces' // Spaces base page
 import Events from '@/components/Events/Events' // Events base page
+import Event from '@/components/Events/Event' // Event base page
 import Contact from '@/components/Contact/Contact' // Contact base page
 import User from '@/components/Community/User'
 
@@ -48,6 +49,11 @@ export default new Router({
       path: '/events',
       name: 'Events',
       component: Events
+    },
+    {
+      path: '/event/:id',
+      name: 'Event',
+      component: Event
     },
     {
       path: '/contact',
