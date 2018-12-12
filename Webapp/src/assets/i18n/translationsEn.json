@@ -8,5 +8,10 @@
       "month": "Month",
       "week": "Week",
       "day": "Day"
+    },
+    "event": {
+      "login-to-join": "Login to join this event!",
+      "join": "Join this event!",
+      "unsubscribe": "Unsubscribe!"
     }
 }

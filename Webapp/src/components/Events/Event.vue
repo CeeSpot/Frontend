@@ -64,15 +64,15 @@
                         <b-col class="text-center">
                             <button disabled v-if="user === null" type="button" style="width:100%;"
                                     class="btn btn-ceecee-red text-center">
-                                Login to join this event!
+                                {{$t('event.login-to-join')}}
                             </button>
                             <button v-if="user !== null && user_attend === false" type="button" style="width:100%;"
                                     class="btn btn-ceecee-red text-center" v-on:click="signUpEvent()">
-                                Join this event!
+                                {{$t('event.join')}}
                             </button>
                             <button v-if="user !== null && user_attend === true" type="button" style="width:100%;"
                                     class="btn btn-ceecee-red text-center" v-on:click="removeUserEvent()">
-                                Unsubscribe!
+                                {{$t('event.unsubscribe')}}
                             </button>
                     </b-col>
                     </b-row>
