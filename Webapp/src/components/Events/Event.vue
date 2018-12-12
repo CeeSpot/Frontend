@@ -159,7 +159,8 @@
          signUpEvent() {
             let data = {event_id: this.event.id};
             eventApi.addUserEvent(data).then(response => {
-            this.getEvent();
+            this.participants.push(this.user);
+            this.user_attend = true;
             });
         },
         removeUserEvent() {
@@ -170,7 +171,7 @@
                 }
             };
             eventApi.removeUserEvent(data).then(response => {
-            this.getEvent();
+            this.participants.splice(this.user,1);
             this.user_attend = false;
             });
         },
