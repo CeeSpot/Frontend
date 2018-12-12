@@ -134,6 +134,9 @@
     },
     mounted() {
       this.getTitle()
+      this.$root.$on('toggleLocaleCalendar', (locale) => {
+          this.toggleLocale(locale);
+      })
     },
     methods: {
       eventSelected(event, jsEvent, view) {
