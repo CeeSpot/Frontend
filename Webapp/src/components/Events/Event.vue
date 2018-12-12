@@ -70,7 +70,7 @@
                                     class="btn btn-ceecee-red text-center" v-on:click="signUpEvent()">
                                 Join this event!
                             </button>
-                            <button v-else type="button" style="width:100%;"
+                            <button v-if="user !== null && user_attend === true" type="button" style="width:100%;"
                                     class="btn btn-ceecee-red text-center" v-on:click="removeUserEvent()">
                                 Unsubscribe!
                             </button>
