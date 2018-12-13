@@ -71,6 +71,16 @@
 //                token : ''
       }
     },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        if (from.path === '/my-specific-path') {
+          vm.show = true;
+        } else {
+          vm.show = false;
+        }
+        next()
+      });
+    }, 
     methods: {
       goToRegister() {
         Emitter.$emit('goToRegisterFromLogin')

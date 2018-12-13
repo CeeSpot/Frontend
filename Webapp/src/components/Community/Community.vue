@@ -41,7 +41,8 @@
                 img-src="https://picsum.photos/600/300/?image=25"
                 img-alt="Image"
                 img-top
-                tag="article">
+                tag="article"
+                v-on:click="routeToMember(user.id)">
               <p class="card-text">
                   {{descriptionLimited(user.description)}}
               </p>
@@ -140,6 +141,9 @@ export default {
         newUserList = this.userList;
       }
       return newUserList;
+    },
+    routeToMember(id){
+       location.href = '/user/' + id;
     }
   },
   components: {

@@ -36,65 +36,6 @@
                                @event-selected="eventSelected"></full-calendar>
             </b-col>
         </b-row>
-        <div>
-            <!-- Modal Component -->
-            <b-modal id="EventModal" ref="EventModalRef" size="lg" hide-footer>
-                <!--:title="selectedEvent.title" -->
-                <div slot="modal-header" style="width: 100%;">
-                    <b-row>
-                        <b-col xs="6">
-                            <h2>{{ selectedEvent.title }}</h2>
-                            <span>{{ selectedEvent.start + ' - ' + selectedEvent.end}}</span>
-                        </b-col>
-                        <b-col class="text-right" xs="6">
-                            <button v-on:click="closeModal" style="border-radius: 20px; width: 40px; height: 40px; border: none; background-color: white; cursor: pointer;">
-                                <font-awesome-icon icon="times"/>
-                            </button>
-                        </b-col>
-                    </b-row>
-                </div>
-                <b-row>
-                    <b-col><p class="my-4">{{selectedEvent.description}}</p></b-col>
-                    <b-col>
-                        <b-img src="https://picsum.photos/1024/400/?image=41" fluid alt="Responsive image"/>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col md="12">
-                        <social-sharing url="http://localhost:8080/events"
-                                        :title="selectedEvent.title"
-                                        :description="selectedEvent.description"
-                                        hashtags="TheCeeSpot"
-                                        twitter-user="vuejs"
-                                        v-cloak inline-template>
-                            <div>
-                                <network network="facebook" class="pr-2">
-                                    <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'facebook' }"/>
-                                </network>
-                                <network network="linkedin" class="pr-2">
-                                    <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'linkedin' }"/>
-                                </network>
-                                <network network="twitter" class="pr-2">
-                                    <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'twitter' }"/>
-                                </network>
-                            </div>
-                        </social-sharing>
-                    </b-col>
-                </b-row>
-                <b-row>
-                    <b-col md="12" class="text-center">
-                        <button v-if="!selectedEvent.attend" v-on:click="signUpEvent()" type="button"
-                                class="btn btn-ceecee-red text-center">
-                            Sign up for this event!
-                        </button>
-                        <button v-else v-on:click="removeUserEvent()" type="button"
-                                class="btn btn-ceecee-red text-center">
-                            Unsubscribe
-                        </button>
-                    </b-col>
-                </b-row>
-            </b-modal>
-        </div>
     </b-container>
 </template>
 
@@ -121,14 +62,6 @@
           header: false,
           locale: 'en'
         },
-        selectedEvent: {
-          id: '',
-          title: '',
-          description: '',
-          attend: false,
-          start: '',
-          end: ''
-        },
         headerTitle: ''
       }
     },
@@ -140,39 +73,7 @@
     },
     methods: {
       eventSelected(event, jsEvent, view) {
-        this.selectedEvent.id = event.id;
-        this.selectedEvent.title = event.title;
-        this.selectedEvent.description = event.description;
-        this.selectedEvent.start = event.start.format('DD/MM/YYYY hh:mm');
-        this.selectedEvent.end = event.end.format('DD/MM/YYYY hh:mm');
-        if (event.attend) {
-          this.selectedEvent.attend = event.attend;
-        } else {
-          this.selectedEvent.attend = false;
-        }
-        this.$refs.EventModalRef.show()
-      },
-      signUpEvent() {
-        let data = {event_id: this.selectedEvent.id};
-        eventApi.addUserEvent(data).then(response => {
-          this.refreshEvents();
-          this.$refs.EventModalRef.hide()
-        });
-      },
-      removeUserEvent() {
-        let data = {
-          data:
-            {
-              event_id: this.selectedEvent.id
-            }
-        };
-        eventApi.removeUserEvent(data).then(response => {
-          this.refreshEvents();
-          this.$refs.EventModalRef.hide()
-        });
-      },
-      closeModal() {
-        this.$refs.EventModalRef.hide()
+         location.href = '/event/' + event.id;
       },
       changeView(view) {
         //Month : month - Week : agendaWeek - Day : agendaDay
