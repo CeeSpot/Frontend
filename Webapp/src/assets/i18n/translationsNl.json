@@ -13,5 +13,9 @@
       "login-to-join": "Login om deel te nemen!",
       "join": "Deelnemen aan evenement!",
       "unsubscribe": "Afmelden van evenement!"
+    },
+    "other": {
+      "list": "lijst",
+      "calendar": "kalender"
     }
 }

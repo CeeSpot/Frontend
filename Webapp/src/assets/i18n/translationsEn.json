@@ -13,5 +13,9 @@
       "login-to-join": "Login to join this event!",
       "join": "Join this event!",
       "unsubscribe": "Unsubscribe!"
+    },
+    "other": {
+      "list": "list",
+      "calendar": "calendar"
     }
 }

@@ -105,6 +105,11 @@
 <script>
   import eventApi from '@/services/api/events.js'
   import moment from 'moment'
+  import Toasted from 'vue-toasted';
+  import Vue from 'vue'
+
+  Vue.use(Toasted);
+
   export default {
     name: 'Event',
     data() {
@@ -162,7 +167,13 @@
             this.participants.push(this.user);
             this.user_attend = true;
             });
-        },
+           this.$toasted.show('Succesfully signed up',
+             {
+               position: "bottom-center",
+               duration : 5000
+             }
+           );
+         },
         removeUserEvent() {
             let data = {
             data:
@@ -171,8 +182,14 @@
                 }
             };
             eventApi.removeUserEvent(data).then(response => {
-            this.participants.splice(this.user,1);
-            this.user_attend = false;
+                this.participants.splice(this.user,1);
+                this.user_attend = false;
+                this.$toasted.show('Succesfully unsubscribed',
+                  {
+                    position: "bottom-center",
+                    duration : 5000
+                  }
+                );
             });
         },
     }
