@@ -136,19 +136,17 @@
         },
         getEvent(){
             eventApi.getEvent(this.id).then(response => {
-                this.event = response.data.message[0]
+                this.event = response.data.message;
                 this.user = this.$store.getters.getUser;
                 if(this.event.show_attendees){
-                    eventApi.getParticipants(this.id).then(response => { 
-                        this.participants = response.data.message 
+                this.participants = response.data.message.participants; 
                         if(this.user){
                             this.participants.forEach(participant => {
-                                if(participant.user_id === this.user.id){
+                                if(participant.id === this.user.id){
                                     this.user_attend = true;
                                 } 
                             });
                         }
-                    });
                 }
             });
         },
