@@ -3,20 +3,20 @@
     <b-row>
     <b-col cols="6">
     <b-card class="no-scale" title="General info">
-    <b-form-input class="mb15" type="text" v-model="event.title"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.description"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.small_description"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.start"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.end"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.title" placeholder="Naam"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.description" placeholder="Omschrijving"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.small_description" placeholder="Korte omschrijving"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="start" placeholder="Start"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="end" placeholder="Eind"></b-form-input>
     </b-card>
     </b-col>
     <b-col cols="6">
     <b-card class="no-scale" title="Location">
-    <b-form-input class="mb15" type="text" v-model="event.location_name"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.location_postalcode"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.location_city"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.location_street"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.location_number"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.location_name" placeholder="Naam"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.location_postalcode" placeholder="Postcode"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.location_city" placeholder="Stad"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.location_street" placeholder="Straat"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.location_number" placeholder="Huisnummer"></b-form-input>
     </b-card>
     </b-col>
 <b-col cols="6">
@@ -37,7 +37,9 @@
     </b-card>
     </b-col>
     </b-row>
-    <b-button v-on:click="updateEvent">ClickMe</b-button>
+    <button class="fab red" v-on:click="updateEvent">
+        <font-awesome-icon style="cursor: pointer;" icon="save" class="save"/>
+    </button>
     </b-container>
 </template>
 
@@ -56,7 +58,9 @@
     },
     data() {
       return {
-          event: {}
+          event: {},
+          start: '',
+          end: ''
       }
     },
     methods: {
@@ -85,11 +89,20 @@
         });
       },
       updateEvent() {
-          AdminEventApi.updateEvent(this.event).then(response => { console.log('success') });
+          this.event.start = this.start;
+          this.event.end = this.end;
+          AdminEventApi.updateEvent(this.event).then(response => { alert('succesvol gewijzigd') });
+      },
+      test() {
+          alert('hello');
       }
     },
     mounted() {
-      EventApi.getEvent(this.$route.params.id).then(response => this.event = response.data.message)
+      EventApi.getEvent(this.$route.params.id).then(response => {
+          this.event = response.data.message;
+          this.start = moment(this.event.start).format('YYYY-MM-DD HH:mm');
+          this.end = moment(this.event.end).format('YYYY-MM-DD HH:mm');
+      })
     }
   }
 </script>
@@ -114,4 +127,29 @@
         background-color: #E60000;
         color: white;
     }
+    .fab {
+    border: none;
+    font-size: 22px;
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin: auto;
+    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.red{
+    background: #E60000;
+}
+
+.red:hover{
+    background: #FF2C2C;
+}
 </style>
