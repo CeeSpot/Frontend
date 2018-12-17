@@ -90,34 +90,8 @@
               this.events = this.events.filter(e => e.id != event.id);
           });
       },
-      openEventCard(id) {
-        if(this.openEvent === id) {
-          this.openEvent = 0;
-        } else {
-          this.openEvent = id;
-        }
-      },
-      updateEvent() {
-          var event = {event_id: this.editEventID, title: this.editEventTitle, description: this.editEventDescription, 
-          start: moment(this.editEventStart).format('YYYY-MM-DD HH:mm:ss'), end: moment(this.editEventEnd).format('YYYY-MM-DD HH:mm:ss')}
-          AdminEventApi.updateEvent(event).then(response => {
-              for (var i = 0; i < this.events.length; i++){
-                  if (this.events[i].id == this.editEventID) {
-                      this.events[i].title = this.editEventTitle;
-                      this.events[i].description = this.editEventDescription;
-                      this.events[i].start = this.editEventStart;
-                      this.events[i].end = this.editEventEnd;
-                    }
-                }
-                this.$refs.editEventModal.hide();
-            });
-      },
       openDetailPage(id) {
           this.$router.push('/admin/events/' + id);
-      },
-      getparticipants(id) {
-          console.log(id);
-          AdminEventApi.getParticipants(id).then(response => { console.log(response.data.message) });
       }
     },
     mounted() {

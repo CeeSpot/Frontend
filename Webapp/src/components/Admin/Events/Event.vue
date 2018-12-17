@@ -3,11 +3,11 @@
     <b-row>
     <b-col cols="6">
     <b-card class="no-scale" title="General info">
-    <b-form-input class="mb15" type="text" v-model="event.title"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.description"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.small_description"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="start"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="end"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.title" placeholder="Naam"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.description" placeholder="Omschrijving"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.small_description" placeholder="Korte omschrijving"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="start" placeholder="Start"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="end" placeholder="Eind"></b-form-input>
     </b-card>
     </b-col>
     <b-col cols="6">
@@ -37,7 +37,6 @@
     </b-card>
     </b-col>
     </b-row>
-    <font-awesome-icon style="cursor: pointer;" icon="save" class="save"/>
     <button class="fab red" v-on:click="updateEvent">
         <font-awesome-icon style="cursor: pointer;" icon="save" class="save"/>
     </button>
@@ -92,8 +91,7 @@
       updateEvent() {
           this.event.start = this.start;
           this.event.end = this.end;
-          console.log(this.event);
-          AdminEventApi.updateEvent(this.event).then(response => { console.log('success') });
+          AdminEventApi.updateEvent(this.event).then(response => { alert('succesvol gewijzigd') });
       },
       test() {
           alert('hello');
