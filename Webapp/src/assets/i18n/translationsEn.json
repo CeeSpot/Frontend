@@ -1,0 +1,21 @@
+{
+    "community": {
+      "search": "Search...",
+      "members": "Members",
+      "companies": "Companies"
+    },
+    "events": {
+      "month": "Month",
+      "week": "Week",
+      "day": "Day"
+    },
+    "event": {
+      "login-to-join": "Login to join this event!",
+      "join": "Join this event!",
+      "unsubscribe": "Unsubscribe!"
+    },
+    "other": {
+      "list": "list",
+      "calendar": "calendar"
+    }
+}
