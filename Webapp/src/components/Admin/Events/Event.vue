@@ -5,8 +5,18 @@
     <b-card class="no-scale" title="General info">
     <b-form-input class="mb15" type="text" v-model="event.title"></b-form-input>
     <b-form-input class="mb15" type="text" v-model="event.description"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.small_description"></b-form-input>
     <b-form-input class="mb15" type="text" v-model="event.start"></b-form-input>
     <b-form-input class="mb15" type="text" v-model="event.end"></b-form-input>
+    </b-card>
+    </b-col>
+    <b-col cols="6">
+    <b-card class="no-scale" title="Location">
+    <b-form-input class="mb15" type="text" v-model="event.location_name"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.location_postalcode"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.location_city"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.location_street"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.location_number"></b-form-input>
     </b-card>
     </b-col>
 <b-col cols="6">
@@ -27,6 +37,7 @@
     </b-card>
     </b-col>
     </b-row>
+    <b-button v-on:click="updateEvent">ClickMe</b-button>
     </b-container>
 </template>
 
@@ -59,28 +70,22 @@
           });
       },
       deleteUser(user_id){
-          var data = {event_id: this.event.id, user_id: user_id}
-          EventApi.removeUserEvent(data).then(response => {
-              console.log('succes')
+          let data = {
+          data:
+            {
+              event_id: this.event.id, user_id: user_id
+            }
+        };
+        EventApi.removeUserEvent(data).then(response => {
+            for (var i = 0; i < this.event.participants.length; i++){
+                if (this.event.participants[i].id === user_id){
+                    this.event.participants.splice(i, 1);
+                }
+            }
         });
       },
       updateEvent() {
-          var event = {event_id: this.editEventID, title: this.editEventTitle, description: this.editEventDescription, 
-          start: moment(this.editEventStart).format('YYYY-MM-DD HH:mm:ss'), end: moment(this.editEventEnd).format('YYYY-MM-DD HH:mm:ss')}
-          AdminEventApi.updateEvent(event).then(response => {
-              for (var i = 0; i < this.events.length; i++){
-                  if (this.events[i].id == this.editEventID) {
-                      this.events[i].title = this.editEventTitle;
-                      this.events[i].description = this.editEventDescription;
-                      this.events[i].start = this.editEventStart;
-                      this.events[i].end = this.editEventEnd;
-                    }
-                }
-                this.$refs.editEventModal.hide();
-            });
-      },
-      getparticipants(id) {
-          AdminEventApi.getParticipants(id).then(response => { console.log(response.data.message) });
+          AdminEventApi.updateEvent(this.event).then(response => { console.log('success') });
       }
     },
     mounted() {

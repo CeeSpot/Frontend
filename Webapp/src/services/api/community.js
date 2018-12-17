@@ -11,7 +11,9 @@ export default {
   getCompanies() {
     return axios.get('http://localhost:3000/api/companies')
   },
-  getProfile() {
+  getCompany(id) {
+    return axios.get('http://localhost:3000/api/companies/' + id)
+  },getProfile() {
     return axios.get('http://localhost:3000/api/users/me',{
       headers: {
         'x-access-token': store.state.jwt

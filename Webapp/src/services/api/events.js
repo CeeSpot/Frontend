@@ -30,7 +30,6 @@ export default {
     });
   },
   removeUserEvent(data) {
-    // console.log(config);
     data.headers = {'x-access-token': store.state.jwt};
     return axios.delete('http://localhost:3000/api/events/userevent', data)
   }

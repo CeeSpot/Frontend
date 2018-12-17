@@ -70,7 +70,9 @@
       },
       addEvent(){
           var event = {title: this.newEventTitle, description: this.newEventDescription,
-          start: moment(this.newEventStart).format('YYYY-MM-DD HH:mm:ss'), end: moment(this.newEventEnd).format('YYYY-MM-DD HH:mm:ss')}
+          start: moment(this.newEventStart).format('YYYY-MM-DD HH:mm:ss'), end: moment(this.newEventEnd).format('YYYY-MM-DD HH:mm:ss'),
+          shortdescription: this.newEventShortDescription, location: this.newEventLocation, address: this.newEventAddress,
+          housenr: this.newEventHousenr, postalcode: this.newEventPostal, city: this.newEventCity}
 
           AdminEventApi.addEvent(event).then(response => { 
               this.$refs.newEventModal.hide();
