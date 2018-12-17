@@ -90,7 +90,6 @@
       this.setLanguage(this.language)
 
       this.user = this.$store.getters.getUser;
-      console.log(this.user);
 //      this.$store.dispatch('inspectToken').then((response) =>{
 //        console.log(response);
 //        this.loggedInUser = response;

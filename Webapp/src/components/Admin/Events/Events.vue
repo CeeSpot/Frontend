@@ -4,14 +4,10 @@
             <admin-menu v-bind:active="active"></admin-menu>
             <b-col md="8">
                 <b-row v-for="event in events" class="user-list-item">
-                    <b-col md="12" class="shadow user-card" v-b-modal.editevent v-on:click="fillEditModal(event)">
+                    <b-col md="12" class="shadow user-card" v-on:click="openDetailPage(event.id)">
                         <b-row>
                             <b-col md="4">{{ formatDate(event.start) }}</b-col>
                             <b-col md="4">{{ event.title }}</b-col>
-                            <b-col md="4" class="text-right">
-                            <b-button v-on:click="getparticipants(event.id)">Clickme!</b-button>
-                            <font-awesome-icon style="cursor: pointer;" icon="trash" v-on:click="deleteEvent(event)"/>
-                            </b-col>
                         </b-row>
                     </b-col>
                 </b-row>
@@ -22,18 +18,15 @@
     <b-modal ref="newEventModal" hide-footer id="newevent" title="Nieuw evenement">
         <b-form-input class="mb15" v-model="newEventTitle" type="text" placeholder="Titel"></b-form-input>
         <b-form-textarea class="mb15" rows="3" v-model="newEventDescription" type="text" placeholder="Omschrijving"></b-form-textarea>
+        <b-form-textarea class="mb15" rows="2" v-model="newEventShortDescription" type="text" placeholder="Omschrijving"></b-form-textarea>
         <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Starttijd" format="dd-MM-yyyy HH:mm:ss" v-model="newEventStart"></datetime>
         <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Eindtijd" format="dd-MM-yyyy HH:mm:ss" v-model="newEventEnd"></datetime>
-        
+        <b-form-input class="mb15" v-model="newEventLocation" type="text" placeholder="Naam locatie"></b-form-input>
+        <b-form-input class="mb15" v-model="newEventAddress" type="text" placeholder="Adres"></b-form-input>
+        <b-form-input class="mb15" v-model="newEventHousenr" type="text" placeholder="Huisnr"></b-form-input>
+        <b-form-input class="mb15" v-model="newEventPostal" type="text" placeholder="Postcode"></b-form-input>
+        <b-form-input class="mb15" v-model="newEventCity" type="text" placeholder="Stad"></b-form-input>
         <b-button class="float-right" v-on:click="addEvent">Opslaan</b-button>
-  </b-modal>
-  <b-modal ref="editEventModal" hide-footer id="editevent" :title="editEventTitle">
-        <b-form-input class="mb15" v-model="editEventTitle" type="text" placeholder="Titel"></b-form-input>
-        <b-form-textarea class="mb15" rows="3" v-model="editEventDescription" type="text" placeholder="Omschrijving"></b-form-textarea>
-        <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Starttijd" format="dd-MM-yyyy HH:mm:ss" v-model="editEventStart"></datetime>
-        <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Eindtijd" format="dd-MM-yyyy HH:mm:ss" v-model="editEventEnd"></datetime>
-        
-        <b-button class="float-right" v-on:click="updateEvent">Opslaan</b-button>
   </b-modal>
     </b-container>
 </template>
@@ -58,13 +51,14 @@
         events: [],
         newEventTitle: '',
         newEventDescription: '',
+        newEventShortDescription: '',
         newEventStart: '',
         newEventEnd: '',
-        editEventID: '',
-        editEventTitle: '',
-        editEventDescription: '',
-        editEventStart: '',
-        editEventEnd: '',
+        newEventLocation: '',
+        newEventAddress: '',
+        newEventHousenr: '',
+        newEventPostal: '',
+        newEventCity: '',
         date: '',
         openEvent: null,
         editEvent: null
@@ -116,12 +110,8 @@
                 this.$refs.editEventModal.hide();
             });
       },
-      fillEditModal(event) {
-          this.editEventTitle = event.title;
-          this.editEventDescription = event.description;
-          this.editEventStart = event.start;
-          this.editEventEnd = event.end;
-          this.editEventID = event.id;
+      openDetailPage(id) {
+          this.$router.push('/admin/events/' + id);
       },
       getparticipants(id) {
           console.log(id);

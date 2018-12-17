@@ -15,6 +15,13 @@ export default {
       }
     })
   },
+  getEvent(id) {
+    return axios.get('http://localhost:3000/api/event/' + id, {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    });
+  },
   addUserEvent(data) {
     return axios.post('http://localhost:3000/api/events/userevent', data, {
       headers: {
