@@ -1,12 +1,6 @@
 import axios from 'axios'
-import {JSON_TOKEN} from '../../constants'
 import {store} from '../../main'
 
-let config = {
-  headers: {
-    'x-access-token': JSON.parse(localStorage.getItem(JSON_TOKEN))
-  }
-};
 export default {
   getEvents() {
     return axios.get('http://localhost:3000/api/events', {

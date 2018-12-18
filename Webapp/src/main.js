@@ -108,7 +108,6 @@ export const store = new Vuex.Store({
       });
     },
     updateToken(context, newToken){
-      console.log(newToken);
       this.commit('updateToken', newToken)
     },
     refreshToken(context) {
@@ -143,6 +142,11 @@ export const store = new Vuex.Store({
   }
 });
 
+Vue.filter('capitalize', function (value) {
+  if (!value) return ''
+  value = value.toString()
+  return value.charAt(0).toUpperCase() + value.slice(1)
+})
 
 /* eslint-disable no-new */
 window.App = new Vue({
