@@ -19,13 +19,13 @@
                    src="https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg"
                    width="30"></b-img>
           </b-nav-item>
-          <b-nav-item v-if="typeof user === 'undefined' || user === null" right href="/lr">User</b-nav-item>
+          <b-nav-item v-if="typeof user === 'undefined' || user === null" right href="/lr"><b>Login</b></b-nav-item>
           <!--<b-nav-item v-if="typeof user !== 'undefined' && user !== null" right href="/account">{{user.first_name}} {{user.last_name}}</b-nav-item>-->
 
           <b-nav-item-dropdown v-if="typeof user !== 'undefined' && user !== null" right>
           <!-- Using button-content slot -->
-          <template slot="button-content">
-            <em>{{user.first_name}} {{user.last_name}}</em>
+          <template slot="button-content" class="username-link">
+            <b>{{user.first_name}} {{user.last_name}}</b>
           </template>
           <b-dropdown-item href="/account">Profile</b-dropdown-item>
           <b-dropdown-item v-on:click="logout()">Logout</b-dropdown-item>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+  import Vue from 'vue'
   const LANGUAGE_KEY = 'CCLanguage'
   export default {
     name: 'Navigation',
@@ -56,8 +57,12 @@
       switchLanguage() {
         if (this.language === 'nl') {
           this.setLanguage('en')
+          Vue.i18n.set('en');
+          this.$root.$emit('toggleLocaleCalendar','en');
         } else {
           this.setLanguage('nl')
+          Vue.i18n.set('nl');
+          this.$root.$emit('toggleLocaleCalendar','nl');
         }
         this.save()
       },
@@ -70,8 +75,12 @@
         this.language = lang
         if (lang === 'nl') {
           document.getElementById('language-img').src = 'https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg'
+          Vue.i18n.set('nl');
+          this.$root.$emit('toggleLocaleCalendar','nl');
         } else {
           document.getElementById('language-img').src = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg'
+          Vue.i18n.set('en');
+          this.$root.$emit('toggleLocaleCalendar','en');
         }
       },
       logout(){
@@ -90,7 +99,6 @@
       this.setLanguage(this.language)
 
       this.user = this.$store.getters.getUser;
-      console.log(this.user);
 //      this.$store.dispatch('inspectToken').then((response) =>{
 //        console.log(response);
 //        this.loggedInUser = response;
@@ -115,11 +123,12 @@
     background: #E60000;
   }
 
-  .navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, .8);
+  .navbar-dark .navbar-nav .nav-link, b{
+    color: rgba(255, 255, 255, 1) !important;
   }
 
   .navbar-dark .navbar-nav .nav-link:hover {
     color: #fff;
   }
+  .navbar-dark .navbar-nav .nav-link {}
 </style>

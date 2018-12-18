@@ -35,7 +35,7 @@
                   <font-awesome-icon :icon="{ prefix: 'fab', iconName: site.site }"></font-awesome-icon>
                 </b-link>
 
-                <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'plus'}" v-b-modal.AddSocialMediaModal></font-awesome-icon>
+                <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}" v-b-modal.AddSocialMediaModal></font-awesome-icon>
               </b-col>
             </b-row>
           </b-col>
@@ -442,6 +442,10 @@
     color: #7dacff;
     font-size: 25px;
     transition: 250ms;
+    margin-left: 15px;
+  }
+  .social-media-link:first-of-type{
+    margin-left: 0;
   }
   .social-media-link:hover{
     color: #6c94dc;

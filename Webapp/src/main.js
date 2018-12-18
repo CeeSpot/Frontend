@@ -3,6 +3,8 @@
 
 import Vue from 'vue'
 import {API_PORT, API_URL, JSON_TOKEN} from './constants'
+import translationsNLJSON from './assets/i18n/translationsNl.json'
+import translationsENJSON from './assets/i18n/translationsEn.json'
 
 import App from './App'
 import router from './router'
@@ -11,6 +13,7 @@ import jwt_decode from 'jwt-decode'
 import VueAxios from 'vue-axios'
 import Vuex from 'vuex'
 import Datetime from 'vue-datetime'
+import vuexI18n from 'vuex-i18n';
 
 import BootstrapVue from 'bootstrap-vue' // Imports bootstrap vue library
 import FullCalendar from 'vue-full-calendar'
@@ -34,6 +37,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
+import { faSave } from '@fortawesome/free-solid-svg-icons/faSave'
 import { fab } from '@fortawesome/free-brands-svg-icons' // Imports brand icons
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -52,6 +56,7 @@ library.add(faTimes);
 library.add(faFacebook);
 library.add(faTwitter);
 library.add(faLinkedin);
+library.add(faSave);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon); // create the vue-component so you can use it
 
@@ -147,6 +152,12 @@ Vue.filter('capitalize', function (value) {
   value = value.toString()
   return value.charAt(0).toUpperCase() + value.slice(1)
 })
+Vue.use(vuexI18n.plugin, store);
+
+Vue.i18n.add('en', translationsENJSON);
+Vue.i18n.add('nl', translationsNLJSON);
+
+Vue.i18n.set('en');
 
 /* eslint-disable no-new */
 window.App = new Vue({

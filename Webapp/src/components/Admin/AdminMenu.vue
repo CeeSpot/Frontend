@@ -3,7 +3,7 @@
         <div style="width: 100%; height: 100%;">
             <b-list-group class="shadow">
                 <b-list-group-item v-for="item in items" v-bind:class="active === item ? 'active' : '' ">
-                    <a href="#" class="menu-item-link">{{ item }}</a>
+                    <a :href="'/admin/' + item" class="menu-item-link">{{ item }}</a>
                 </b-list-group-item>
             </b-list-group>
         </div>

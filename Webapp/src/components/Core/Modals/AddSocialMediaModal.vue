@@ -5,7 +5,7 @@
     <div slot="modal-header" style="width: 100%;">
       <b-row>
         <b-col xs="6">
-          <h3>Social media</h3>
+          <h3 class="text-white">Social media</h3>
         </b-col>
         <b-col class="text-right" xs="6">
           <button v-on:click="closeModal"

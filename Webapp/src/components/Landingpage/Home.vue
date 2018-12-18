@@ -1,12 +1,6 @@
 <template>
   <div>
     <carousel></carousel>
-    <div id="pizza" class="pizza">hai</div>
-    <b-container class="bv-example-row">
-      <b-row>
-        <b-col>CeeSpot</b-col>
-      </b-row>
-    </b-container>
   </div>
 </template>
 
