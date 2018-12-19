@@ -13,6 +13,15 @@
                 </b-button>
                 <span class="header-title">{{headerTitle}}</span>
                 </div>
+                <div v-else>
+                    <b-input-group class="form-group-search">
+                        <b-form-input v-model="search" :placeholder="$t('events.search')"
+                                      class="form-control"></b-form-input>
+                        <span class="form-control-icon">
+                            <font-awesome-icon icon="search" class="search-color"/>
+                        </span>
+                    </b-input-group>
+                </div>
             </b-col>
             <b-col xs="6" class="text-right">
                 <div class="toggle">
@@ -36,14 +45,14 @@
             </b-col>
         </b-row>
         <b-row class="mt-3" v-bind:class="{'show': !showCalendar, 'hidden': showCalendar}">
-            <b-col md="4" v-for="calEvent in events">
+            <b-col md="4" v-for="calEvent in eventList">
                 <a v-on:click="routeToEvent(calEvent.id)" style="color: black;">
                     <b-card
                             v-bind:title="calEvent.title"
                             img-src="https://picsum.photos/600/300/?image=23"
                             v-bind:img-alt="calEvent.title"
                             img-top
-                            tag="event">
+                            >
                         <p style="font-size: 1em;">
                             {{changeDateFormat(calEvent.start,true)}} - {{changeDateFormat(calEvent.end)}}
                         </p>
@@ -84,16 +93,14 @@
         },
         headerTitle: '',
         showCalendar: true,
-        events: []
+        events: [],
+        search: ''
       }
     },
     mounted() {
       this.getTitle();
       this.$root.$on('toggleLocaleCalendar', (locale) => {
           this.toggleLocale(locale);
-      });
-      eventApi.getEvents().then(function(response) {
-        console.log(response);
       });
       eventApi.getEvents().then(response => this.events = response.data.message);
     },
@@ -136,6 +143,13 @@
         value = value.toString()
         return value.charAt(0).toUpperCase() + value.slice(1)
       }
+    },
+    computed: {
+        eventList() {
+            return this.events.filter(event => {
+                return event.title.toLowerCase().includes(this.search.toLowerCase())
+            })
+        }
     }
   }
 </script>
@@ -264,4 +278,28 @@
         display: none !important;
     }
     .show {}
+
+
+        .search-color {
+        color: #E60000;
+        font-size: 25px;
+    }
+
+    .form-group-search .form-control {
+        padding-left: 0rem;
+    }
+
+    .form-group-search .form-control-icon {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        width: 2.375rem;
+        right: 5px;
+        height: 2.375rem;
+        line-height: 2.375rem;
+        text-align: center;
+        padding-top: 5px;
+        pointer-events: none;
+        color: #aaa;
+    }
 </style>
