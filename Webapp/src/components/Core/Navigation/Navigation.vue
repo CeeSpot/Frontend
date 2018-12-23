@@ -23,12 +23,12 @@
           <!--<b-nav-item v-if="typeof user !== 'undefined' && user !== null" right href="/account">{{user.first_name}} {{user.last_name}}</b-nav-item>-->
 
           <b-nav-item-dropdown v-if="typeof user !== 'undefined' && user !== null" right>
-          <!-- Using button-content slot -->
-          <template slot="button-content" class="username-link">
-            <b>{{user.first_name}} {{user.last_name}}</b>
-          </template>
-          <b-dropdown-item href="/account">Profile</b-dropdown-item>
-          <b-dropdown-item v-on:click="logout()">Logout</b-dropdown-item>
+            <!-- Using button-content slot -->
+            <template slot="button-content" class="username-link">
+              <b>{{user.first_name}} {{user.last_name}}</b>
+            </template>
+            <b-dropdown-item href="/account">Profile</b-dropdown-item>
+            <b-dropdown-item v-on:click="logout()">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
@@ -40,6 +40,7 @@
 
 <script>
   import Vue from 'vue'
+
   const LANGUAGE_KEY = 'CCLanguage'
   export default {
     name: 'Navigation',
@@ -47,7 +48,7 @@
       return {
         msg: 'Welcome to Your Vue.js App',
         language: 'nl',
-        user : null,
+        user: null,
       }
     },
     methods: {
@@ -58,11 +59,11 @@
         if (this.language === 'nl') {
           this.setLanguage('en')
           Vue.i18n.set('en');
-          this.$root.$emit('toggleLocaleCalendar','en');
+          this.$root.$emit('toggleLocaleCalendar', 'en');
         } else {
           this.setLanguage('nl')
           Vue.i18n.set('nl');
-          this.$root.$emit('toggleLocaleCalendar','nl');
+          this.$root.$emit('toggleLocaleCalendar', 'nl');
         }
         this.save()
       },
@@ -76,14 +77,14 @@
         if (lang === 'nl') {
           document.getElementById('language-img').src = 'https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg'
           Vue.i18n.set('nl');
-          this.$root.$emit('toggleLocaleCalendar','nl');
+          this.$root.$emit('toggleLocaleCalendar', 'nl');
         } else {
           document.getElementById('language-img').src = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg'
           Vue.i18n.set('en');
-          this.$root.$emit('toggleLocaleCalendar','en');
+          this.$root.$emit('toggleLocaleCalendar', 'en');
         }
       },
-      logout(){
+      logout() {
         this.$store.dispatch('logout');
       },
 
@@ -123,12 +124,14 @@
     background: #E60000;
   }
 
-  .navbar-dark .navbar-nav .nav-link, b{
+  .navbar-dark .navbar-nav .nav-link, b {
     color: rgba(255, 255, 255, 1) !important;
   }
 
   .navbar-dark .navbar-nav .nav-link:hover {
     color: #fff;
   }
-  .navbar-dark .navbar-nav .nav-link {}
+
+  .navbar-dark .navbar-nav .nav-link {
+  }
 </style>
