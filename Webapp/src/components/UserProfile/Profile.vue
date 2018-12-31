@@ -31,7 +31,7 @@
             </b-row>
             <b-row class="mt-3">
               <b-col class="opacity-text-8" md="12">
-                <b-link v-for="site in user.social_media_sites" class="social-media-link" v-bind:href="site.url" target="_blank">
+                <b-link v-for="site in user.social_media_sites" class="social-media-link" v-bind:href="site.url.includes('https://') ? site.url : 'https://' + site.url" target="_blank">
                   <font-awesome-icon :icon="{ prefix: 'fab', iconName: site.site }"></font-awesome-icon>
                 </b-link>
 

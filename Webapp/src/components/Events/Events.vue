@@ -69,7 +69,7 @@
           {
             events(start, end, timezone, callback) {
               eventApi.getEvents().then(response => {
-                callback(response.data.message)
+                callback(response.data.data)
               })
             }
           }
@@ -95,7 +95,7 @@
       eventApi.getEvents().then(function(response) {
         console.log(response);
       });
-      eventApi.getEvents().then(response => this.events = response.data.message);
+      eventApi.getEvents().then(response => this.events = response.data.data);
     },
     methods: {
       eventSelected(event, jsEvent, view) {

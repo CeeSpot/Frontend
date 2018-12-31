@@ -142,10 +142,10 @@
       },
       getEvent() {
         eventApi.getEvent(this.id).then(response => {
-          this.event = response.data.message;
+          this.event = response.data.data;
           this.user = this.$store.getters.getUser;
           if (this.event.show_attendees) {
-            this.participants = response.data.message.participants;
+            this.participants = response.data.data.participants;
             if (this.user) {
               this.participants.forEach(participant => {
                 if (participant.id === this.user.id) {

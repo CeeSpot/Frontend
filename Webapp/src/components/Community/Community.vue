@@ -94,7 +94,8 @@
     },
     mounted() {
       CommunityApi.getUsers().then(response => {
-        this.users = response.data.message
+        console.log(response);
+        this.users = response.data.data
       });
       CommunityApi.getCompanies().then(response => this.companies = response.data)
       TagApi.getTags().then(response => this.tags = response.data)

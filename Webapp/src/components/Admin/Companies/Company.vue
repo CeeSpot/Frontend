@@ -29,7 +29,7 @@
     },
     mounted() {
         CommunityApi.getCompany(this.$route.params.id).then(response => {
-            this.company = response.data.message[0];
+            this.company = response.data.data[0];
         })
     }
   }
