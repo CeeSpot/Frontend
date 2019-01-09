@@ -45,7 +45,7 @@
                 <b-card
                         :key="user.id"
                         :title="fullName(user.first_name, user.insertions, user.last_name)"
-                        img-src="https://picsum.photos/600/300/?image=25"
+                        img-src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
                         img-alt="Image"
                         img-top
                         tag="article"
@@ -61,7 +61,7 @@
                 <b-card
                         :key="company.id"
                         :title="company.name"
-                        img-src="https://picsum.photos/600/300/?image=25"
+                        img-src="https://images.unsplash.com/photo-1525904971217-668a1229f701?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
                         img-alt="Image"
                         img-top
                         tag="article">

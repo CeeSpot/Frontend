@@ -19,7 +19,7 @@
                    src="https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg"
                    width="30"></b-img>
           </b-nav-item>
-          <b-nav-item v-if="typeof user === 'undefined' || user === null" right href="/lr">User</b-nav-item>
+          <b-nav-item class="white-txt" v-if="typeof user === 'undefined' || user === null" right href="/lr">User</b-nav-item>
           <!--<b-nav-item v-if="typeof user !== 'undefined' && user !== null" right href="/account">{{user.first_name}} {{user.last_name}}</b-nav-item>-->
 
           <b-nav-item-dropdown v-if="typeof user !== 'undefined' && user !== null" right>
