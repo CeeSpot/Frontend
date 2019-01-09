@@ -1,27 +1,30 @@
 <template>
     <b-container class="p-3 container-margin">
         <b-row style="height: 40px;">
-            <b-col xs="6">
-                <div v-if="showCalendar">
+            <b-col xs="6" v-if="showCalendar">
                 <b-button style="background-color: white; color: black; height: 30px; line-height: 15px;"
-                          v-on:click="fireMethodCalendar('prev')">
+                        v-on:click="fireMethodCalendar('prev')">
                     <font-awesome-icon icon="chevron-left"/>
                 </b-button>
                 <b-button style="background-color: white; color: black; height: 30px; line-height: 15px;"
-                          v-on:click="fireMethodCalendar('next')">
+                        v-on:click="fireMethodCalendar('next')">
                     <font-awesome-icon icon="chevron-right"/>
                 </b-button>
                 <span class="header-title">{{headerTitle}}</span>
-                </div>
-                <div v-else>
-                    <b-input-group class="form-group-search">
-                        <b-form-input v-model="search" :placeholder="$t('events.search')"
-                                      class="form-control"></b-form-input>
-                        <span class="form-control-icon">
-                            <font-awesome-icon icon="search" class="search-color"/>
-                        </span>
-                    </b-input-group>
-                </div>
+            </b-col>
+            <b-col xs="6" v-else>
+                <b-row>
+                    <b-col md="8">
+                        <b-input-group class="form-group-search">
+                            <b-form-input v-model="search" :placeholder="$t('events.search')"
+                                            class="form-control"></b-form-input>
+                            <span class="form-control-icon">
+                                <font-awesome-icon icon="search" class="search-color"/>
+                            </span>
+                        </b-input-group>
+                    </b-col>
+                </b-row>
+               
             </b-col>
             <b-col xs="6" class="text-right">
                 <div class="toggle">
@@ -78,7 +81,8 @@
           {
             events(start, end, timezone, callback) {
               eventApi.getEvents().then(response => {
-                callback(response.data.message)
+                  console.log(response.data.data);
+                callback(response.data.data)
               })
             }
           }
@@ -102,7 +106,7 @@
       this.$root.$on('toggleLocaleCalendar', (locale) => {
           this.toggleLocale(locale);
       });
-      eventApi.getEvents().then(response => this.events = response.data.message);
+      eventApi.getEvents().then(response => this.events = response.data.data);
     },
     methods: {
       eventSelected(event, jsEvent, view) {

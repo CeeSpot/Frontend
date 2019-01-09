@@ -31,21 +31,6 @@
         </b-form-group>
       </b-col>
     </b-row>
-    <!--<b-form-group id="exampleInputGroup3"-->
-    <!--label="Food:"-->
-    <!--label-for="exampleInput3">-->
-    <!--<b-form-select id="exampleInput3"-->
-    <!--:options="foods"-->
-    <!--required-->
-    <!--v-model="form.food">-->
-    <!--</b-form-select>-->
-    <!--</b-form-group>-->
-    <!--<b-form-group id="exampleGroup4">-->
-    <!--<b-form-checkbox-group v-model="form.checked" id="exampleChecks">-->
-    <!--<b-form-checkbox value="me">Check me out</b-form-checkbox>-->
-    <!--<b-form-checkbox value="that">Check that out</b-form-checkbox>-->
-    <!--</b-form-checkbox-group>-->
-    <!--</b-form-group>-->
     <b-row>
       <b-col md="10" offset-md="1">
         <b-button type="submit" variant="primary">Submit</b-button>
@@ -93,22 +78,12 @@
               this.$store.commit('updateToken', response.data.token);
               location.href = '/';
             }else{
-              this.loginFailedMessage = response.data.message;
+              this.loginFailedMessage = response.data.data;
             }
           })
           .catch((error) => {
-            this.loginFailedMessage = error.data.message;
+            this.loginFailedMessage = error.data.data;
           });
-//        auth.login(this.form).then((resp) => {
-//          console.log(resp.data);
-//          if (resp.data.success) {
-//            Emitter.$emit('tokenReceived', resp.data.token);
-//          } else {
-//            this.loginFailedMessage = resp.data.message;
-//          }
-//        }).catch((resp) => {
-//          this.loginFailedMessage = resp.data.message;
-//        });
       }
     }
   }

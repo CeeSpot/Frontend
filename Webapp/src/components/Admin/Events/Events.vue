@@ -95,7 +95,7 @@
       }
     },
     mounted() {
-      EventApi.getEvents().then(response => this.events = response.data.message)
+      EventApi.getEvents().then(response => this.events = response.data.data)
     }
   }
 </script>

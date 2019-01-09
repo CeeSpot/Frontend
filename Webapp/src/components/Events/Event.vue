@@ -4,7 +4,8 @@
       <b-container>
         <b-row>
           <b-col md="2">
-            <b-img rounded="circle" width="200" height="200" class="image-border" src="https://www.theceespot.nl/img/school-of-AI-simply-scaled-640.jpg"></b-img>
+            <b-img rounded="circle" width="200" height="200" class="image-border"
+                   src="https://www.theceespot.nl/img/school-of-AI-simply-scaled-640.jpg"></b-img>
           </b-col>
           <b-col md="9" class="text-white ml-5">
             <b-row>
@@ -17,7 +18,7 @@
             <b-row>
               <b-col md="12">
                 <h4 class="text-white">
-                {{changeDateFormat(event.start,true)}} - {{changeDateFormat(event.end)}}
+                  {{changeDateFormat(event.start, true)}} - {{changeDateFormat(event.end)}}
                 </h4>
               </b-col>
             </b-row>
@@ -33,69 +34,74 @@
     <b-row style="margin-top: -80px;">
       <b-container>
         <b-row>
-            <b-col md="7">
-                <b-card class="no-scale">
-                    {{event.description}}
-                </b-card>
-            </b-col>
-            <b-col>
-                <b-card class="no-scale">
-                    <b-row>
-                        <b-col>
-                            <ins class="font-weight-bold">@ {{event.location_name}}</ins>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                             <span>{{event.location_street}} {{event.location_number}} {{event.location_number_suffix}}</span>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                             <span>{{event.location_postalcode}}</span>
-                        </b-col>
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                             <span>{{event.location_city}}</span>
-                        </b-col>
-                    </b-row>
-                    <b-row class="mt-2">
-                        <b-col class="text-center">
-                            <button disabled v-if="user === null" type="button" style="width:100%;"
-                                    class="btn btn-ceecee-red text-center">
-                                {{$t('event.login-to-join')}}
-                            </button>
-                            <button v-if="user !== null && user_attend === false" type="button" style="width:100%;"
-                                    class="btn btn-ceecee-red text-center" v-on:click="signUpEvent()">
-                                {{$t('event.join')}}
-                            </button>
-                            <button v-if="user !== null && user_attend === true" type="button" style="width:100%;"
-                                    class="btn btn-ceecee-red text-center" v-on:click="removeUserEvent()">
-                                {{$t('event.unsubscribe')}}
-                            </button>
-                    </b-col>
-                    </b-row>
-                </b-card>
-            </b-col>
+          <b-col md="7">
+            <b-card class="no-scale">
+              {{event.description}}
+            </b-card>
+          </b-col>
+          <b-col>
+            <b-card class="no-scale">
+              <b-row>
+                <b-col>
+                  <ins class="font-weight-bold">@ {{event.location_name}}</ins>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <span>{{event.location_street}} {{event.location_number}} {{event.location_number_suffix}}</span>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <span>{{event.location_postalcode}}</span>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <span>{{event.location_city}}</span>
+                </b-col>
+              </b-row>
+              <b-row class="mt-2">
+                <b-col class="text-center">
+                  <button disabled v-if="user === null" type="button" style="width:100%;"
+                          class="btn btn-ceecee-red text-center">
+                    {{$t('event.login-to-join')}}
+                  </button>
+                  <button v-if="user !== null && user_attend === false" type="button" style="width:100%;"
+                          class="btn btn-ceecee-red text-center" v-on:click="signUpEvent()">
+                    {{$t('event.join')}}
+                  </button>
+                  <button v-if="user !== null && user_attend === true" type="button" style="width:100%;"
+                          class="btn btn-ceecee-red text-center" v-on:click="removeUserEvent()">
+                    {{$t('event.unsubscribe')}}
+                  </button>
+                </b-col>
+              </b-row>
+            </b-card>
+          </b-col>
         </b-row>
         <b-row v-if="event.show_attendees">
-            <b-col>
-                 <b-card class="no-scale">
-                     <b-row class="text-center">
-                         <b-col>
-                            <ul>
-                                <li v-for="participant in participants">
-                                    <b-img rounded="circle" v-b-tooltip.hover :title="fullName(participant.first_name, participant.insertions, participant.last_name)"
-                                     class="image-profile-chips" width="100" height="100"
-                                     src="https://images.pexels.com/photos/555790/pexels-photo-555790.png?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-                                     </b-img>
-                                </li>
-                            </ul>
-                        </b-col>
-                     </b-row>
-                 </b-card>
-            </b-col>
+          <b-col>
+            <b-card class="no-scale">
+              <b-row class="text-center">
+                <b-col v-if="participants.length === 0">
+                  Er hebben zich nog geen gebruikers aangemeld voor dit event
+                </b-col>
+                <b-col>
+
+                  <ul>
+                    <li v-for="participant in participants">
+                      <b-img rounded="circle" v-b-tooltip.hover
+                             :title="fullName(participant.first_name, participant.insertions, participant.last_name)"
+                             class="image-profile-chips" width="100" height="100"
+                             src="https://images.pexels.com/photos/555790/pexels-photo-555790.png?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                      </b-img>
+                    </li>
+                  </ul>
+                </b-col>
+              </b-row>
+            </b-card>
+          </b-col>
         </b-row>
       </b-container>
     </b-row>
@@ -114,82 +120,82 @@
     name: 'Event',
     data() {
       return {
-          event: [],
-          participants: [],
-          user: [],
-          user_attend: false
+        event: [],
+        participants: [],
+        user: [],
+        user_attend: false
       }
     },
     created() {
-        this.id = this.$route.params.id;
+      this.id = this.$route.params.id;
     },
     mounted() {
-        this.getEvent();
+      this.getEvent();
     },
     methods: {
-        changeDateFormat(dateString, start){
-            if(dateString && start){
-                return moment(String(dateString)).format('hh:mm')
-            } else {
-                return moment(String(dateString)).format('hh:mm @ MM MMMM YYYY')
-            }
-        },
-        getEvent(){
-            eventApi.getEvent(this.id).then(response => {
-                this.event = response.data.message;
-                this.user = this.$store.getters.getUser;
-                if(this.event.show_attendees){
-                this.participants = response.data.message.participants;
-                        if(this.user){
-                            this.participants.forEach(participant => {
-                                if(participant.id === this.user.id){
-                                    this.user_attend = true;
-                                }
-                            });
-                        }
+      changeDateFormat(dateString, start) {
+        if (dateString && start) {
+          return moment(String(dateString)).format('hh:mm')
+        } else {
+          return moment(String(dateString)).format('hh:mm @ MM MMMM YYYY')
+        }
+      },
+      getEvent() {
+        eventApi.getEvent(this.id).then(response => {
+          this.event = response.data.data;
+          this.user = this.$store.getters.getUser;
+          if (this.event.show_attendees) {
+            this.participants = response.data.data.participants;
+            if (this.user) {
+              this.participants.forEach(participant => {
+                if (participant.id === this.user.id) {
+                  this.user_attend = true;
                 }
-            });
-        },
-        fullName(first_name, insertion, last_name) {
-            let full_name;
-            if(insertion){
-                full_name = first_name + ' ' + insertion + ' ' + last_name;
-            } else {
-                full_name = first_name + ' ' + last_name;
+              });
             }
-            return full_name;
-        },
-         signUpEvent() {
-            let data = {event_id: this.event.id};
-            eventApi.addUserEvent(data).then(response => {
-            this.participants.push(this.user);
-            this.user_attend = true;
-            });
-           this.$toasted.show('Succesfully signed up',
-             {
-               position: "bottom-center",
-               duration : 5000
-             }
-           );
-         },
-        removeUserEvent() {
-            let data = {
-            data:
-                {
-                event_id: this.event.id
-                }
-            };
-            eventApi.removeUserEvent(data).then(response => {
-                this.participants.splice(this.user,1);
-                this.user_attend = false;
-                this.$toasted.show('Succesfully unsubscribed',
-                  {
-                    position: "bottom-center",
-                    duration : 5000
-                  }
-                );
-            });
-        },
+          }
+        });
+      },
+      fullName(first_name, insertion, last_name) {
+        let full_name;
+        if (insertion) {
+          full_name = first_name + ' ' + insertion + ' ' + last_name;
+        } else {
+          full_name = first_name + ' ' + last_name;
+        }
+        return full_name;
+      },
+      signUpEvent() {
+        let data = {event_id: this.event.id};
+        eventApi.addUserEvent(data).then(response => {
+          this.participants.push(this.user);
+          this.user_attend = true;
+        });
+        this.$toasted.show('Succesfully signed up',
+          {
+            position: "bottom-center",
+            duration: 5000
+          }
+        );
+      },
+      removeUserEvent() {
+        let data = {
+          data:
+            {
+              event_id: this.event.id
+            }
+        };
+        eventApi.removeUserEvent(data).then(response => {
+          this.participants.splice(this.user, 1);
+          this.user_attend = false;
+          this.$toasted.show('Succesfully unsubscribed',
+            {
+              position: "bottom-center",
+              duration: 5000
+            }
+          );
+        });
+      },
     }
   }
 </script>
@@ -201,21 +207,21 @@
   }
 
   .image-border {
-        border:2px solid #E60000;
+    border: 2px solid #E60000;
   }
 
   .image-profile-chips {
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   }
 
   ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
 
-    li {
-        float: left;
-        margin: 15px;
-    }
+  li {
+    float: left;
+    margin: 15px;
+  }
 </style>
