@@ -13,7 +13,7 @@
     props: ['firstcol', 'secondcol', 'target'],
     methods: {
         navigateTo(target){
-            this.$router.push(target)
+            this.$router.push({ path: target })
         }
     },
   }

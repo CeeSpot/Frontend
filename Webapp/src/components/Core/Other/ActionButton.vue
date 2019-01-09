@@ -1,11 +1,14 @@
 <template>
-<button class="fab" v-bind:class="color">{{icon}}</button>
+    <button
+    v-bind:class="[{ 'fab-fixed': fixed }, color, 'fab']">
+       <font-awesome-icon :icon="icon"/>
+    </button>
 </template>
 
 <script>
   export default {
     name: "action-button",
-    props: ['color', 'icon']
+    props: ['color', 'icon', 'fixed']
   }
 </script>
 
@@ -20,12 +23,15 @@
     margin: auto;
     -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
     box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    cursor: pointer;
+}
+
+.fab-fixed{
     position: fixed;
     bottom: 0;
     right: 0;
     margin-bottom: 20px;
     margin-right: 20px;
-    cursor: pointer;
 }
 
 .red{

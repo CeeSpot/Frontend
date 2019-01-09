@@ -1,5 +1,19 @@
 <template>
     <b-container style="margin-top: 150px;">
+    <b-col cols="4" class="text-center" offset="4" style="margin-bottom: 20px;">
+    <action-button 
+        color="red" 
+        icon="save" 
+        :fixed="false"
+        v-on:click.native="updateEvent"></action-button>
+    <action-button 
+        color="red" 
+        icon="trash" 
+        :fixed="false"
+        v-on:click.native="deleteEvent"
+        style="margin-left: 15px;"></action-button>
+
+    </b-col>
     <b-row>
     <b-col cols="6">
     <b-card class="no-scale" title="General info">
@@ -37,9 +51,6 @@
     </b-card>
     </b-col>
     </b-row>
-    <button class="fab red" v-on:click="updateEvent">
-        <font-awesome-icon style="cursor: pointer;" icon="save" class="save"/>
-    </button>
     </b-container>
 </template>
 
@@ -68,9 +79,9 @@
             return moment(date).format('DD-MM-YYYY')
       },
       deleteEvent(event){
-          let data = {data: {event_id: event.id}}
+          let data = {data: {event_id: this.event.id}}
           AdminEventApi.deleteEvent(data).then(response => {
-              this.events = this.events.filter(e => e.id != event.id);
+              this.$router.push({ path: '/admin/events' });
           });
       },
       deleteUser(user_id){
@@ -124,29 +135,4 @@
         background-color: #E60000;
         color: white;
     }
-    .fab {
-    border: none;
-    font-size: 22px;
-    color: white;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    margin: auto;
-    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
-    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    cursor: pointer;
-}
-
-.red{
-    background: #E60000;
-}
-
-.red:hover{
-    background: #FF2C2C;
-}
 </style>

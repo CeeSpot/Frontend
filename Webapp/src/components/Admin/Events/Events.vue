@@ -11,7 +11,7 @@
                 </b-row>
             </b-col>
         </b-row>
-        <action-button color="red" icon="+" v-b-modal.newevent></action-button>
+        <action-button color="red" :fixed="true" icon="plus" v-b-modal.newevent></action-button>
         <!-- Modal Component -->
     <b-modal ref="newEventModal" hide-footer id="newevent" title="Nieuw evenement">
         <b-form-input class="mb15" v-model="newEventTitle" type="text" placeholder="Titel"></b-form-input>
