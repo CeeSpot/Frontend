@@ -1,49 +1,34 @@
 <template>
     <b-container style="margin-top: 150px;">
-    <b-row>
-            <admin-menu v-bind:active="active"></admin-menu>
-            <b-col md="8">
-                <b-row v-for="company in companies" class="user-list-item">
-                <AdminCard 
-                    :firstcol="company.name"
-                    :secondcol="company.name" 
-                    :target="'/admin/companies/' + company.id"></AdminCard>
-                </b-row>
-            </b-col>
-        </b-row>
+    
     </b-container>
 </template>
 
 <script>
   import AdminMenu from '@/components/Admin/AdminMenu'
   import CommunityApi from '@/services/api/community.js'
-  import TagApi from '@/services/api/tags.js'
+  //import AdminEventApi from '@/services/api/admin/events.js'
+  import moment from 'moment'
   import ActionButton from '@/components/Core/Other/ActionButton'
-  import AdminCard from '@/components/Core/Other/AdminCard'
 
   export default {
-    name: "companies",
+    name: "user",
     components: {
       AdminMenu,
-      ActionButton,
-      AdminCard
+      ActionButton
     },
     data() {
       return {
-        active: "Companies",
-        companies: []
+          user: {}
       }
     },
     methods: {
         formatDate(date) {
             return moment(date).format('DD-MM-YYYY')
-      },
-      openDetailPage(id) {
-          this.$router.push('/admin/companies/' + id);
       }
     },
     mounted() {
-        CommunityApi.getCompanies().then(response => this.companies = response.data)
+      console.log(this.$route.params.id);
     }
   }
 </script>
@@ -68,4 +53,29 @@
         background-color: #E60000;
         color: white;
     }
+    .fab {
+    border: none;
+    font-size: 22px;
+    color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin: auto;
+    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, .3);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.red{
+    background: #E60000;
+}
+
+.red:hover{
+    background: #FF2C2C;
+}
 </style>

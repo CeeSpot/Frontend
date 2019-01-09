@@ -17,7 +17,8 @@ import Profile from '@/components/UserProfile/Profile'
 import Settings from '@/components/UserProfile/Settings'
 
 // Admin
-import Users from '@/components/Admin/Users'
+import AdminUsers from '@/components/Admin/Users/Users'
+import AdminUser from '@/components/Admin/Users/User'
 import AdminEvents from '@/components/Admin/Events/Events'
 import AdminEvent from '@/components/Admin/Events/Event'
 import AdminCompanies from '@/components/Admin/Companies/Companies'
@@ -87,7 +88,12 @@ export default new Router({
     {
       path: '/admin/users',
       name: 'Users',
-      component: Users
+      component: AdminUsers
+    },
+    {
+      path: '/admin/users/:id',
+      name: 'User',
+      component: AdminUser
     },
     {
       path: '/admin/events',
