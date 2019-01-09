@@ -23,8 +23,7 @@
                               label-for="insertions">
                     <b-form-input id="insertions"
                                   type="text"
-                                  v-model="form.insertions"
-                                  required>
+                                  v-model="form.insertions">
                     </b-form-input>
                 </b-form-group>
             </b-col>

@@ -29,6 +29,15 @@
                 {{user.description}}
               </b-col>
             </b-row>
+            <b-row class="mt-3">
+              <b-col class="opacity-text-8" md="12">
+                <b-link v-for="site in user.social_media_sites" class="social-media-link" v-bind:href="site.url.includes('https://') ? site.url : 'https://' + site.url" target="_blank">
+                  <font-awesome-icon :icon="{ prefix: 'fab', iconName: site.site }"></font-awesome-icon>
+                </b-link>
+
+                <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}" v-b-modal.AddSocialMediaModal></font-awesome-icon>
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
       </b-container>
@@ -321,77 +330,7 @@
         </b-row>
       </b-container>
     </b-row>
-
-    <!--<b-container style="margin-top: -50px;">-->
-    <!--<b-row>-->
-    <!--<user-menu v-bind:active="active"></user-menu>-->
-    <!--<b-col md="8" class="card no-scale pt-3">-->
-    <!--<h2>Profile settings</h2>-->
-    <!--<p>-->
-    <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic, nesciunt, quidem. Ab autem-->
-    <!--consectetur, cumque cupiditate doloribus dolorum ea est, ipsa iste praesentium quaerat quos ratione-->
-    <!--saepe suscipit ullam. Ullam.-->
-    <!--</p>-->
-    <!--<h4>Picture</h4>-->
-    <!--<b-form-file-->
-    <!--v-model="file"-->
-    <!--ref="fileinput"-->
-    <!--&gt;</b-form-file>-->
-    <!--<small>Pictures with the jpg or png extension</small>-->
-    <!--<hr/>-->
-    <!--<h4>Description</h4>-->
-    <!--<b-form-group-->
-    <!--id="desc"-->
-    <!--label="Enter a description about yourself"-->
-    <!--label-for="desc"-->
-    <!--&gt;-->
-    <!--<b-form-textarea id="desc" :rows="6"></b-form-textarea>-->
-    <!--<hr/>-->
-
-    <!--</b-form-group>-->
-    <!--<h4>Tags</h4>-->
-    <!--<b-row>-->
-    <!--<b-col class="text-center">-->
-    <!--<tag id="0" name="PHP"></tag>-->
-    <!--<tag id="1" name="MySQL"></tag>-->
-    <!--<tag id="2" name="Front-end"></tag>-->
-    <!--<tag id="3" name="Vue.js"></tag>-->
-    <!--<tag id="4" name="Angular"></tag>-->
-    <!--<tag id="5" name="Laravel"></tag>-->
-    <!--<tag id="6" name="UX"></tag>-->
-    <!--<tag id="7" name="UI"></tag>-->
-    <!--<tag id="8" name="Graphic design"></tag>-->
-    <!--<tag id="9" name="React"></tag>-->
-    <!--</b-col>-->
-    <!--</b-row>-->
-    <!--<hr/>-->
-
-    <!--<h4>Name</h4>-->
-    <!--<small>Your name will be publicly shown.</small>-->
-    <!--<b-form-group-->
-    <!--id="firstname"-->
-    <!--label="First name"-->
-    <!--label-for="firstname"-->
-    <!--&gt;-->
-    <!--<b-form-input id="firstname"></b-form-input>-->
-    <!--</b-form-group>-->
-    <!--<b-form-group-->
-    <!--id="insertion"-->
-    <!--label="Insertion"-->
-    <!--label-for="insertion"-->
-    <!--&gt;-->
-    <!--<b-form-input id="insertion"></b-form-input>-->
-    <!--</b-form-group>-->
-    <!--<b-form-group-->
-    <!--id="lastname"-->
-    <!--label="Last name"-->
-    <!--label-for="lastname"-->
-    <!--&gt;-->
-    <!--<b-form-input id="lastname"></b-form-input>-->
-    <!--</b-form-group>-->
-    <!--</b-col>-->
-    <!--</b-row>-->
-    <!--</b-container>-->
+    <social-media-modal v-bind:sites="socialMediaSites" v-bind:smrs="user.social_media_sites" v-bind:resourceId="user.id" v-bind:type="type"></social-media-modal>
   </b-container>
 </template>
 
@@ -400,17 +339,22 @@
   import Tag from '@/components/Core/Other/Tag'
   import CommunityApi from '@/services/api/community.js'
   import auth from '@/services/api/Authentication.js'
+  import socialMediaModal from '@/components/Core/Modals/AddSocialMediaModal'
 
   export default {
     name: "user-profile",
     components: {
       UserMenu,
-      Tag
+      Tag,
+      socialMediaModal
     },
     data() {
       return {
         active: "Profile",
         user: null,
+        testStuff: null,
+        type: -22,
+        socialMediaSites: null,
         contactInfoEditting: false,
         personalInfoEditting: false,
         accountInfoEditting: false,
@@ -441,19 +385,32 @@
         }).catch((err) => {
           alert(err.message);
         });
+      },
+      compare(resourceSocialMediaSites, socialMediaSites){
+        let ids = [];
+        resourceSocialMediaSites.forEach((i) => ids.push(i.social_media_id));
+        this.socialMediaSites = socialMediaSites.filter(function(item){
+          return ids.indexOf(item.id) === -1;
+        });
+      },
+      getProfile() {
+        CommunityApi.getProfile().then(response => {
+          if (!response.data.success) {
+            this.$store.dispatch('logout');
+          }
+          this.user = response.data.user;
+          this.compare(response.data.user.social_media_sites,response.data.sites);
+          this.type = response.data.type;
+        }).catch((err) => {
+          this.$store.dispatch('logout');
+        });
       }
-
     },
     mounted() {
+      this.getProfile();
 
-      CommunityApi.getProfile().then(response => {
-        console.log(response);
-        if (!response.data.success) {
-          this.$store.dispatch('logout');
-        }
-        this.user = response.data.user
-      }).catch((err) => {
-        this.$store.dispatch('logout');
+      Emitter.$on('updatedSocialMediaSiteForUser', () => {
+        this.getProfile();
       });
     }
   }
@@ -480,5 +437,18 @@
   .text-primary.edit:hover {
     cursor: pointer;
     color: #005bbc !important;
+  }
+  .social-media-link{
+    color: #7dacff;
+    font-size: 25px;
+    transition: 250ms;
+    margin-left: 15px;
+  }
+  .social-media-link:first-of-type{
+    margin-left: 0;
+  }
+  .social-media-link:hover{
+    color: #6c94dc;
+    cursor: pointer;
   }
 </style>

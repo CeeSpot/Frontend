@@ -96,7 +96,7 @@
     },
     mounted() {
       EventApi.getEvent(this.$route.params.id).then(response => {
-          this.event = response.data.message;
+          this.event = response.data.data;
           this.start = moment(this.event.start).format('YYYY-MM-DD HH:mm');
           this.end = moment(this.event.end).format('YYYY-MM-DD HH:mm');
       })

@@ -131,3 +131,7 @@ body{
     padding: 0rem;
     opacity: 1;
 }
+
+.dropdown-toggle::after{
+  color: #fff !important;
+}
