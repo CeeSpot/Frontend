@@ -13,7 +13,7 @@
           <b-nav-item href="/spaces">Spaces</b-nav-item>
           <b-nav-item href="/events">Events</b-nav-item>
           <b-nav-item href="/community">Community</b-nav-item>
-          <b-nav-item href="/blog">Blog</b-nav-item>
+          <b-nav-item href="/blogs">Blogs</b-nav-item>
           <b-nav-item href="/contact">Contact</b-nav-item>
           <b-nav-item href="#">
             <b-img id="language-img" v-on:click="switchLanguage()"
