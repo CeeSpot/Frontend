@@ -12,15 +12,17 @@
         </b-col>
       </b-row>
       <b-row class="mt-3">
-          <b-col md="4" v-for="blog in blogs">
+          <b-col md="4" v-for="blog in blogList">
               <b-card
                       :title="blog.title"
                       img-src="https://images.pexels.com/photos/1496183/pexels-photo-1496183.jpeg?cs=srgb&dl=adult-article-assortment-1496183.jpg&fm=jpg"
-                      img-top
-                      tag="event">
+                      img-top>
                   <p class="card-text description">
                       {{blog.description}}
                   </p>
+                              <div slot="footer">
+                <small class="text-muted">{{formatDate(blog.date_created)}}</small>
+            </div>
               </b-card>
           </b-col>
       </b-row>
@@ -29,17 +31,29 @@
 <script>
 import Vue from 'vue'
 import blogApi from '@/services/api/blogs.js'
+import moment from 'moment'
   export default {
     name: 'Blogs',
     data() {
       return {
-        blogs: []
+        blogs: [],
+        search: ''
       }
     },
     methods: {
+      formatDate(date) {
+            return moment(date).format('MMMM DD, YYYY')
+      }
     },
     mounted() {
        blogApi.getBlogs().then(response => this.blogs = response.data.data);
+    },
+    computed: {
+        blogList() {
+            return this.blogs.filter(blog => {
+                return blog.title.toLowerCase().includes(this.search.toLowerCase())
+            })
+        }
     }
   }
 </script>
@@ -76,5 +90,10 @@ import blogApi from '@/services/api/blogs.js'
      display: -webkit-box;
      -webkit-line-clamp: 3;
      -webkit-box-orient: vertical;
+    }
+
+    .card-title {
+        font-weight: bold;
+        font-size: 22px;
     }
 </style>

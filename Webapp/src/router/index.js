@@ -8,7 +8,8 @@ import Events from '@/components/Events/Events' // Events base page
 import Event from '@/components/Events/Event' // Event base page
 import Contact from '@/components/Contact/Contact' // Contact base page
 import User from '@/components/Community/User'
-import Blog from '@/components/Blog/Blogs' // Community base page
+import Blogs from '@/components/Blog/Blogs' // Community base page
+import Blog from '@/components/Blog/Blog' // Community base page
 
 //Authentication
 import Register from '@/components/Core/Authentication/RegisterAndLogin'
@@ -114,7 +115,12 @@ export default new Router({
     {
       path: '/blogs',
       name: 'Blogs',
+      component: Blogs
+    },
+    {
+      path: '/blog/:id',
+      name: 'Blog',
       component: Blog
-    }
+    },
   ]
 })
