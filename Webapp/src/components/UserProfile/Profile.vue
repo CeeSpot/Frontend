@@ -251,7 +251,7 @@
                       <b style="padding-left: 5px;">Password</b>
                     </b-col>
                     <b-col style="padding-left: 45px;">
-                      <span class="text-primary edit" v-on:click="editPassword()">Change password</span>
+                      <span class="text-primary edit" v-b-modal.ChangePasswordModal>Change password</span>
                     </b-col>
                   </b-row>
 
@@ -330,7 +330,8 @@
         </b-row>
       </b-container>
     </b-row>
-    <social-media-modal v-bind:sites="socialMediaSites" v-bind:smrs="user.social_media_sites" v-bind:resourceId="user.id" v-bind:type="type"></social-media-modal>
+    <social-media-modal id="addSocialMediaModal" v-bind:sites="socialMediaSites" v-bind:smrs="user.social_media_sites" v-bind:resourceId="user.id" v-bind:type="type"></social-media-modal>
+    <change-password-modal id="changePasswordModal" v-bind:username="user.username" v-bind:userid="user.id"></change-password-modal>
   </b-container>
 </template>
 
@@ -340,13 +341,15 @@
   import CommunityApi from '@/services/api/community.js'
   import auth from '@/services/api/Authentication.js'
   import socialMediaModal from '@/components/Core/Modals/AddSocialMediaModal'
+  import changePasswordModal from '@/components/Core/Modals/ChangePasswordModal'
 
   export default {
     name: "user-profile",
     components: {
       UserMenu,
       Tag,
-      socialMediaModal
+      socialMediaModal,
+      changePasswordModal
     },
     data() {
       return {

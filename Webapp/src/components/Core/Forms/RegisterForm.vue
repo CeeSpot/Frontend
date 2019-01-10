@@ -166,7 +166,7 @@
             },
             checkEmail: function(event) {
                 if(this.validateEmail(this.form.email)){
-                    this.emailCorrectColor = '#28a745';
+                    this.emailCorrectColor = '#ced4da';
                     this.emailCorrect = true;
                 }else{
                     this.emailCorrectColor = '#bd2130';
