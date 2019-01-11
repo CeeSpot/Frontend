@@ -16,45 +16,44 @@
       </b-row>
     </div>
 
+    <b-row>
+      <b-col>
+        <b-alert show variant="danger" v-if="passwordChangedMessage.length > 0">{{passwordChangedMessage}}</b-alert>
+      </b-col>
+    </b-row>
     <b-form @submit="onSubmit">
-
       <b-form-group label="Password" label-for="password">
         <b-form-input id="password"
                       type="password"
                       v-model="form.password">
         </b-form-input>
       </b-form-group>
-        
       <b-form-group label="New password" label-for="newPassword">
-        <b-form-input v-on:keyup.native="passwordsMatch"  
+        <b-form-input v-on:keyup.native="passwordsMatch"
                       id="newPassword"
                       type="password"
                       v-model="form.newPassword">
         </b-form-input>
       </b-form-group>
-
       <b-form-group label="Repeat new password" label-for="repeatNewPassword">
-        <b-form-input v-on:keyup.native="passwordsMatch" 
+        <b-form-input v-on:keyup.native="passwordsMatch"
                       id="repeatNewPassword"
                       type="password"
                       v-bind:style="{borderColor: passwordsMatchColor}"
                       v-model="form.repeatNewPassword">
         </b-form-input>
         <small id="passwordGroup__BV_description_" class="form-text">
-            <span v-if="passwordMatch" class="text-success">Passwords match</span>
-            <span v-if="!passwordMatch && passwordMatch != null" class="text-danger">Passwords do not match</span>
+          <span v-if="passwordMatch" class="text-success">Passwords match</span>
+          <span v-if="!passwordMatch && passwordMatch != null" class="text-danger">Passwords do not match</span>
         </small>
-        
       </b-form-group>
-        
-
     </b-form>
 
     <footer slot="modal-footer">
       <b-row>
         <b-col>
           <b-btn variant="secondary" v-on:click="closeModal">Cancel</b-btn>
-          <b-btn variant="primary" v-on:click="saveSocialMedia">Save</b-btn>
+          <b-btn variant="primary" v-on:click="onSubmit">Save</b-btn>
         </b-col>
       </b-row>
     </footer>
@@ -62,47 +61,63 @@
 </template>
 
 <script>
-  import socialMediaApi from '@/services/api/SocialMedia.js';
+import auth from '@/services/api/Authentication.js'
 
-  export default {
-    name: 'ChangePasswordModal',
-    data() {
-      return {
-        name: 'ChangePasswordModal',
-        url: '',
-        form : {
-          password: '',
-          newPassword: '',
-          repeatNewPassword: ''
-        },
-
-        passwordMatch: null,
-        passwordsMatchColor: '#ced4da',
-        selected: -1
+export default {
+  name: 'ChangePasswordModal',
+  data () {
+    return {
+      name: 'ChangePasswordModal',
+      url: '',
+      form: {
+        password: '',
+        newPassword: '',
+        repeatNewPassword: ''
+      },
+      passwordChangedMessage: '',
+      passwordMatch: null,
+      passwordsMatchColor: '#ced4da',
+      selected: -1
+    }
+  },
+  methods: {
+    closeModal () {
+      this.$refs.ChangePasswordModal.hide()
+    },
+    onSubmit (evt) {
+      if (this.passwordMatch) {
+        auth.changePassword(this.form).then((data) => {
+          if (data.data.success === true) {
+            this.$refs.ChangePasswordModal.hide()
+            Emitter.$emit('passwordChanged', data.data.token)
+          } else {
+            this.passwordChangedMessage = data.data.data
+          }
+          this.form.password = ''
+          this.form.newPassword = ''
+          this.form.repeatNewPassword = ''
+          this.passwordsMatchColor = '#ced4da'
+          this.passwordMatch = null
+        }).catch((err) => {
+          alert(JSON.stringify(err))
+          this.passwordChangedMessage = err.data
+        })
+      } else {
+        this.passwordChangedMessage = 'New passwords must match'
       }
     },
-    methods: {
-      closeModal() {
-        this.$refs.ChangePasswordModal.hide()
-      },
-      onSubmit(evt) {
-        evt.preventDefault();
-      },
-      saveSocialMedia(evt) {
-
-      },
-      passwordsMatch: function(event) {
-          if(this.form.newPassword===this.form.repeatNewPassword){
-              this.passwordsMatchColor = '#28a745';
-              this.passwordMatch = true;
-          }else{
-              this.passwordsMatchColor = '#bd2130';
-              this.passwordMatch = false;
-          }
-      },
-    },
-    props: ['username', 'userid']
-  }
+    passwordsMatch: function (event) {
+      if (this.form.newPassword === this.form.repeatNewPassword) {
+        this.passwordsMatchColor = '#28a745'
+        this.passwordMatch = true
+      } else {
+        this.passwordsMatchColor = '#bd2130'
+        this.passwordMatch = false
+      }
+    }
+  },
+  props: ['username', 'userid']
+}
 </script>
 
 <style>

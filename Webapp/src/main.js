@@ -43,6 +43,8 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' // Imports the font awesome core js
 
+import Toasted from 'vue-toasted' // Toast messages
+
 library.add(faChevronDown);
 library.add(faCoffee); // add svg icons to the library
 library.add(fab); // Add the brand icons to the library
@@ -158,6 +160,7 @@ Vue.i18n.add('en', translationsENJSON);
 Vue.i18n.add('nl', translationsNLJSON);
 
 Vue.i18n.set('en');
+Vue.use(Toasted)
 
 /* eslint-disable no-new */
 window.App = new Vue({

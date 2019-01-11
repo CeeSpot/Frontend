@@ -20,6 +20,13 @@ export default {
       headers: {
         'x-access-token': store.state.jwt
       }
-    });
+    })
+  },
+  changePassword (data) {
+    return axios.put('/api/users/changepassword', data, {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
   }
 }

@@ -109,95 +109,91 @@
 </template>
 
 <script>
-  import eventApi from '@/services/api/events.js'
-  import moment from 'moment'
-  import Toasted from 'vue-toasted';
-  import Vue from 'vue'
+import eventApi from '@/services/api/events.js'
+import moment from 'moment'
 
-  Vue.use(Toasted);
-
-  export default {
-    name: 'Event',
-    data() {
-      return {
-        event: [],
-        participants: [],
-        user: [],
-        user_attend: false
+export default {
+  name: 'Event',
+  data() {
+    return {
+      event: [],
+      participants: [],
+      user: [],
+      user_attend: false
+    }
+  },
+  created () {
+    this.id = this.$route.params.id
+  },
+  mounted () {
+    this.getEvent()
+  },
+  methods: {
+    changeDateFormat(dateString, start) {
+      if (dateString && start) {
+        return moment(String(dateString)).format('hh:mm')
+      } else {
+        return moment(String(dateString)).format('hh:mm @ MM MMMM YYYY')
       }
     },
-    created() {
-      this.id = this.$route.params.id;
-    },
-    mounted() {
-      this.getEvent();
-    },
-    methods: {
-      changeDateFormat(dateString, start) {
-        if (dateString && start) {
-          return moment(String(dateString)).format('hh:mm')
-        } else {
-          return moment(String(dateString)).format('hh:mm @ MM MMMM YYYY')
-        }
-      },
-      getEvent() {
-        eventApi.getEvent(this.id).then(response => {
-          this.event = response.data.data;
-          this.user = this.$store.getters.getUser;
-          if (this.event.show_attendees) {
-            this.participants = response.data.data.participants;
-            if (this.user) {
-              this.participants.forEach(participant => {
-                if (participant.id === this.user.id) {
-                  this.user_attend = true;
-                }
-              });
-            }
+    getEvent () {
+      eventApi.getEvent(this.id).then(response => {
+        this.event = response.data.data
+        this.user = this.$store.getters.getUser
+        if (this.event.show_attendees) {
+          this.participants = response.data.data.participants
+          if (this.user) {
+            this.participants.forEach(participant => {
+              if (participant.id === this.user.id) {
+                this.user_attend = true
+              }
+            })
           }
-        });
-      },
-      fullName(first_name, insertion, last_name) {
-        let full_name;
-        if (insertion) {
-          full_name = first_name + ' ' + insertion + ' ' + last_name;
-        } else {
-          full_name = first_name + ' ' + last_name;
         }
-        return full_name;
-      },
-      signUpEvent() {
-        let data = {event_id: this.event.id};
-        eventApi.addUserEvent(data).then(response => {
-          this.participants.push(this.user);
-          this.user_attend = true;
-        });
-        this.$toasted.show('Succesfully signed up',
+      })
+    },
+    fullName (first_name, insertion, last_name) {
+      let full_name
+      if (insertion) {
+        full_name = first_name + ' ' + insertion + ' ' + last_name
+      } else {
+        full_name = first_name + ' ' + last_name
+      }
+      return full_name
+    },
+    signUpEvent () {
+      let data = {event_id: this.event.id}
+      eventApi.addUserEvent(data).then(response => {
+        this.participants.push(this.user)
+        this.user_attend = true
+      })
+      this.$toasted.show('Succesfully signed up',
+        {
+          position: 'bottom-center',
+          duration: 5000
+        }
+      );
+    },
+    removeUserEvent () {
+      let data = {
+        data:
           {
-            position: "bottom-center",
+            event_id: this.event.id
+          }
+      }
+      eventApi.removeUserEvent(data).then(response => {
+        this.participants.splice(this.user, 1);
+        this.user_attend = false;
+        this.$toasted.show('Succesfully unsubscribed',
+          {
+            position: 'bottom-center',
             duration: 5000
           }
-        );
-      },
-      removeUserEvent() {
-        let data = {
-          data:
-            {
-              event_id: this.event.id
-            }
-        };
-        eventApi.removeUserEvent(data).then(response => {
-          this.participants.splice(this.user, 1);
-          this.user_attend = false;
-          this.$toasted.show('Succesfully unsubscribed',
-            {
-              position: "bottom-center",
-              duration: 5000
-            }
-          );
-        });
-      },
+        )
+      })
     }
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

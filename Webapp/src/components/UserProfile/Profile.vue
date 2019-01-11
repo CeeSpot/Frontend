@@ -336,87 +336,97 @@
 </template>
 
 <script>
-  import UserMenu from '@/components/UserProfile/UserMenu';
-  import Tag from '@/components/Core/Other/Tag'
-  import CommunityApi from '@/services/api/community.js'
-  import auth from '@/services/api/Authentication.js'
-  import socialMediaModal from '@/components/Core/Modals/AddSocialMediaModal'
-  import changePasswordModal from '@/components/Core/Modals/ChangePasswordModal'
+import UserMenu from '@/components/UserProfile/UserMenu'
+import Tag from '@/components/Core/Other/Tag'
+import CommunityApi from '@/services/api/community.js'
+import auth from '@/services/api/Authentication.js'
+import socialMediaModal from '@/components/Core/Modals/AddSocialMediaModal'
+import changePasswordModal from '@/components/Core/Modals/ChangePasswordModal'
 
-  export default {
-    name: "user-profile",
-    components: {
-      UserMenu,
-      Tag,
-      socialMediaModal,
-      changePasswordModal
+export default {
+  name: 'user-profile',
+  components: {
+    UserMenu,
+    Tag,
+    socialMediaModal,
+    changePasswordModal
+  },
+  data() {
+    return {
+      active: 'Profile',
+      user: null,
+      testStuff: null,
+      type: -22,
+      socialMediaSites: null,
+      contactInfoEditting: false,
+      personalInfoEditting: false,
+      accountInfoEditting: false,
+      addressInfoEditting: false
+    }
+  },
+  methods: {
+    editContactInfo() {
+      this.contactInfoEditting = !this.contactInfoEditting
     },
-    data() {
-      return {
-        active: "Profile",
-        user: null,
-        testStuff: null,
-        type: -22,
-        socialMediaSites: null,
-        contactInfoEditting: false,
-        personalInfoEditting: false,
-        accountInfoEditting: false,
-        addressInfoEditting: false
-      }
+    editPersonalInfo() {
+      this.personalInfoEditting = !this.personalInfoEditting
     },
-    methods: {
-      editContactInfo() {
-        this.contactInfoEditting = !this.contactInfoEditting
-      },
-      editPersonalInfo() {
-        this.personalInfoEditting = !this.personalInfoEditting
-      },
-      editAccountInfo() {
-        this.accountInfoEditting = !this.accountInfoEditting
-      },
-      editAddressInfo() {
-        this.addressInfoEditting = !this.addressInfoEditting
-      },
-      saveBaseAccountInfo() {
-        console.log("asda");
-        auth.updateUser({user: this.user}).then((resp) => {
-          this.$store.dispatch('updateToken',resp.data.message);
-          this.contactInfoEditting = false;
-          this.personalInfoEditting = false;
-          this.accountInfoEditting = false;
-          this.addressInfoEditting = false;
-        }).catch((err) => {
-          alert(err.message);
-        });
-      },
-      compare(resourceSocialMediaSites, socialMediaSites){
-        let ids = [];
-        resourceSocialMediaSites.forEach((i) => ids.push(i.social_media_id));
-        this.socialMediaSites = socialMediaSites.filter(function(item){
-          return ids.indexOf(item.id) === -1;
-        });
-      },
-      getProfile() {
-        CommunityApi.getProfile().then(response => {
-          if (!response.data.success) {
-            this.$store.dispatch('logout');
-          }
-          this.user = response.data.user;
-          this.compare(response.data.user.social_media_sites,response.data.sites);
-          this.type = response.data.type;
-        }).catch((err) => {
-          this.$store.dispatch('logout');
-        });
-      }
+    editAccountInfo() {
+      this.accountInfoEditting = !this.accountInfoEditting
     },
-    mounted() {
-      this.getProfile();
-
-      Emitter.$on('updatedSocialMediaSiteForUser', () => {
-        this.getProfile();
+    editAddressInfo() {
+      this.addressInfoEditting = !this.addressInfoEditting
+    },
+    saveBaseAccountInfo() {
+      auth.updateUser({user: this.user}).then((resp) => {
+        this.$store.dispatch('updateToken', resp.data.token)
+        this.contactInfoEditting = false
+        this.personalInfoEditting = false
+        this.accountInfoEditting = false
+        this.addressInfoEditting = false
+      }).catch((err) => {
+        alert(err.message)
+      })
+    },
+    compare(resourceSocialMediaSites, socialMediaSites){
+      let ids = [];
+      resourceSocialMediaSites.forEach((i) => ids.push(i.social_media_id));
+      this.socialMediaSites = socialMediaSites.filter(function(item){
+        return ids.indexOf(item.id) === -1
+      })
+    },
+    getProfile () {
+      CommunityApi.getProfile().then(response => {
+        if (!response.data.success) {
+          this.$store.dispatch('logout')
+        }
+        this.user = response.data.user
+        this.compare(response.data.user.social_media_sites,response.data.sites)
+        this.type = response.data.type
+      }).catch((err) => {
+        this.$store.dispatch('logout');
       });
     }
+  },
+  created () {
+    Emitter.$on('passwordChanged', (token) => {
+      this.$store.dispatch('updateToken', token)
+      this.$toasted.show('Succesfully changed your password',
+        {
+          position: 'top-center',
+          duration: 3000
+        }
+      )
+    })
+  },
+  mounted () {
+    this.getProfile()
+
+    Emitter.$on('updatedSocialMediaSiteForUser', () => {
+      this.getProfile()
+    })
   }
+}
 </script>
 
 <style scoped>

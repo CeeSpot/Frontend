@@ -41,52 +41,50 @@
 </template>
 
 <script>
-  import auth from '@/services/api/Authentication.js'
 
-  export default {
-    name: 'login-form',
-    data() {
-      return {
-        msg: 'Register form',
-        form: {
-          username: '',
-          password: '',
-        },
-        loginFailedMessage: ''
-//                token : ''
-      }
-    },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        if (from.path === '/my-specific-path') {
-          vm.show = true;
-        } else {
-          vm.show = false;
-        }
-        next()
-      });
-    }, 
-    methods: {
-      goToRegister() {
-        Emitter.$emit('goToRegisterFromLogin')
+export default {
+  name: 'login-form',
+  data () {
+    return {
+      msg: 'Register form',
+      form: {
+        username: '',
+        password: ''
       },
-      onSubmit(evt) {
-        evt.preventDefault();
-        this.$store.dispatch('obtainToken', [this.form.username, this.form.password])
-          .then((response) => {
-            if (response.data.success) {
-              this.$store.commit('updateToken', response.data.token);
-              location.href = '/';
-            }else{
-              this.loginFailedMessage = response.data.data;
-            }
-          })
-          .catch((error) => {
-            this.loginFailedMessage = error.data.data;
-          });
+      loginFailedMessage: ''
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      if (from.path === '/my-specific-path') {
+        vm.show = true
+      } else {
+        vm.show = false
       }
+      next()
+    })
+  },
+  methods: {
+    goToRegister () {
+      Emitter.$emit('goToRegisterFromLogin')
+    },
+    onSubmit(evt) {
+      evt.preventDefault()
+      this.$store.dispatch('obtainToken', [this.form.username, this.form.password])
+        .then((response) => {
+          if (response.data.success) {
+            this.$store.commit('updateToken', response.data.token)
+            location.href = '/'
+          } else {
+            this.loginFailedMessage = response.data.data
+          }
+        })
+        .catch((error) => {
+          this.loginFailedMessage = error.data.data
+        })
     }
   }
+}
 </script>
 
 <style>
