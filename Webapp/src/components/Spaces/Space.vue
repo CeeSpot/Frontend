@@ -18,7 +18,7 @@
                         <b-row>
                             <b-col md="12">
                                 <h4 class="text-white">
-                                    Location
+                                    &euro; 399,- per month
                                 </h4>
                             </b-col>
                         </b-row>
@@ -50,7 +50,7 @@
                             </p>
                         </b-card>
                     </b-col>
-                    <b-col>
+                    <b-col md="5">
                         <b-card class="no-scale">
                             <b-row>
                                 <b-col>
@@ -73,6 +73,23 @@
                                             class="btn btn-ceecee-red text-center">
                                         Contact us
                                     </button>
+                                </b-col>
+                            </b-row>
+                        </b-card>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col md="12">
+                        <b-card class="no-scale">
+                            <b-row class="text-center">
+                                <b-col md="4">
+                                    1 screen
+                                </b-col>
+                                <b-col md="4">
+                                    12 seats
+                                </b-col>
+                                <b-col md="4">
+                                    free wifi
                                 </b-col>
                             </b-row>
                         </b-card>
