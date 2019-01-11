@@ -4,12 +4,10 @@
             <admin-menu v-bind:active="active"></admin-menu>
             <b-col md="8">
                 <b-row v-for="event in events" class="user-list-item">
-                    <b-col md="12" class="shadow user-card" v-on:click="openDetailPage(event.id)">
-                        <b-row>
-                            <b-col md="4">{{ formatDate(event.start) }}</b-col>
-                            <b-col md="4">{{ event.title }}</b-col>
-                        </b-row>
-                    </b-col>
+                <AdminCard 
+                    :firstcol="formatDate(event.start)"
+                    :secondcol="event.title" 
+                    :target="'/admin/events/' + event.id"></AdminCard>
                 </b-row>
             </b-col>
         </b-row>
@@ -37,12 +35,14 @@
   import AdminEventApi from '@/services/api/admin/events.js'
   import moment from 'moment'
   import ActionButton from '@/components/Core/Other/ActionButton'
+  import AdminCard from '@/components/Core/Other/AdminCard'
 
   export default {
     name: "events",
     components: {
       AdminMenu,
-      ActionButton
+      ActionButton,
+      AdminCard
     },
     data() {
       return {
@@ -89,9 +89,6 @@
           AdminEventApi.deleteEvent(data).then(response => {
               this.events = this.events.filter(e => e.id != event.id);
           });
-      },
-      openDetailPage(id) {
-          this.$router.push('/admin/events/' + id);
       }
     },
     mounted() {

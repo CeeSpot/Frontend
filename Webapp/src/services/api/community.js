@@ -3,18 +3,18 @@ import {store} from '../../main'
 
 export default {
   getUsers() {
-    return axios.get('http://localhost:3000/api/users')
+    return axios.get('/api/users')
   },
   getUser(userID) {
-    return axios.get('http://localhost:3000/api/users/profile/' + userID)
+    return axios.get('/api/users/profile/' + userID)
   },
   getCompanies() {
-    return axios.get('http://localhost:3000/api/companies')
+    return axios.get('/api/companies')
   },
   getCompany(id) {
-    return axios.get('http://localhost:3000/api/companies/' + id)
+    return axios.get('/api/companies/' + id)
   },getProfile() {
-    return axios.get('http://localhost:3000/api/users/me',{
+    return axios.get('/api/users/me',{
       headers: {
         'x-access-token': store.state.jwt
       }

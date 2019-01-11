@@ -3,21 +3,21 @@ import {store} from '../../main'
 
 export default {
   getEvents() {
-    return axios.get('http://localhost:3000/api/events', {
+    return axios.get('/api/events', {
       headers: {
         'x-access-token': store.state.jwt
       }
     })
   },
   getEvent(id) {
-    return axios.get('http://localhost:3000/api/event/' + id, {
+    return axios.get('/api/event/' + id, {
       headers: {
         'x-access-token': store.state.jwt
       }
     });
   },
   addUserEvent(data) {
-    return axios.post('http://localhost:3000/api/events/userevent', data, {
+    return axios.post('/api/events/userevent', data, {
       headers: {
         'x-access-token': store.state.jwt
       }
@@ -25,9 +25,9 @@ export default {
   },
   removeUserEvent(data) {
     data.headers = {'x-access-token': store.state.jwt};
-    return axios.delete('http://localhost:3000/api/events/userevent', data)
+    return axios.delete('/api/events/userevent', data)
   },
   getEvent(event_id) {
-    return axios.get('http://localhost:3000/api/event/' + event_id)
+    return axios.get('/api/event/' + event_id)
   }
 }

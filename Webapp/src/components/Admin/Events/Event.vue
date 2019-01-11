@@ -92,9 +92,6 @@
           this.event.start = this.start;
           this.event.end = this.end;
           AdminEventApi.updateEvent(this.event).then(response => { alert('succesvol gewijzigd') });
-      },
-      test() {
-          alert('hello');
       }
     },
     mounted() {
