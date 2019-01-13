@@ -2,7 +2,7 @@
   <b-container class="container-margin">
       <b-row class="mt-3">
             <b-col md="8" class="mr-3">
-               <b-card v-for="blog in filterSearchAndTags()">
+               <b-card v-for="blog in filterSearchAndTags()" v-on:click="routeToBlog(blog.id)">
                     <b-row>
                     <b-col md="9">
                         <div style="padding: 15px">
@@ -103,6 +103,9 @@ import moment from 'moment'
           newBlogsList = this.blogList;
         }
         return newBlogsList;
+      },
+      routeToBlog(id){
+          location.href = '/blog/' + id;
       }
     },
     mounted() {

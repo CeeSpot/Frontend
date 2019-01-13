@@ -6,5 +6,8 @@ export default{
   },
   getBlogsTags () {
     return axios.get('/api/blogs/tags')
+  },
+  getBlog (id) {
+    return axios.get('/api/blog/' + id)
   }
 }
