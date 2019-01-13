@@ -6,7 +6,7 @@
           <b-col md="2">
             <b-img rounded="circle" fluid v-bind:src="'../static/images/users/6.png'"></b-img>
           </b-col>
-          <b-col md="6" class="text-white ml-3">
+          <b-col md="8" class="text-white ml-3">
             <b-row>
               <b-col md="12">
                 <h2 class="text-white">
@@ -15,11 +15,20 @@
               </b-col>
             </b-row>
             <b-row class="mt-2">
-              <b-col md="12">
-                <b>Born: </b>
+              <b-col v-if="user.companies.length > 0">
+                <span v-for="company in user.companies">
+                  <b>{{company.role}} @ <a class="text-white text-underline" v-bind:href="'/company/' + company.id">{{company.name}}</a></b><br>
+                </span>
+              </b-col>
+              <b-col v-if="user.companies.length ===0">
+                Add positions
+                <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}" v-b-modal.CompanyRoleModal></font-awesome-icon>
+              </b-col>
+              <b-col v-if="user.companies.length > 0">
+                <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}" v-b-modal.CompanyRoleModal></font-awesome-icon>
               </b-col>
             </b-row>
-            <b-row>
+            <b-row class="mt-2">
               <b-col md="12">
                 <b>Nationality: </b><span class="opacity-text-8">{{user.country}}</span>
               </b-col>
@@ -34,8 +43,29 @@
                 <b-link v-for="site in user.social_media_sites" class="social-media-link" v-bind:href="site.url.includes('https://') ? site.url : 'https://' + site.url" target="_blank">
                   <font-awesome-icon :icon="{ prefix: 'fab', iconName: site.site }"></font-awesome-icon>
                 </b-link>
-
-                <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}" v-b-modal.AddSocialMediaModal></font-awesome-icon>
+                <span v-if="user.social_media_sites.length === 0" class="modal-hover" v-b-modal.AddSocialMediaModal>
+                  Add social media sites
+                  <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}"></font-awesome-icon>
+                </span>
+                <font-awesome-icon v-if="user.social_media_sites.length > 0" class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}" v-b-modal.AddSocialMediaModal></font-awesome-icon>
+              </b-col>
+            </b-row>
+            <b-row class="mt-2">
+              <b-col>
+                <ul>
+                  <li v-for="tag in user.tags" :key="tag.id" >
+                    <div :id="'tag' + tag.id"
+                         class="btn-ceecee-oval-red">{{tag.description}}
+                    </div>
+                  </li>
+                  <li v-if="user.tags.length === 0" class="opacity-text-8 modal-hover" v-b-modal.UserTagsModal>
+                    Add abilities
+                    <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}"></font-awesome-icon>
+                  </li>
+                  <li v-if="user.tags.length > 0" v-b-modal.UserTagsModal>
+                    <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}"></font-awesome-icon>
+                  </li>
+                </ul>
               </b-col>
             </b-row>
           </b-col>
@@ -328,10 +358,17 @@
           </b-col>
 
         </b-row>
+        <b-row>
+          <b-col v-for="company in companies">
+            {{company.name}}
+          </b-col>
+        </b-row>
       </b-container>
     </b-row>
-    <social-media-modal id="addSocialMediaModal" v-bind:sites="socialMediaSites" v-bind:smrs="user.social_media_sites" v-bind:resourceId="user.id" v-bind:type="type"></social-media-modal>
-    <change-password-modal id="changePasswordModal" v-bind:username="user.username" v-bind:userid="user.id"></change-password-modal>
+    <social-media-modal v-bind:sites="socialMediaSites" v-bind:smrs="user.social_media_sites" v-bind:resourceId="user.id" v-bind:type="type"></social-media-modal>
+    <change-password-modal v-bind:username="user.username" v-bind:userid="user.id"></change-password-modal>
+    <company-role-modal v-bind:companies="companies" v-bind:user_companies="user.companies"></company-role-modal>
+    <user-tags-modal v-bind:tags="tags" v-bind:user_tags="user.tags"></user-tags-modal>
   </b-container>
 </template>
 
@@ -339,17 +376,24 @@
 import UserMenu from '@/components/UserProfile/UserMenu'
 import Tag from '@/components/Core/Other/Tag'
 import CommunityApi from '@/services/api/community.js'
+import TagsApi from '@/services/api/tags.js'
 import auth from '@/services/api/Authentication.js'
 import socialMediaModal from '@/components/Core/Modals/AddSocialMediaModal'
 import changePasswordModal from '@/components/Core/Modals/ChangePasswordModal'
+import companyRoleModal from '@/components/Core/Modals/CompanyRoleModal'
+import userTagsModal from '@/components/Core/Modals/UserTagsModal'
+import Company from '../Admin/Companies/Company'
 
 export default {
   name: 'user-profile',
   components: {
+    Company,
     UserMenu,
     Tag,
     socialMediaModal,
-    changePasswordModal
+    changePasswordModal,
+    companyRoleModal,
+    userTagsModal
   },
   data() {
     return {
@@ -361,7 +405,9 @@ export default {
       contactInfoEditting: false,
       personalInfoEditting: false,
       accountInfoEditting: false,
-      addressInfoEditting: false
+      addressInfoEditting: false,
+      companies: [],
+      tags: []
     }
   },
   methods: {
@@ -377,7 +423,7 @@ export default {
     editAddressInfo() {
       this.addressInfoEditting = !this.addressInfoEditting
     },
-    saveBaseAccountInfo() {
+    saveBaseAccountInfo () {
       auth.updateUser({user: this.user}).then((resp) => {
         this.$store.dispatch('updateToken', resp.data.token)
         this.contactInfoEditting = false
@@ -401,17 +447,46 @@ export default {
           this.$store.dispatch('logout')
         }
         this.user = response.data.user
-        this.compare(response.data.user.social_media_sites,response.data.sites)
+        console.log(this.user)
+        this.compare(response.data.user.social_media_sites, response.data.sites)
         this.type = response.data.type
       }).catch((err) => {
-        this.$store.dispatch('logout');
-      });
+        this.$store.dispatch('logout')
+      })
+
+      CommunityApi.getCompanies().then(response => {
+        this.companies = response.data
+      }).catch((err) => {
+        this.$store.dispatch('logout')
+      })
+
+      TagsApi.getTags().then((resp) => {
+        this.tags = resp.data
+      }).catch((err) => {
+        this.$store.dispatch('logout')
+      })
     }
   },
   created () {
     Emitter.$on('passwordChanged', (token) => {
       this.$store.dispatch('updateToken', token)
       this.$toasted.show('Succesfully changed your password',
+        {
+          position: 'top-center',
+          duration: 3000
+        }
+      )
+    })
+    Emitter.$on('companyRolesChanged', () => {
+      this.$toasted.show('Successfully changed your company roles',
+        {
+          position: 'top-center',
+          duration: 3000
+        }
+      )
+    })
+    Emitter.$on('userTagsChanged', () => {
+      this.$toasted.show('Successfully changed your abilities',
         {
           position: 'top-center',
           duration: 3000
@@ -463,5 +538,27 @@ export default {
   .social-media-link:hover{
     color: #6c94dc;
     cursor: pointer;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  li {
+    float: left;
+  }
+
+  .btn-ceecee-oval-red {
+    background-color: #E60000;
+    color:#fff;
+  }
+  .modal-hover{
+    cursor: pointer;
+  }
+  .modal-hover:hover{
+    color:#fff;
   }
 </style>

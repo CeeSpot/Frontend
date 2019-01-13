@@ -27,7 +27,4 @@ export default {
     data.headers = {'x-access-token': store.state.jwt};
     return axios.delete('/api/events/userevent', data)
   },
-  getEvent(event_id) {
-    return axios.get('/api/event/' + event_id)
-  }
 }
