@@ -17,7 +17,7 @@
     data() {
       return {
         items: [
-          "Users", "Events", "Companies", "Website"
+          "Users", "Events", "Companies", "Blogs", "Website"
         ]
       }
     }
