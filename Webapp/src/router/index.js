@@ -24,6 +24,9 @@ import AdminEvents from '@/components/Admin/Events/Events'
 import AdminEvent from '@/components/Admin/Events/Event'
 import AdminCompanies from '@/components/Admin/Companies/Companies'
 import AdminCompany from '@/components/Admin/Companies/Company'
+import AdminBlogs from '@/components/Admin/Blogs/Blogs'
+import AdminAddBlog from '@/components/Admin/Blogs/AddBlog'
+import AdminEditBlog from '@/components/Admin/Blogs/EditBlog'
 
 Vue.use(Router)
 
@@ -121,6 +124,21 @@ export default new Router({
       path: '/blog/:id',
       name: 'Blog',
       component: Blog
+    },
+    {
+      path: '/admin/blogs',
+      name: 'Blogs',
+      component: AdminBlogs
+    },
+    {
+      path: '/admin/blogs/add',
+      name: 'addBlog',
+      component: AdminAddBlog
+    },
+    {
+      path: '/admin/blogs/edit/:id',
+      name: 'editBlog',
+      component: AdminEditBlog
     },
   ]
 })

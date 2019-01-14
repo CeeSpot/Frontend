@@ -9,8 +9,7 @@
                 <h1>{{blog.title}}</h1>
                   <ul>
                       <li v-for="tag in blog.tags">
-                          <div :id="'tag' + tag.id" v-on:click="updateSelectedTags(tag.id);filterSearchAndTags();"
-                              class="tags">{{tag.description}}
+                          <div :id="'tag' + tag.id" class="tags">{{tag.description}}
                           </div>
                       </li>
                   </ul>

@@ -38,6 +38,7 @@ import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
 import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
 import { faSave } from '@fortawesome/free-solid-svg-icons/faSave'
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { fab } from '@fortawesome/free-brands-svg-icons' // Imports brand icons
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -57,6 +58,7 @@ library.add(faFacebook);
 library.add(faTwitter);
 library.add(faLinkedin);
 library.add(faSave);
+library.add(faCheck);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon); // create the vue-component so you can use it
 

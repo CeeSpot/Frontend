@@ -1,5 +1,6 @@
 <template>
-<button class="fab" v-bind:class="color">{{icon}}</button>
+<button  v-if="icon == 'check'" class="fab" v-bind:class="color"><font-awesome-icon icon="check"/></button>
+<button v-else class="fab" v-bind:class="color">{{icon}}</button>
 </template>
 
 <script>
