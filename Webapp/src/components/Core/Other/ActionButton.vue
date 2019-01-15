@@ -1,6 +1,5 @@
 <template>
-    <button
-    v-bind:class="[{ 'fab-fixed': fixed }, color, 'fab']">
+    <button v-bind:class="[{ 'fab-fixed': fixed }, color, 'fab']">
        <font-awesome-icon :icon="icon"/>
     </button>
 </template>
