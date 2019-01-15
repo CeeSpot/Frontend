@@ -25,7 +25,7 @@
         </div>
       </b-col>
     </b-row>
-     <action-button color="red" icon="check" @click.native="editBlog()"></action-button>
+     <action-button color="red" :fixed="true" icon="check" @click.native="editBlog()"></action-button>
     </b-container>
 </template>
 
