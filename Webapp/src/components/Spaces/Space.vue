@@ -96,7 +96,7 @@
 </template>
 
 <script>
-  import VueMasonryGallery from "vue-masonry-gallery";
+  import VueMasonryGallery from '@/components/Core/Other/VueMasonryGallery';
 
   export default {
     name: "Space",
