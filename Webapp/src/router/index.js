@@ -8,6 +8,8 @@ import Events from '@/components/Events/Events' // Events base page
 import Event from '@/components/Events/Event' // Event base page
 import Contact from '@/components/Contact/Contact' // Contact base page
 import User from '@/components/Community/User'
+import Blogs from '@/components/Blog/Blogs' // Community base page
+import Blog from '@/components/Blog/Blog' // Community base page
 
 //Authentication
 import Register from '@/components/Core/Authentication/RegisterAndLogin'
@@ -23,6 +25,9 @@ import AdminEvents from '@/components/Admin/Events/Events'
 import AdminEvent from '@/components/Admin/Events/Event'
 import AdminCompanies from '@/components/Admin/Companies/Companies'
 import AdminCompany from '@/components/Admin/Companies/Company'
+import AdminBlogs from '@/components/Admin/Blogs/Blogs'
+import AdminAddBlog from '@/components/Admin/Blogs/AddBlog'
+import AdminEditBlog from '@/components/Admin/Blogs/EditBlog'
 
 Vue.use(Router)
 
@@ -115,6 +120,31 @@ export default new Router({
       path: '/admin/companies/:id',
       name: 'Company',
       component: AdminCompany
-    }
+    },
+    {
+      path: '/blogs',
+      name: 'Blogs',
+      component: Blogs
+    },
+    {
+      path: '/blog/:id',
+      name: 'Blog',
+      component: Blog
+    },
+    {
+      path: '/admin/blogs',
+      name: 'Blogs',
+      component: AdminBlogs
+    },
+    {
+      path: '/admin/blogs/add',
+      name: 'addBlog',
+      component: AdminAddBlog
+    },
+    {
+      path: '/admin/blogs/edit/:id',
+      name: 'editBlog',
+      component: AdminEditBlog
+    },
   ]
 })
