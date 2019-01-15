@@ -165,21 +165,21 @@
 </template>
 
 <script>
-  export default {
-    name: 'Spaces',
-    data() {
-      return {
-        msg: 'Welcome to Your Vue.js App'
-      }
-    },
-    methods: {
-      routeToSpace(id) {
-        location.href = '/spaces/' + id;
-      }
-    },
-    mounted() {
+export default {
+  name: 'Spaces',
+  data() {
+    return {
+      msg: 'Welcome to Your Vue.js App'
     }
+  },
+  methods: {
+    routeToSpace(id) {
+      location.href = '/spaces/' + id
+    }
+  },
+  mounted() {
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
