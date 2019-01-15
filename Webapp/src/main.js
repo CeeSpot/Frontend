@@ -29,6 +29,7 @@ import { library } from '@fortawesome/fontawesome-svg-core' // Imports svg core
 
 import { faCoffee } from '@fortawesome/free-solid-svg-icons' // Imports base icons
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch' // Imports Fa search
+import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown' // Imports Fa chevron down
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft' // Imports Fa chevron left
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight' // Imports Fa chevron right
@@ -61,6 +62,7 @@ library.add(faTwitter);
 library.add(faLinkedin);
 library.add(faSave);
 library.add(faCheck);
+library.add(faPlus);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon); // create the vue-component so you can use it
 
