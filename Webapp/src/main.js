@@ -75,7 +75,7 @@ Vue.use(FullCalendar);
 Vue.use(Datetime);
 
 // Set baseURL
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = 'http://194.145.201.29:3000';
 
 window.Emitter = new Vue();
 
