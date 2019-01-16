@@ -17,11 +17,26 @@
     <b-row>
     <b-col cols="6">
     <b-card class="no-scale" title="General info">
-    <b-form-input class="mb15" type="text" v-model="space.title" placeholder="Naam"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="space.description" placeholder="Omschrijving"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="space.short_description" placeholder="Korte omschrijving"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="space.capacity" placeholder="Capaciteit"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="space.location" placeholder="Locatie"></b-form-input>
+    <b-col cols="12"><label>Titel:</label></b-col>
+      <b-col cols="12"><b-form-input class="mb15" v-model="space.title" type="text"></b-form-input></b-col>
+
+      <b-col cols="12"><label>Omschrijving:</label></b-col>
+      <b-col cols="12"><b-form-input class="mb15" v-model="space.description" type="text"></b-form-input></b-col>
+
+      <b-col cols="12"><label>Korte omschrijving:</label></b-col>
+      <b-col cols="12"><b-form-input class="mb15" v-model="space.short_description" type="text"></b-form-input></b-col>
+
+      <b-col cols="12"><label>Capaciteit (aantal personen):</label></b-col>
+      <b-col cols="12"><b-form-input class="mb15" v-model="space.capacity" type="number"></b-form-input></b-col>
+
+      <b-col cols="12"><label>Gebruiken voor:</label></b-col>
+      <b-col cols="12"><b-form-input class="mb15" v-model="space.targets" type="text"></b-form-input></b-col>
+
+      <b-col cols="12"><label>Faciliteiten:</label></b-col>
+      <b-col cols="12"><b-form-input class="mb15" v-model="space.facilities" type="text"></b-form-input></b-col>
+
+      <b-col cols="12"><label>Kosten:</label></b-col>
+      <b-col cols="12"><b-form-input class="mb15" v-model="space.costs" type="text"></b-form-input></b-col>
     </b-card>
     </b-col>
     </b-row>
