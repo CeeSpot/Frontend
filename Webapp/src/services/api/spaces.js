@@ -30,5 +30,21 @@ export default {
         'x-access-token': store.state.jwt
       }
     })
+  },
+  addSpace(space) {
+    let data = {data: space};
+    return axios.post('/api/spaces/add', data, {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
+  },
+  checkAvailability(booking) {
+    let data = {data: booking};
+    return axios.post('/api/spaces/availability', data, {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
   }
 }
