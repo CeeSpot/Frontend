@@ -2,9 +2,23 @@
   <b-container class="container-margin">
       <div style="width: 100%; height: 100%; font-size: 1.125em;" class="card shadow no-scale">
         <b-row>
+          <!--
           <b-col>
             <div class="pickgradient">
             <img src="https://images.pexels.com/photos/1496183/pexels-photo-1496183.jpeg?cs=srgb&dl=adult-article-assortment-1496183.jpg&fm=jpg" alt="Title" class="rounded shadow blog-image" style="width: 100%; height:400px">
+              <div class="carousel-caption">
+                <h1>{{blog.title}}</h1>
+                  <ul>
+                      <li v-for="tag in blog.tags">
+                          <div :id="'tag' + tag.id" class="tags">{{tag.description}}
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+            </div>
+          </b-col> -->
+          <b-col>
+            <div class="blog-image pickgradient" v-bind:style="{ backgroundImage: 'url(' + 'https://images.pexels.com/photos/1496183/pexels-photo-1496183.jpeg?cs=srgb&dl=adult-article-assortment-1496183.jpg&fm=jpg' + ')' }">
               <div class="carousel-caption">
                 <h1>{{blog.title}}</h1>
                   <ul>
@@ -69,10 +83,6 @@ import moment from 'moment'
         margin-top: 130px;
     }
 
-    .blog-image {
-        background-image: linear-gradient(to bottom, transparent 0%, white 100%);
-    }
-
   .pickgradient{
   position:relative;
   display:inline-block;
@@ -128,5 +138,12 @@ img{
     font-weight: 500;
     padding: 5px;
     margin-right: 8px;
+}
+
+.blog-image{
+  width: 100%; 
+  height: 400px;
+  position: center center;
+  background-size: cover;
 }
 </style>
