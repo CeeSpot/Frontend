@@ -26,8 +26,8 @@ import AdminEvent from '@/components/Admin/Events/Event'
 import AdminCompanies from '@/components/Admin/Companies/Companies'
 import AdminCompany from '@/components/Admin/Companies/Company'
 import AdminBlogs from '@/components/Admin/Blogs/Blogs'
-import AdminAddBlog from '@/components/Admin/Blogs/AddBlog'
-import AdminEditBlog from '@/components/Admin/Blogs/EditBlog'
+import AdminAddBlog from '@/components/Admin/Blogs/Addblog'
+import AdminEditBlog from '@/components/Admin/Blogs/Editblog'
 
 Vue.use(Router)
 

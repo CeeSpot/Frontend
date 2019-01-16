@@ -11,7 +11,7 @@
                         <b-row>
                             <b-col md="12">
                                 <h1 class="text-white font-weight-bold">
-                                    Space title
+                                    Space title comes here
                                 </h1>
                             </b-col>
                         </b-row>
@@ -96,7 +96,7 @@
 </template>
 
 <script>
-  import VueMasonryGallery from "vue-masonry-gallery";
+  import VueMasonryGallery from '@/components/Core/Other/VueMasonryGallery';
 
   export default {
     name: "Space",

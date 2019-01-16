@@ -74,8 +74,8 @@ Vue.use(BootstrapVue); // Let vue use bootstrap vue across the whole project
 Vue.use(FullCalendar);
 Vue.use(Datetime);
 
-// Set baseURL
-axios.defaults.baseURL = 'http://localhost:3000';
+// Set baseURL and some other stuff to trigger sourcetree
+axios.defaults.baseURL = 'http://194.145.201.29:3000'
 
 window.Emitter = new Vue();
 

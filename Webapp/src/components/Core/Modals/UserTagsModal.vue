@@ -95,8 +95,6 @@ export default {
     },
     onSubmit (evt) {
       evt.preventDefault()
-      console.log(this.user_tags)
-      console.log(this.deleted)
       CommunityApi.addTags(this.user_tags, this.deleted).then((data) => {
         this.$refs.UserTagsModal.hide()
         Emitter.$emit('userTagsChanged')

@@ -25,7 +25,7 @@
         </div>
       </b-col>
     </b-row>
-     <action-button color="red" icon="+" @click.native="addBlog()"></action-button>
+     <action-button color="red" :fixed="true" icon="plus" @click.native="addBlog()"></action-button>
     </b-container>
 </template>
 

@@ -12,7 +12,7 @@
                 </b-row>
             </b-col>
         </b-row>
-        <action-button color="red" icon="+" @click.native="routeAddBlog()"></action-button>
+        <action-button color="red" :fixed="true" icon="plus" @click.native="routeAddBlog()"></action-button>
     </b-container>
 </template>
 
