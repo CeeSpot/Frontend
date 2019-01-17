@@ -6,5 +6,8 @@ export default{
   },
   updateBlog (data) {
     return axios.put('/api/blogs/update', data)
+  },
+  deleteBlog(data) {
+    return axios.delete('/api/blogs/delete', data)
   }
 }

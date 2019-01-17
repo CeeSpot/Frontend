@@ -94,6 +94,11 @@ export default new Router({
       component: Settings
     },
     {
+      path: '/admin/',
+      name: 'Users',
+      component: AdminUsers
+    },
+    {
       path: '/admin/users',
       name: 'Users',
       component: AdminUsers
