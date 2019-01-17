@@ -83,7 +83,13 @@
         location.href = '/admin/blogs/'
       },
       deleteBlog() {
-
+              let data = {
+                data:
+                  {
+                    blog_id: this.id
+                  }
+              }
+        AdminBlogApi.deleteBlog(data).then(response => { location.href = '/admin/blogs/'; });
       }
     },
     mounted() {
