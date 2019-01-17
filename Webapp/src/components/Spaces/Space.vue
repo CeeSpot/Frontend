@@ -117,6 +117,7 @@
       SpaceApi.getSpace(this.$route.params.id).then(response => {
           this.space = response.data.data;
           this.booking.space_id = this.space.id;
+          this.booking.space_title = this.space.title;
       })
     },
     data() {
