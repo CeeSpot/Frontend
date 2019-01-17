@@ -3,9 +3,10 @@
       <div style="width: 100%; height: 100%; font-size: 1.125em;" class="card shadow no-scale">
         <b-row>
           <b-col>
-            <div class="pickgradient">
-            <img src="https://images.pexels.com/photos/1496183/pexels-photo-1496183.jpeg?cs=srgb&dl=adult-article-assortment-1496183.jpg&fm=jpg" alt="Title" class="rounded shadow blog-image" style="width: 100%; height:400px">
-              <div class="carousel-caption">
+            <div class="blog-image" v-bind:style="{ backgroundImage: 'url(' + 'https://images.pexels.com/photos/1496183/pexels-photo-1496183.jpeg?cs=srgb&dl=adult-article-assortment-1496183.jpg&fm=jpg' + ')' }">
+              <!-- <div class="carousel-caption">
+                <b-row>
+                <b-col>
                 <h1>{{blog.title}}</h1>
                   <ul>
                       <li v-for="tag in blog.tags">
@@ -13,7 +14,71 @@
                           </div>
                       </li>
                   </ul>
+                </b-col>
+                <b-col class="text-right">
+                  <div>
+                    <social-sharing url="http://localhost:8080/events"
+                                          :title="Test"
+                                          :description="Test"
+                                          hashtags="TheCeeSpot"
+                                          twitter-user="vuejs"
+                                          v-cloak inline-template>
+                              <div>
+                                  <network network="facebook" class="pr-2">
+                                      <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'facebook' }"/>
+                                  </network>
+                                  <network network="linkedin" class="pr-2">
+                                      <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'linkedin' }"/>
+                                  </network>
+                                  <network network="twitter" class="pr-2">
+                                      <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'twitter' }"/>
+                                  </network>
+                              </div>
+                    </social-sharing>
+                  </div>
+                  </b-col>
+                </b-row>
               </div>
+                          !-->
+              <b-row class="p-4" style="margin-top: 240px;">
+                <b-col>
+                  <b-row>
+                      <b-col>
+                          <h1 class="blog-title">{{blog.title}}</h1>
+                      </b-col>
+                    </b-row>
+                    <b-row>
+                      <b-col>
+                        <ul>
+                            <li v-for="tag in blog.tags">
+                                <div :id="'tag' + tag.id" class="tags">{{tag.description}}
+                                </div>
+                            </li>
+                        </ul>
+                      </b-col>
+                      <b-col style="color: white; text:" class="text-right">
+                        <social-sharing :url="blogUrl"
+                                              :title="blog.title"
+                                              :description="blog.description"
+                                              hashtags="TheCeeSpot"
+                                              twitter-user="vuejs"
+                                              v-cloak inline-template>
+                                  <div>
+                                      <network network="facebook" class="pr-2">
+                                          <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'facebook' }"/>
+                                      </network>
+                                      <network network="linkedin" class="pr-2">
+                                          <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'linkedin' }"/>
+                                      </network>
+                                      <network network="twitter" class="pr-2">
+                                          <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'twitter' }"/>
+                                      </network>
+                                  </div>
+                        </social-sharing>
+                      </b-col>
+                  </b-row>
+                </b-col>
+              </b-row>
             </div>
           </b-col>
         </b-row>
@@ -36,6 +101,7 @@ import moment from 'moment'
       return {
         blog: [],
         imageURL: '',
+        blogUrl: '',
         author: []
       }
     },
@@ -60,7 +126,10 @@ import moment from 'moment'
       }
     },
     mounted() {
-      blogApi.getBlog(this.id).then(response => { this.blog = response.data.data[0] });
+      blogApi.getBlog(this.id).then(response => { 
+        this.blog = response.data.data[0] 
+        this.blogUrl = 'http://localhost:8080/blog/' + this.id;
+        });
     }
   }
 </script>
@@ -69,8 +138,8 @@ import moment from 'moment'
         margin-top: 130px;
     }
 
-    .blog-image {
-        background-image: linear-gradient(to bottom, transparent 0%, white 100%);
+    .blog-title {
+      color: white;
     }
 
   .pickgradient{
@@ -128,5 +197,24 @@ img{
     font-weight: 500;
     padding: 5px;
     margin-right: 8px;
+}
+
+.blog-image{
+  width: 100%; 
+  height: 400px;
+  background-size: cover;
+  display:inline-block;
+  position: relative;
+}
+
+.blog-image:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+  opacity: .6;
 }
 </style>
