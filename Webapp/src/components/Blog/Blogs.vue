@@ -8,11 +8,24 @@
                         <div style="padding: 15px">
                             <h3 class="bold">{{blog.title}}</h3>
                             <p class="description">{{blog.description}}</p>
+                            <b-row>
+                            <b-col>
                             <small class="text-muted">{{formatDate(blog.date_created)}}</small>
+                            </b-col>
+                            <b-col>
+                            <ul class="float-right">
+                                <li v-for="tag in blog.tags">
+                                    <div class="tags">{{tag.description}}
+                                    </div>
+                                </li>
+                            </ul>
+                            </b-col>
+                            </b-row>
                         </div>
                     </b-col>
                     <b-col>
-                         <b-img class="card-image" src="https://images.pexels.com/photos/1496183/pexels-photo-1496183.jpeg?cs=srgb&dl=adult-article-assortment-1496183.jpg&fm=jpg" fluid-grow/>
+                         <div class="blog-image" v-bind:style="{ backgroundImage: 'url(' + 'https://images.pexels.com/photos/1496183/pexels-photo-1496183.jpeg?cs=srgb&dl=adult-article-assortment-1496183.jpg&fm=jpg' + ')' }">
+                         </div>
                     </b-col>
                 </b-row>
                 </b-card>
@@ -126,6 +139,13 @@ import moment from 'moment'
         margin-top: 130px;
     }
 
+    .blog-image {
+        width: 100%; 
+        height: 100%;
+        position: center center;
+        background-size: cover;
+    }
+
     .form-group-search .form-control {
         padding-left: 0rem;
     }
@@ -186,4 +206,20 @@ import moment from 'moment'
     .card-body {
         padding: 0px;
     }
+
+    .tags {
+    border: 2px solid grey;
+    border-radius: 15px;
+    background-color: transparent;
+    color: grey;
+    height: 30px;
+    line-height: 15px;
+    text-align: center;
+    min-width: 70px;
+    font-weight: 500;
+    padding: 5px;
+    margin-right: 8px;
+    transform: scale(0.7);
+    transform-origin: 0 0;
+}
 </style>

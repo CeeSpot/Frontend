@@ -25,6 +25,7 @@
         padding: 20px;
         background-color: white;
         cursor: pointer;
+        margin-bottom: 15px;
     }
 
     .user-card:hover {

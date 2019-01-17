@@ -28,6 +28,9 @@ import AdminCompany from '@/components/Admin/Companies/Company'
 import AdminBlogs from '@/components/Admin/Blogs/Blogs'
 import AdminAddBlog from '@/components/Admin/Blogs/Addblog'
 import AdminEditBlog from '@/components/Admin/Blogs/Editblog'
+import AdminSpaces from '@/components/Admin/Spaces/Spaces'
+import AdminSpace from '@/components/Admin/Spaces/Space'
+import AdminRequests from '@/components/Admin/Requests/Requests'
 
 import Test from '@/components/Test/Test'
 
@@ -111,12 +114,26 @@ export default new Router({
       path: '/admin/events/:id',
       name: 'Event',
       component: AdminEvent
-    }
-    ,
+    },
+    {
+      path: '/admin/spaces',
+      name: 'Spaces',
+      component: AdminSpaces
+    },
+    {
+      path: '/admin/spaces/:id',
+      name: 'Space',
+      component: AdminSpace
+    },
     {
       path: '/admin/companies',
       name: 'Companies',
       component: AdminCompanies
+    },
+    {
+      path: '/admin/requests',
+      name: 'Requests',
+      component: AdminRequests
     },
     {
       path: '/admin/companies/:id',
