@@ -97,7 +97,7 @@
           this.activeSRequest.stringdate = moment(this.activeSRequest.date).format('DD-MM-YYYY');
       },
       approveDeclineSR(activeSR, approved){
-          RequestApi.appDecReservation(activeSR.id, approved).then(response => {
+          RequestApi.appDecReservation(activeSR, approved).then(response => {
               let index = this.spaceRequests.findIndex(x => x.id == activeSR.id);
               this.spaceRequests.splice(index, 1);
               this.$refs.spacerequest.hide();
