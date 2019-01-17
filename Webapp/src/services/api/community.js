@@ -15,7 +15,7 @@ export default {
     return axios.get('/api/companies/' + id)
   },
   getProfile () {
-    return axios.get('/api/users/me',{
+    return axios.get('/api/users/me', {
       headers: {
         'x-access-token': store.state.jwt
       }

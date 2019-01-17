@@ -54,6 +54,17 @@
                         v-model="smr.url"></b-form-input>
         </b-input-group>
       </b-form-group>
+      <b-form-group label="Your website"
+                    label-for="website">
+        <b-input-group>
+          <b-input-group-prepend>
+            <b-btn variant="outline-info" class="website">website</b-btn>
+          </b-input-group-prepend>
+          <b-form-input id="website"
+                        type="text"
+                        v-model="website"></b-form-input>
+        </b-input-group>
+      </b-form-group>
     </b-form>
 
     <footer slot="modal-footer">
@@ -94,12 +105,12 @@ export default {
         resource_id: this.resourceId,
         social_media_resource_sites: this.smrs,
         sites: this.sites,
-        type: this.type
-      };
-      socialMediaApi.addResourceSite(post).then((data) => {
-        console.log(data);
-        if (type === 1) {
-          Emitter.$emit('updatedSocialMediaSiteForUser')
+        type: this.type,
+        website: this.website
+      }
+      socialMediaApi.addResourceSite(post).then((resp) => {
+        if (this.type === 1) {
+          Emitter.$emit('updatedSocialMediaSiteForUser', resp.data.token)
         }
         this.$refs.AddSocialMediaModal.hide()
       }).catch((err) => {
@@ -110,7 +121,7 @@ export default {
 
     }
   },
-  props: ['sites', 'smrs', 'resourceId', 'type']
+  props: ['sites', 'smrs', 'resourceId', 'type', 'website']
 }
 </script>
 
@@ -138,7 +149,7 @@ export default {
     color: #00ab6c;
     border-color:#00ab6c;
   }
-  .github,.github:hover {
+  .github,.github:hover,.website,.website:hover {
     color: #4078c0;
     border-color:#4078c0;
   }

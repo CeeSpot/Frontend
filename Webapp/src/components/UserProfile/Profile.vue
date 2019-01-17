@@ -2,11 +2,21 @@
   <b-container fluid style="margin-top: 100px;">
     <b-row style="background: linear-gradient(to right, #1d2337 40%,#1d2337);padding-top: 50px;padding-bottom: 150px;">
       <b-container>
-        <b-row>
-          <b-col md="2">
-            <b-img rounded="circle" fluid v-bind:src="'../static/images/users/6.png'"></b-img>
+        <b-row  align-v="start">
+          <b-col cols="auto">
+            <div class="image-wrapper" id="baseImg"
+                 v-bind:style="{height: '150px',
+                                width: '150px',
+                                backgroundImage: 'url(\'../static/images/users/6.png\')',
+                                backgroundSize: 'cover',
+                                borderRadius: '50%'}" v-on:click="selectImage()">
+              <div class="image-overlay">
+                <font-awesome-icon :icon="{prefix: 'fas', iconName: 'edit'}"></font-awesome-icon>
+                <input type="file" id="baseImgFile" @change="fileChanged" accept="image/*">
+              </div>
+            </div>
           </b-col>
-          <b-col md="8" class="text-white ml-3">
+          <b-col md="9" class="text-white">
             <b-row>
               <b-col md="12">
                 <h2 class="text-white">
@@ -14,10 +24,10 @@
                 </h2>
               </b-col>
             </b-row>
-            <b-row class="mt-2">
+            <b-row class="mt-2" v-if="typeof user.companies !== 'undefined'">
               <b-col v-if="user.companies.length > 0">
                 <span v-for="company in user.companies">
-                  <b>{{company.role}} @ <a class="text-white text-underline" v-bind:href="'/company/' + company.id">{{company.name}}</a></b><br>
+                  <b>{{company.role}} @ <a class="text-white text-underline" v-bind:href="'/company/' + company.company_id">{{company.name}}</a></b><br>
                 </span>
               </b-col>
               <b-col v-if="user.companies.length ===0">
@@ -40,7 +50,10 @@
             </b-row>
             <b-row class="mt-3">
               <b-col class="opacity-text-8" md="12">
-                <b-link v-for="site in user.social_media_sites" class="social-media-link" v-bind:href="site.url.includes('https://') ? site.url : 'https://' + site.url" target="_blank">
+                <b-link v-if="user.website !== null && user.website.length > 0" class="social-media-link" v-bind:href="user.website">
+                  <font-awesome-icon :icon="{prefix: 'fas', iconName: 'globe'}"></font-awesome-icon>
+                </b-link>
+                <b-link v-for="site in user.social_media_sites" class="social-media-link" v-bind:href="getLinkFromSite(site)" target="_blank">
                   <font-awesome-icon :icon="{ prefix: 'fab', iconName: site.site }"></font-awesome-icon>
                 </b-link>
                 <span v-if="user.social_media_sites.length === 0" class="modal-hover" v-b-modal.AddSocialMediaModal>
@@ -257,6 +270,9 @@
                     </b-col>
                     <b-col style="padding-left: 45px;" v-if="accountInfoEditting">
                       <b-form-input v-model="user.email" type="tel"></b-form-input>
+                      <b-form-checkbox v-model="user.mailVis">
+                        Email visible to everyone
+                      </b-form-checkbox>
                     </b-col>
                   </b-row>
 
@@ -365,7 +381,7 @@
         </b-row>
       </b-container>
     </b-row>
-    <social-media-modal v-bind:sites="socialMediaSites" v-bind:smrs="user.social_media_sites" v-bind:resourceId="user.id" v-bind:type="type"></social-media-modal>
+    <social-media-modal v-bind:sites="socialMediaSites" v-bind:smrs="user.social_media_sites" v-bind:resourceId="user.id" v-bind:type="type" v-bind:website="user.website"></social-media-modal>
     <change-password-modal v-bind:username="user.username" v-bind:userid="user.id"></change-password-modal>
     <company-role-modal v-bind:companies="companies" v-bind:user_companies="user.companies"></company-role-modal>
     <user-tags-modal v-bind:tags="tags" v-bind:user_tags="user.tags"></user-tags-modal>
@@ -411,6 +427,27 @@ export default {
     }
   },
   methods: {
+    selectImage () {
+      document.getElementById('baseImgFile').click()
+    },
+    fileChanged (event) {
+      if (event.target.files && event.target.files[0]) {
+        let reader = new FileReader()
+        reader.onload = function (e) {
+          // e.target.result is the base64 image
+          document.getElementById('baseImg').style.backgroundImage = 'url(\'' + e.target.result + '\')'
+        }
+        reader.readAsDataURL(event.target.files[0])
+
+        let imageFile = event.target.files[0] // this is the img file
+      }
+    },
+    getLinkFromSite (site) {
+      if (site.site === 'linkedin') {
+        return 'https://www.linkedin.com/in/' + site.url
+      }
+      return 'https://www.' + site.site + '.com/' + site.url
+    },
     editContactInfo() {
       this.contactInfoEditting = !this.contactInfoEditting
     },
@@ -423,15 +460,35 @@ export default {
     editAddressInfo() {
       this.addressInfoEditting = !this.addressInfoEditting
     },
+    // switchMailVis () {
+    //   this.user.mailVis = !this.user.mailVis
+    //
+    // },
     saveBaseAccountInfo () {
       auth.updateUser({user: this.user}).then((resp) => {
-        this.$store.dispatch('updateToken', resp.data.token)
-        this.contactInfoEditting = false
-        this.personalInfoEditting = false
-        this.accountInfoEditting = false
-        this.addressInfoEditting = false
+        if (!resp.data.success) {
+
+        } else {
+          this.$store.dispatch('updateToken', resp.data.token)
+          this.getProfile()
+          this.contactInfoEditting = false
+          this.personalInfoEditting = false
+          this.accountInfoEditting = false
+          this.addressInfoEditting = false
+          this.$toasted.show('Successfully changed your information',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+          )
+        }
       }).catch((err) => {
-        alert(err.message)
+        this.$toasted.show('Failed to change your information',
+          {
+            position: 'top-center',
+            duration: 3000
+          }
+        )
       })
     },
     compare(resourceSocialMediaSites, socialMediaSites){
@@ -460,7 +517,7 @@ export default {
         this.$store.dispatch('logout')
       })
 
-      TagsApi.getTags().then((resp) => {
+      TagsApi.getUserTags().then((resp) => {
         this.tags = resp.data
       }).catch((err) => {
         this.$store.dispatch('logout')
@@ -469,7 +526,7 @@ export default {
   },
   created () {
     Emitter.$on('passwordChanged', (token) => {
-      this.$store.dispatch('updateToken', token)
+        this.$store.dispatch('updateToken', token)
       this.$toasted.show('Succesfully changed your password',
         {
           position: 'top-center',
@@ -478,6 +535,7 @@ export default {
       )
     })
     Emitter.$on('companyRolesChanged', () => {
+      this.getProfile()
       this.$toasted.show('Successfully changed your company roles',
         {
           position: 'top-center',
@@ -493,13 +551,21 @@ export default {
         }
       )
     })
+
+    Emitter.$on('updatedSocialMediaSiteForUser', (token) => {
+      this.$store.dispatch('updateToken', token)
+      this.getProfile()
+      this.$toasted.show('Successfully updated your socials',
+        {
+          position: 'top-center',
+          duration: 3000
+        }
+      )
+    })
+
   },
   mounted () {
     this.getProfile()
-
-    Emitter.$on('updatedSocialMediaSiteForUser', () => {
-      this.getProfile()
-    })
   }
 }
 </script>
@@ -560,5 +626,33 @@ export default {
   }
   .modal-hover:hover{
     color:#fff;
+  }
+  #baseImgFile {
+    display:none
+  }
+  .image-wrapper{
+    display:inline-block;
+    position:relative;
+  }
+  .image-wrapper .image-overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:rgba(0,0,0,.8);
+    top: 0;
+    left: 0;
+    border-radius:50%;
+    text-align:center;
+    line-height:150px;
+    color:white;
+    font-size:35px;
+    opacity: 0;
+    visibility: hidden;
+    transition:250ms;
+    cursor:pointer;
+  }
+  .image-wrapper:hover .image-overlay{
+    opacity: 1;
+    visibility: visible;
   }
 </style>
