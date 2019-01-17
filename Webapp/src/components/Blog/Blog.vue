@@ -57,7 +57,7 @@
                         </ul>
                       </b-col>
                       <b-col style="color: white; text:" class="text-right">
-                        <social-sharing :url="blogUrl"
+                        <social-sharing style="cursor: pointer;" :url="blogUrl"
                                               :title="blog.title"
                                               :description="blog.description"
                                               hashtags="TheCeeSpot"
