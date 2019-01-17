@@ -75,7 +75,7 @@ Vue.use(FullCalendar);
 Vue.use(Datetime);
 
 // Set baseURL and some other stuff to trigger sourcetree
-axios.defaults.baseURL = 'https://vps437.directvps.nl:3000'
+axios.defaults.baseURL = 'http://localhost:3000'
 
 window.Emitter = new Vue();
 

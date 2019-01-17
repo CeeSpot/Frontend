@@ -29,6 +29,8 @@ import AdminBlogs from '@/components/Admin/Blogs/Blogs'
 import AdminAddBlog from '@/components/Admin/Blogs/Addblog'
 import AdminEditBlog from '@/components/Admin/Blogs/Editblog'
 
+import Test from '@/components/Test/Test'
+
 Vue.use(Router)
 
 export default new Router({
@@ -146,5 +148,10 @@ export default new Router({
       name: 'editBlog',
       component: AdminEditBlog
     },
+    {
+      path: '/test',
+      name: 'test',
+      component: Test
+    }
   ]
 })

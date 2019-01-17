@@ -52,8 +52,9 @@
       addBlog(){
           var blog = {title: this.title, description: this.description, body: this.content};
           if(this.title && this.description && this.content){
-          AdminBlogApi.addBlog(blog).then(response => { 
-              location.href = '/admin/blogs/';
+          AdminBlogApi.addBlog(blog).then(response => {
+            console.log(response);
+              // location.href = '/admin/blogs/';
            });
           } else {
             
