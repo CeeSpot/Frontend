@@ -116,23 +116,4 @@
 </script>
 
 <style scoped>
-    .user-list-item {
-        margin-top: 15px;
-        cursor: pointer;
-    }
-
-    .user-list-item:first-of-type {
-        margin-top: 0;
-    }
-
-    .user-card {
-        border-radius: 4px;
-        padding: 20px;
-        background-color: white;
-    }
-
-    .user-card:hover {
-        background-color: #E60000;
-        color: white;
-    }
 </style>

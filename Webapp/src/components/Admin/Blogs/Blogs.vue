@@ -4,11 +4,10 @@
             <admin-menu v-bind:active="active"></admin-menu>
             <b-col md="8">
                   <b-row v-for="blog in blogs" class="user-list-item">
-                    <b-col md="12" class="shadow user-card" v-on:click="openDetailPage(blog.id)">
-                        <b-row>
-                            <b-col md="4">{{ blog.title }}</b-col>
-                        </b-row>
-                    </b-col>
+                    <AdminCard 
+                    :firstcol="blog.title"
+                    secondcol="" 
+                    :target="'/admin/blogs/edit/' + blog.id"></AdminCard>
                 </b-row>
             </b-col>
         </b-row>
@@ -20,12 +19,14 @@
   import AdminMenu from '@/components/Admin/AdminMenu'
   import ActionButton from '@/components/Core/Other/ActionButton'
   import blogApi from '@/services/api/blogs.js'
+  import AdminCard from '@/components/Core/Other/AdminCard'
 
   export default {
     name: "blogs",
     components: {
       AdminMenu,
-      ActionButton
+      ActionButton,
+      AdminCard
     },
     data() {
       return {
@@ -34,11 +35,8 @@
       }
     },
     methods: {
-        formatDate(date) {
+      formatDate(date) {
             return moment(date).format('DD-MM-YYYY')
-      },
-      openDetailPage(id) {
-          this.$router.push('/admin/blogs/edit/' + id);
       },
       routeAddBlog(){
             location.href = '/admin/blogs/add';
@@ -51,23 +49,4 @@
 </script>
 
 <style scoped>
-    .user-list-item {
-        margin-top: 15px;
-        cursor: pointer;
-    }
-
-    .user-list-item:first-of-type {
-        margin-top: 0;
-    }
-
-    .user-card {
-        border-radius: 4px;
-        padding: 20px;
-        background-color: white;
-    }
-
-    .user-card:hover {
-        background-color: #E60000;
-        color: white;
-    }
 </style>

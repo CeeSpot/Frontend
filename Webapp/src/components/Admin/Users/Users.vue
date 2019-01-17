@@ -45,16 +45,4 @@
 </script>
 
 <style scoped>
-    .user-list-item {
-        margin-top: 15px;
-    }
-
-    .user-list-item:first-of-type {
-        margin-top: 0;
-    }
-
-    .user-card {
-        border-radius: 4px;
-        padding: 20px;
-    }
 </style>
