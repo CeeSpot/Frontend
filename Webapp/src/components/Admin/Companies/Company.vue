@@ -1,7 +1,20 @@
 <template>
     <b-container style="margin-top: 150px;">
-    <b-form-input class="mb15" type="text" v-model="company.name"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="company.description"></b-form-input>
+      <b-form-group label="Name" label-for="companyName">
+        <b-form-input id="companyName" class="mb15" type="text" v-model="company.name"></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Description" label-for="companyDescription">
+        <b-form-input id="companyDescription" class="mb15" type="text" v-model="company.description"></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Name" label-for="companyEmail">
+        <b-form-input id="companyEmail" class="mb15" type="email" v-model="company.email"></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Name" label-for="companyPhone">
+        <b-form-input id="companyPhone" class="mb15" type="tel" v-model="company.phone"></b-form-input>
+      </b-form-group>
     </b-container>
 </template>
 
@@ -29,7 +42,7 @@
     },
     mounted() {
         CommunityApi.getCompany(this.$route.params.id).then(response => {
-            this.company = response.data.data[0];
+            this.company = response.data.company;
         })
     }
   }

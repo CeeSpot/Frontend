@@ -18,6 +18,9 @@ import Register from '@/components/Core/Authentication/RegisterAndLogin'
 import Profile from '@/components/UserProfile/Profile'
 import Settings from '@/components/UserProfile/Settings'
 
+// Company
+import Company from '@/components/Community/Company'
+
 // Admin
 import AdminUsers from '@/components/Admin/Users/Users'
 import AdminUser from '@/components/Admin/Users/User'
@@ -49,6 +52,11 @@ export default new Router({
       path: '/user/:id',
       name: 'User',
       component: User
+    },
+    {
+      path: '/company/:id',
+      name: 'Company',
+      component: Company
     },
     {
       path: '/community',

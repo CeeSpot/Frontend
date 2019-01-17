@@ -17,23 +17,53 @@
     </div>
 
     <b-form @submit="onSubmit">
-
       <b-form-group v-for="smr in smrs" v-bind:id="smr.site + 'fg'"
                     v-bind:label="smr.site | capitalize"
-                    v-bind:label-for="smr.site + 'fi'">
-        <b-form-input v-bind:id="smr.site + 'fi'"
-                      type="text"
-                      v-model="smr.url">
-        </b-form-input>
+                    v-bind:label-for="smr.site + 'fi'" :key="smr.site">
+        <b-input-group>
+          <b-input-group-prepend>
+            <b-btn variant="outline-info" v-bind:class="smr.site">{{smr.site}}.com/</b-btn>
+          </b-input-group-prepend>
+          <b-form-input v-bind:id="smr.site + 'fi'"
+                        type="text"
+                        v-model="smr.url"></b-form-input>
+        </b-input-group>
       </b-form-group>
 
-      <b-form-group v-for="site in sites" v-bind:id="site.site + 'fg'"
-                    v-bind:label="site.site | capitalize"
-                    v-bind:label-for="site.site + 'fi'">
-        <b-form-input v-bind:id="site.site + 'fi'"
-                      type="text"
-                      v-model="site.url">
-        </b-form-input>
+      <!--<b-form-group v-for="smr in smrs" v-bind:id="smr.site + 'fg'"-->
+                    <!--v-bind:label="smr.site | capitalize"-->
+                    <!--v-bind:label-for="smr.site + 'fi'" :key="smr.site">-->
+        <!--<b-input-group-prepend>-->
+          <!--<b-btn variant="outline-info" v-bind:class="smr.site">{{smr.site}}.com/</b-btn>-->
+        <!--</b-input-group-prepend>-->
+        <!--<b-form-input v-bind:id="smr.site + 'fi'"-->
+                      <!--type="text"-->
+                      <!--v-model="smr.url"></b-form-input>-->
+      <!--</b-form-group>-->
+
+
+      <b-form-group v-for="smr in sites" v-bind:id="smr.site + 'fg'"
+                    v-bind:label="smr.site | capitalize"
+                    v-bind:label-for="smr.site + 'fi'" :key="smr.site">
+        <b-input-group>
+          <b-input-group-prepend>
+            <b-btn variant="outline-info" v-bind:class="smr.site">{{smr.site}}.com/</b-btn>
+          </b-input-group-prepend>
+          <b-form-input v-bind:id="smr.site + 'fi'"
+                        type="text"
+                        v-model="smr.url"></b-form-input>
+        </b-input-group>
+      </b-form-group>
+      <b-form-group label="Your website"
+                    label-for="website">
+        <b-input-group>
+          <b-input-group-prepend>
+            <b-btn variant="outline-info" class="website">website</b-btn>
+          </b-input-group-prepend>
+          <b-form-input id="website"
+                        type="text"
+                        v-model="website"></b-form-input>
+        </b-input-group>
       </b-form-group>
     </b-form>
 
@@ -49,57 +79,81 @@
 </template>
 
 <script>
-  import socialMediaApi from '@/services/api/SocialMedia.js';
+import socialMediaApi from '@/services/api/SocialMedia.js';
 
-  export default {
-    name: 'AddSocialMediaModal',
-    data() {
-      return {
-        name: 'SocialMediaModal',
-        url: '',
-        selected: -1
-      }
+export default {
+  name: 'AddSocialMediaModal',
+  data() {
+    return {
+      name: 'SocialMediaModal',
+      url: '',
+      selected: -1
+    }
+  },
+  methods: {
+    closeModal() {
+
+      this.$refs.AddSocialMediaModal.hide()
     },
-    methods: {
-      closeModal() {
+    onSubmit(evt) {
+      evt.preventDefault();
+    },
+    saveSocialMedia(evt) {
+      evt.preventDefault();
 
+      let post = {
+        resource_id: this.resourceId,
+        social_media_resource_sites: this.smrs,
+        sites: this.sites,
+        type: this.type,
+        website: this.website
+      }
+      socialMediaApi.addResourceSite(post).then((resp) => {
+        if (this.type === 1) {
+          Emitter.$emit('updatedSocialMediaSiteForUser', resp.data.token)
+        }
         this.$refs.AddSocialMediaModal.hide()
-      },
-      onSubmit(evt) {
-        evt.preventDefault();
-      },
-      saveSocialMedia(evt) {
-        evt.preventDefault();
+      }).catch((err) => {
+        console.log(err);
+        this.$refs.AddSocialMediaModal.hide()
+      });
+      console.log(post);
 
-//        console.log("Sites: " + JSON.stringify(this.sites))
-//        console.log("SMRS: " + JSON.stringify(this.smrs))
-//        console.log("Userid: " +this.userId)
-        let post = {
-          resource_id: this.resourceId,
-          social_media_resource_sites: this.smrs,
-          sites: this.sites,
-          type: this.type
-        };
-        socialMediaApi.addResourceSite(post).then((data) => {
-          console.log(data);
-          if (type === 1) {
-            Emitter.$emit('updatedSocialMediaSiteForUser')
-          }
-          this.$refs.AddSocialMediaModal.hide()
-        }).catch((err) => {
-          console.log(err);
-          this.$refs.AddSocialMediaModal.hide()
-        });
-        console.log(post);
-
-      }
-    },
-    props: ['sites', 'smrs', 'resourceId', 'type']
-  }
+    }
+  },
+  props: ['sites', 'smrs', 'resourceId', 'type', 'website']
+}
 </script>
 
 <style>
   label {
     font-weight: bold;
+  }
+  .twitter,.twitter:hover {
+    color: #1da1f2;
+    border-color:#1da1f2;
+  }
+  .facebook,.facebook:hover {
+    color: #3b5998;
+    border-color:#3b5998;
+  }
+  .instagram,.instagram:hover {
+    color: #e1306c;
+    border-color:#e1306c;
+  }
+  .linkedin,.linkedin:hover {
+    color: #0077b5;
+    border-color:#0077b5;
+  }
+  .medium,.medium:hover {
+    color: #00ab6c;
+    border-color:#00ab6c;
+  }
+  .github,.github:hover,.website,.website:hover {
+    color: #4078c0;
+    border-color:#4078c0;
+  }
+  .btn-outline-info:hover {
+    background:none;
   }
 </style>

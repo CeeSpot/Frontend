@@ -64,7 +64,8 @@
                         img-src="https://images.unsplash.com/photo-1525904971217-668a1229f701?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
                         img-alt="Image"
                         img-top
-                        tag="article">
+                        tag="article"
+                        v-on:click="routeToCompany(company.id)">
                     <p class="card-text">
                         {{descriptionLimited(company.description)}}
                     </p>
@@ -76,102 +77,105 @@
 
 <script>
 
-  import CommunityApi from '@/services/api/community.js'
-  import TagApi from '@/services/api/tags.js'
-  import Tag from '@/components/Core/Other/Tag' // Import the navigation into the base app
+import CommunityApi from '@/services/api/community.js'
+import TagApi from '@/services/api/tags.js'
+import Tag from '@/components/Core/Other/Tag' // Import the navigation into the base app
 
-  export default {
-    name: 'Community',
-    data() {
-      return {
-        companies: [],
-        users: [],
-        tags: [],
-        showMembers: true,
-        search: '',
-        selectedTags: []
+export default {
+  name: 'Community',
+  data() {
+    return {
+      companies: [],
+      users: [],
+      tags: [],
+      showMembers: true,
+      search: '',
+      selectedTags: []
+    }
+  },
+  mounted() {
+    CommunityApi.getUsers().then(response => {
+      console.log(response);
+      this.users = response.data.data
+    })
+    CommunityApi.getCompanies().then(response => this.companies = response.data)
+    TagApi.getUserTags().then(response => this.tags = response.data)
+  },
+  methods: {
+    toggle: function (value) {
+      if (value === 'members') {
+        this.showMembers = true
+      }
+      else {
+        this.showMembers = false
       }
     },
-    mounted() {
-      CommunityApi.getUsers().then(response => {
-        console.log(response);
-        this.users = response.data.data
-      });
-      CommunityApi.getCompanies().then(response => this.companies = response.data)
-      TagApi.getTags().then(response => this.tags = response.data)
+    fullName: function (first_name, insertion, last_name) {
+      let full_name;
+      if (insertion) {
+        full_name = first_name + ' ' + insertion + ' ' + last_name;
+      } else {
+        full_name = first_name + ' ' + last_name;
+      }
+      return full_name;
     },
-    methods: {
-      toggle: function (value) {
-        if (value === 'members') {
-          this.showMembers = true
-        }
-        else {
-          this.showMembers = false
-        }
-      },
-      fullName: function (first_name, insertion, last_name) {
-        let full_name;
-        if (insertion) {
-          full_name = first_name + ' ' + insertion + ' ' + last_name;
-        } else {
-          full_name = first_name + ' ' + last_name;
-        }
-        return full_name;
-      },
-      descriptionLimited: function (description) {
-        if (description) {
-          return description.length > 100 ? description.substring(0, 100) + '...' : description;
-        }
-        return '';
-      },
-      updateSelectedTags: function (id) {
-        let button = document.getElementById("tag" + id);
-        if (button.classList.contains('btn-ceecee-oval-red-active')) {
-          button.classList.remove("btn-ceecee-oval-red-active");
-          this.selectedTags.splice(this.selectedTags.indexOf(id), 1);
-        } else {
-          button.classList.add("btn-ceecee-oval-red-active");
-          this.selectedTags.push(id);
-        }
-      },
-      filterSearchAndTags() {
-        let newUserList = [];
-        let filteredTags = 0;
-        this.userList.forEach(user => {
-          if (user.tags.length > 0) {
-            user.tags.forEach(tag => {
-              if (this.selectedTags.includes(tag.id)) {
-                if (!newUserList.includes(user)) {
-                  newUserList.push(user);
-                  filteredTags++;
-                }
+    descriptionLimited: function (description) {
+      if (description) {
+        return description.length > 100 ? description.substring(0, 100) + '...' : description;
+      }
+      return '';
+    },
+    updateSelectedTags: function (id) {
+      let button = document.getElementById("tag" + id);
+      if (button.classList.contains('btn-ceecee-oval-red-active')) {
+        button.classList.remove("btn-ceecee-oval-red-active");
+        this.selectedTags.splice(this.selectedTags.indexOf(id), 1);
+      } else {
+        button.classList.add("btn-ceecee-oval-red-active");
+        this.selectedTags.push(id);
+      }
+    },
+    filterSearchAndTags() {
+      let newUserList = [];
+      let filteredTags = 0;
+      this.userList.forEach(user => {
+        if (user.tags.length > 0) {
+          user.tags.forEach(tag => {
+            if (this.selectedTags.includes(tag.id)) {
+              if (!newUserList.includes(user)) {
+                newUserList.push(user);
+                filteredTags++;
               }
-            });
-          }
-        })
-        if (this.selectedTags.length === 0) {
-          newUserList = this.userList;
+            }
+          });
         }
-        return newUserList;
-      },
-      routeToMember(id) {
-        location.href = '/user/' + id;
+      })
+      if (this.selectedTags.length === 0) {
+        newUserList = this.userList;
       }
+      return newUserList;
     },
-    components: {},
-    computed: {
-      userList() {
-        return this.users.filter(user => {
-          return this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase())
-        })
-      },
-      companyList() {
-        return this.companies.filter(company => {
-          return company.name.toLowerCase().includes(this.search.toLowerCase())
-        })
-      }
+    routeToMember (id) {
+      location.href = '/user/' + id
+    },
+    routeToCompany (id) {
+      location.href = '/company/' + id
+    }
+  },
+  components: {},
+  computed: {
+    userList() {
+      return this.users.filter(user => {
+        return this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase())
+      })
+    },
+    companyList() {
+      return this.companies.filter(company => {
+        return company.name.toLowerCase().includes(this.search.toLowerCase())
+      })
     }
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
