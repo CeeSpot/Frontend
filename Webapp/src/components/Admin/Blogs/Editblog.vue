@@ -30,7 +30,23 @@
         <vue-editor class="card shadow no-scale" id="blogText" v-model="blog.body"></vue-editor>
       </b-col>
     </b-row>
-     <action-button color="red" :fixed="true" icon="check" @click.native="editBlog()"></action-button>
+     <div class="fab-buttons">
+        <b-row>
+          <b-col>
+              <action-button color="red" :fixed="false" icon="trash" @click.native="deleteBlog()"></action-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+              <action-button color="red" :fixed="false" icon="save" @click.native="editBlog()"></action-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+              <action-button color="red" :fixed="false" icon="chevron-left" @click.native="back()"></action-button>
+          </b-col>
+        </b-row>
+     </div>
     </b-container>
 </template>
 
@@ -62,6 +78,12 @@
       editBlog(){
           this.blog.tags = this.values;
           AdminBlogApi.updateBlog(this.blog).then(response => { location.href = '/admin/blogs/'; });
+      },
+      back() {
+        location.href = '/admin/blogs/'
+      },
+      deleteBlog() {
+
       }
     },
     mounted() {
@@ -75,5 +97,11 @@
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
-
+  .fab-buttons {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin-bottom: 20px;
+        margin-right: 20px;
+  }
 </style>
