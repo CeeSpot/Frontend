@@ -30,6 +30,7 @@ import AdminAddBlog from '@/components/Admin/Blogs/Addblog'
 import AdminEditBlog from '@/components/Admin/Blogs/Editblog'
 import AdminSpaces from '@/components/Admin/Spaces/Spaces'
 import AdminSpace from '@/components/Admin/Spaces/Space'
+import AdminRequests from '@/components/Admin/Requests/Requests'
 
 Vue.use(Router)
 
@@ -126,6 +127,11 @@ export default new Router({
       path: '/admin/companies',
       name: 'Companies',
       component: AdminCompanies
+    },
+    {
+      path: '/admin/requests',
+      name: 'Requests',
+      component: AdminRequests
     },
     {
       path: '/admin/companies/:id',

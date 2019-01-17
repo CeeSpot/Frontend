@@ -115,7 +115,7 @@
     name: "Space",
     mounted() {
       SpaceApi.getSpace(this.$route.params.id).then(response => {
-          this.space = response.data.data[0];
+          this.space = response.data.data;
           this.booking.space_id = this.space.id;
       })
     },
@@ -131,7 +131,9 @@
     },
     methods: {
     addReservation(){
-       // this.booking.date = moment(this.booking.date).format('YYYY-MM-DD');
+       this.booking.date = moment(this.booking.date).format('YYYY-MM-DD');
+       this.booking.start = moment(this.booking.start).format('HH:mm');
+       this.booking.end = moment(this.booking.end).format('HH:mm');
         SpaceApi.checkAvailability(this.booking).then(response => { })
     },
       getData() {
