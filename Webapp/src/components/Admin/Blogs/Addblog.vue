@@ -23,8 +23,6 @@
         <b-row>
             <b-col>
                 <label for="file">Upload file: </label>
-                <!--<input type="file" name="file" id="file" @change="onFileChanged">-->
-
                 <b-form-file @change="onFileChanged" v-model="file" :state="Boolean(file)"
                              placeholder="Choose a file..."></b-form-file>
                 <div class="mt-3">Selected file: {{file && file.name}}</div>
@@ -82,14 +80,6 @@
         title: '',
         description: '',
         tags: [],
-        options: [
-          {name: 'Vue.js', language: 'JavaScript'},
-          {name: 'Adonis', language: 'JavaScript'},
-          {name: 'Rails', language: 'Ruby'},
-          {name: 'Sinatra', language: 'Ruby'},
-          {name: 'Laravel', language: 'PHP'},
-          {name: 'Phoenix', language: 'Elixir'}
-        ],
         values: null,
         file: null
       }
@@ -99,7 +89,7 @@
         this.file = event.target.files[0];
       },
       addBlog() {
-        var blog = {title: this.title, description: this.description, body: this.content, tags: this.options};
+        var blog = {title: this.title, description: this.description, body: this.content, tags: this.values};
         if (this.title && this.description && this.content) {
           AdminBlogApi.addBlog(blog).then(response => {
             uploadFile.uploadFile(response.data.data.insertId, 'blogs_header', this.file);
