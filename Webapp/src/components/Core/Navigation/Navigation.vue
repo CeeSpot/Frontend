@@ -13,7 +13,7 @@
           <b-nav-item href="/spaces">Spaces</b-nav-item>
           <b-nav-item href="/events">Events</b-nav-item>
           <b-nav-item href="/community">Community</b-nav-item>
-          <b-nav-item href="/blogs">Blogs</b-nav-item>
+          <b-nav-item v-if="blogActive" href="/blogs">Blogs</b-nav-item>
           <b-nav-item href="/contact">Contact</b-nav-item>
           <b-nav-item href="#">
             <b-img id="language-img" v-on:click="switchLanguage()"
@@ -41,6 +41,7 @@
 
 <script>
   import Vue from 'vue'
+  import settingsApi from '@/services/api/admin/settings.js'
 
   const LANGUAGE_KEY = 'CCLanguage'
   export default {
@@ -50,6 +51,7 @@
         msg: 'Welcome to Your Vue.js App',
         language: 'nl',
         user: null,
+        blogActive: false
       }
     },
     methods: {
@@ -109,6 +111,13 @@
 //      if (typeof user !== 'undefined' && user !== null && user.length > 0) {
 //        this.loggedInUser = user;
 //      }
+      settingsApi.getSettings().then(response => { 
+          if(response.data.data[0].is_on == 1){
+            this.blogActive = true;
+          } else {
+            this.blogActive = false;
+          }
+      });
     }
   }
 </script>

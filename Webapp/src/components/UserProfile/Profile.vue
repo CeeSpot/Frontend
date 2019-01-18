@@ -386,14 +386,19 @@
 <script>
 import UserMenu from '@/components/UserProfile/UserMenu'
 import Tag from '@/components/Core/Other/Tag'
+
 import CommunityApi from '@/services/api/community.js'
 import TagsApi from '@/services/api/tags.js'
 import auth from '@/services/api/Authentication.js'
+import uploadFile from '@/services/api/uploadFile.js'
+
 import socialMediaModal from '@/components/Core/Modals/AddSocialMediaModal'
 import changePasswordModal from '@/components/Core/Modals/ChangePasswordModal'
 import companyRoleModal from '@/components/Core/Modals/CompanyRoleModal'
 import userTagsModal from '@/components/Core/Modals/UserTagsModal'
+
 import Company from '../Admin/Companies/Company'
+
 
 export default {
   name: 'user-profile',
@@ -435,6 +440,7 @@ export default {
         reader.readAsDataURL(event.target.files[0])
 
         let imageFile = event.target.files[0] // this is the img file
+        uploadFile.uploadFile(this.user.id, 'profile', imageFile)
       }
     },
     getLinkFromSite (site) {
@@ -561,6 +567,8 @@ export default {
   },
   mounted () {
     this.getProfile()
+    let imageURL = ""
+    uploadFile.checkIfFileExists(this.user.id);
   }
 }
 </script>

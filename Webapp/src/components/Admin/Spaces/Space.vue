@@ -1,17 +1,6 @@
 <template>
     <b-container style="margin-top: 150px;">
     <b-col cols="4" class="text-center" offset="4" style="margin-bottom: 20px;">
-    <action-button 
-        color="red" 
-        icon="save" 
-        :fixed="false"
-        v-on:click.native="updateSpace"></action-button>
-    <action-button 
-        color="red" 
-        icon="trash" 
-        :fixed="false"
-        v-on:click.native="deleteSpace"
-        style="margin-left: 15px;"></action-button>
 
     </b-col>
     <b-row>
@@ -40,6 +29,32 @@
     </b-card>
     </b-col>
     </b-row>
+    <div class="fab-buttons">
+        <b-row class="mt-3">
+          <b-col>
+            <action-button 
+            color="red" 
+            icon="trash" 
+            :fixed="false"
+            v-on:click.native="deleteSpace"></action-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+            <action-button 
+            color="red" 
+            icon="save" 
+            :fixed="false"
+            v-on:click.native="updateSpace"></action-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+              <action-button color="red" :fixed="false" icon="chevron-left" @click.native="back()"></action-button>
+          </b-col>
+        </b-row>
+
+    </div>
     </b-container>
 </template>
 
@@ -74,11 +89,14 @@
           SpaceApi.updateSpace(this.space).then(response => { 
               console.log(response.data.success);
               });
+      },
+      back() {
+        location.href = '/admin/spaces/'
       }
     },
     mounted() {
       SpaceApi.getSpace(this.$route.params.id).then(response => {
-          this.space = response.data.data[0];
+          this.space = response.data.data;
       })
     }
   }

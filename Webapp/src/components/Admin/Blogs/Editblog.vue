@@ -2,7 +2,7 @@
     <b-container style="margin-top: 150px;">
     <b-row>
       <b-col>
-        <label for="inputTitle">Title:</label>
+        <label class="font-weight-bold" for="inputTitle">Title</label>
         <div style="width: 100%; font-size: 1.125em;" class="card shadow no-scale">
                <b-form-input id="inputTitle" v-model="blog.title" type="text" placeholder="Title"></b-form-input> 
         </div>
@@ -10,7 +10,7 @@
     </b-row>
     <b-row>
       <b-col>
-        <label for="inputDescription">Description:</label>
+        <label class="font-weight-bold" for="inputDescription">Description</label>
         <div style="width: 100%; font-size: 1.125em;" class="card shadow no-scale">
                    <b-form-textarea id="inputDescription"
                      v-model="blog.description"
@@ -22,11 +22,11 @@
     </b-row>
     <b-row>
       <b-col>
-        <label for="inputTags">Tags:</label>
+        <label class="font-weight-bold" for="inputTags">Tags</label>
           <multiselect v-model="values" :options="tags" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Pick some" label="description" track-by="description" :preselect-first="false">
             <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} options selected</span></template>
           </multiselect>
-        <label class="mt-3" for="blogText">Text:</label>
+        <label class="mt-3 font-weight-bold" for="blogText">Text</label>
         <vue-editor class="card shadow no-scale" id="blogText" v-model="blog.body"></vue-editor>
       </b-col>
     </b-row>
@@ -83,7 +83,13 @@
         location.href = '/admin/blogs/'
       },
       deleteBlog() {
-
+              let data = {
+                data:
+                  {
+                    blog_id: this.id
+                  }
+              }
+        AdminBlogApi.deleteBlog(data).then(response => { location.href = '/admin/blogs/'; });
       }
     },
     mounted() {
@@ -97,11 +103,5 @@
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
-  .fab-buttons {
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        margin-bottom: 20px;
-        margin-right: 20px;
-  }
+
 </style>

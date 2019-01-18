@@ -1,18 +1,6 @@
 <template>
     <b-container style="margin-top: 150px;">
     <b-col cols="4" class="text-center" offset="4" style="margin-bottom: 20px;">
-    <action-button 
-        color="red" 
-        icon="save" 
-        :fixed="false"
-        v-on:click.native="updateEvent"></action-button>
-    <action-button 
-        color="red" 
-        icon="trash" 
-        :fixed="false"
-        v-on:click.native="deleteEvent"
-        style="margin-left: 15px;"></action-button>
-
     </b-col>
     <b-row>
     <b-col cols="6">
@@ -27,10 +15,9 @@
     <b-col cols="6">
     <b-card class="no-scale" title="Location">
     <b-form-input class="mb15" type="text" v-model="event.location_name" placeholder="Naam"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.location_address" placeholder="Straat"></b-form-input>
     <b-form-input class="mb15" type="text" v-model="event.location_postalcode" placeholder="Postcode"></b-form-input>
     <b-form-input class="mb15" type="text" v-model="event.location_city" placeholder="Stad"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.location_street" placeholder="Straat"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.location_number" placeholder="Huisnummer"></b-form-input>
     </b-card>
     </b-col>
 <b-col cols="6">
@@ -51,6 +38,32 @@
     </b-card>
     </b-col>
     </b-row>
+    <div class="fab-buttons">
+        <b-row>
+          <b-col>
+        <action-button 
+        color="red" 
+        icon="trash" 
+        :fixed="false"
+        v-on:click.native="deleteEvent"
+        ></action-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+       <action-button 
+        color="red" 
+        icon="save" 
+        :fixed="false"
+        v-on:click.native="updateEvent"></action-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+              <action-button color="red" :fixed="false" icon="chevron-left" @click.native="back()"></action-button>
+          </b-col>
+        </b-row>
+        </div>
     </b-container>
 </template>
 
@@ -102,7 +115,11 @@
       updateEvent() {
           this.event.start = this.start;
           this.event.end = this.end;
+          
           AdminEventApi.updateEvent(this.event).then(response => { alert('succesvol gewijzigd') });
+      },
+      back() {
+        location.href = '/admin/events/'
       }
     },
     mounted() {

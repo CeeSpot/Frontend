@@ -57,17 +57,17 @@
             </b-col>
         </b-row>
 
-        <b-row v-if="!showMembers">
-          <b-col style="margin-bottom: 30px;">
-            <ul>
-              <li v-for="tag in companyTags">
-                <div :id="'tag' + tag.id" v-on:click="updateSelectedUserTags(tag.id);filterSearchAndUserTags();"
-                     class="btn-ceecee-oval-red">{{tag.description}}
-                </div>
-              </li>
-            </ul>
-          </b-col>
-        </b-row>
+        <!--<b-row v-if="!showMembers">-->
+          <!--<b-col style="margin-bottom: 30px;">-->
+            <!--<ul>-->
+              <!--<li v-for="tag in companyTags">-->
+                <!--<div :id="'tag' + tag.id" v-on:click="updateSelectedUserTags(tag.id);filterSearchAndUserTags();"-->
+                     <!--class="btn-ceecee-oval-red">{{tag.description}}-->
+                <!--</div>-->
+              <!--</li>-->
+            <!--</ul>-->
+          <!--</b-col>-->
+        <!--</b-row>-->
         <b-row v-if="!showMembers">
             <b-col md="4" v-for="company in companyList" :key="company.id">
                 <b-card

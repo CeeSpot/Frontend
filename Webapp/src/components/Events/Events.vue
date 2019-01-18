@@ -1,5 +1,17 @@
 <template>
     <b-container class="p-3 container-margin">
+    <b-row id="upcoming-header"><b-col><h1>Upcoming events</h1></b-col></b-row>
+    <b-row id="upcoming-container">
+    <b-col cols="12" md="4" xl="4" lg="4" v-for="upcoming in upcomingEvents" v-on:click="routeToEvent(upcoming.id)">
+        <b-card class="mb-2 upc-card">
+            <div class="upc-title">
+                <strong>{{upcoming.title}}<br/></strong>
+                <span>{{getDateFormat(upcoming.start)}} @ {{getTimeFormat(upcoming.start)}} - {{getTimeFormat(upcoming.end)}}</span>
+            </div>
+        </b-card>
+    </b-col>
+    </b-row>
+    <b-row id="allevents-header"><b-col><h1>All events</h1></b-col></b-row>
         <b-row style="height: 40px;">
             <b-col xs="6" v-if="showCalendar">
                 <b-button style="background-color: white; color: black; height: 30px; line-height: 15px;"
@@ -30,11 +42,11 @@
                 <div class="toggle">
                     <div class="switch">
                         <input type="radio" class="switch-input" name="view" value="calendar" id="calendar"
-                               v-on:click="toggleView()" checked>
-                        <label for="calendar" class="switch-label switch-label-off">&nbsp;{{$t('events.month') | capitalize}}</label>
+                               v-on:click="toggleView('list')" checked>
+                        <label for="calendar" class="switch-label switch-label-off">&nbsp;list</label>
                         <input type="radio" class="switch-input" name="view" value="calendar" id="list"
-                               v-on:click="toggleView()">
-                        <label for="list" class="switch-label switch-label-on">&nbsp;{{$t('other.list') | capitalize}}</label>
+                               v-on:click="toggleView('calendar')">
+                        <label for="list" class="switch-label switch-label-on">&nbsp;calendar</label>
                         <span class="switch-selection"></span>
                     </div>
                 </div>
@@ -81,7 +93,6 @@
           {
             events(start, end, timezone, callback) {
               eventApi.getEvents().then(response => {
-                  console.log(response.data.data);
                 callback(response.data.data)
               })
             }
@@ -96,9 +107,10 @@
           locale: 'en'
         },
         headerTitle: '',
-        showCalendar: true,
+        showCalendar: false,
         events: [],
-        search: ''
+        search: '',
+        upcomingEvents: []
       }
     },
     mounted() {
@@ -107,6 +119,7 @@
           this.toggleLocale(locale);
       });
       eventApi.getEvents().then(response => this.events = response.data.data);
+      eventApi.getUpcoming().then(response => this.upcomingEvents = response.data.data);
     },
     methods: {
       eventSelected(event, jsEvent, view) {
@@ -126,9 +139,9 @@
       toggleLocale(newLocale){
           this.$refs.CalendarRef.fireMethod('option', 'locale', newLocale);
       },
-      toggleView(){
-        console.log(this.showCalendar);
-        this.showCalendar = !this.showCalendar;
+      toggleView(type){
+          if (type === 'calendar') this.showCalendar = true;
+          else  this.showCalendar = false;
       },
       routeToEvent(id) {
         location.href = '/event/' + id;
@@ -139,6 +152,12 @@
         } else {
           return moment(String(dateString)).format('hh:mm @ MM MMMM YYYY')
         }
+      },
+      getDateFormat(input){
+          return moment(input).format('DD-MM-YYYY');
+      },
+      getTimeFormat(input){
+          return moment(input).format('HH:mm');
       }
     },
     filters: {
@@ -160,6 +179,54 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+/* Upcoming */
+.upc-card{
+
+    background-image: url("https://www.intentsfestival.nl/wp-content/themes/intents2016/images/2018/aftermovie/5.jpg");
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 200px;
+    width: 100%;
+}
+
+.upc-card > .card-body{
+    padding: 0px !important;
+}
+
+.upc-title{
+        background-color: rgba(255,255,255,1);
+    margin-top: 115px;
+    padding-left: 28px;
+    width: 100%;
+}
+
+.upc-title > strong{
+    font-size: 22px;
+}
+
+.upc-title > span{
+    font-size: 16px;
+    font-style: italic;
+}
+
+#upcoming-container{
+    margin-bottom: 30px;
+}
+
+#upcoming-header{
+    margin-bottom: 15px;
+}
+/* END */
+
+#allevents-header{
+    margin-bottom: 15px;
+}
+
     .container-margin {
         margin-top: 130px;
     }

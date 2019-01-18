@@ -14,16 +14,15 @@
         <action-button color="red" :fixed="true" icon="plus" v-b-modal.newevent></action-button>
         <!-- Modal Component -->
     <b-modal ref="newEventModal" hide-footer id="newevent" title="Nieuw evenement">
-        <b-form-input class="mb15" v-model="newEventTitle" type="text" placeholder="Titel"></b-form-input>
-        <b-form-textarea class="mb15" rows="3" v-model="newEventDescription" type="text" placeholder="Omschrijving"></b-form-textarea>
-        <b-form-textarea class="mb15" rows="2" v-model="newEventShortDescription" type="text" placeholder="Omschrijving"></b-form-textarea>
-        <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Starttijd" format="dd-MM-yyyy HH:mm:ss" v-model="newEventStart"></datetime>
-        <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Eindtijd" format="dd-MM-yyyy HH:mm:ss" v-model="newEventEnd"></datetime>
-        <b-form-input class="mb15" v-model="newEventLocation" type="text" placeholder="Naam locatie"></b-form-input>
-        <b-form-input class="mb15" v-model="newEventAddress" type="text" placeholder="Adres"></b-form-input>
-        <b-form-input class="mb15" v-model="newEventHousenr" type="text" placeholder="Huisnr"></b-form-input>
-        <b-form-input class="mb15" v-model="newEventPostal" type="text" placeholder="Postcode"></b-form-input>
-        <b-form-input class="mb15" v-model="newEventCity" type="text" placeholder="Stad"></b-form-input>
+        <b-form-input class="mb15" v-model="newEvent.title" type="text" placeholder="Titel"></b-form-input>
+        <b-form-textarea class="mb15" rows="3" v-model="newEvent.description" type="text" placeholder="Omschrijving"></b-form-textarea>
+        <b-form-textarea class="mb15" rows="2" v-model="newEvent.small_description" type="text" placeholder="Korte omschrijving"></b-form-textarea>
+        <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Starttijd" format="dd-MM-yyyy HH:mm:ss" v-model="newEvent.start"></datetime>
+        <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Eindtijd" format="dd-MM-yyyy HH:mm:ss" v-model="newEvent.end"></datetime>
+        <b-form-input class="mb15" v-model="newEvent.location_name" type="text" placeholder="Naam locatie"></b-form-input>
+        <b-form-input class="mb15" v-model="newEvent.location_address" type="text" placeholder="Adres"></b-form-input>
+        <b-form-input class="mb15" v-model="newEvent.location_postalcode" type="text" placeholder="Postcode"></b-form-input>
+        <b-form-input class="mb15" v-model="newEvent.location_city" type="text" placeholder="Stad"></b-form-input>
         <b-button class="float-right" v-on:click="addEvent">Opslaan</b-button>
   </b-modal>
     </b-container>
@@ -49,16 +48,7 @@
         active: "Events",
         openUser: null,
         events: [],
-        newEventTitle: '',
-        newEventDescription: '',
-        newEventShortDescription: '',
-        newEventStart: '',
-        newEventEnd: '',
-        newEventLocation: '',
-        newEventAddress: '',
-        newEventHousenr: '',
-        newEventPostal: '',
-        newEventCity: '',
+        newEvent: {},
         date: '',
         openEvent: null,
         editEvent: null
@@ -69,19 +59,13 @@
             return moment(date).format('DD-MM-YYYY')
       },
       addEvent(){
-          var event = {title: this.newEventTitle, description: this.newEventDescription,
-          start: moment(this.newEventStart).format('YYYY-MM-DD HH:mm:ss'), end: moment(this.newEventEnd).format('YYYY-MM-DD HH:mm:ss'),
-          shortdescription: this.newEventShortDescription, location: this.newEventLocation, address: this.newEventAddress,
-          housenr: this.newEventHousenr, postalcode: this.newEventPostal, city: this.newEventCity}
+          this.newEvent.start =  moment(this.newEvent.start).format('YYYY-MM-DD HH:mm:ss')
+          this.newEvent.end =  moment(this.newEvent.end).format('YYYY-MM-DD HH:mm:ss')
 
-          AdminEventApi.addEvent(event).then(response => { 
+          AdminEventApi.addEvent(this.newEvent).then(response => { 
               this.$refs.newEventModal.hide();
-              this.newEventTitle = '';
-              this.newEventDescription = '';
-              this.newEventStart = '';
-              this.newEventEnd = '';
-
-              this.events.push(event);
+              this.newEvent = {};
+              EventApi.getEvents().then(response => this.events = response.data.data)
            });
       },
       deleteEvent(event){

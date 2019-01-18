@@ -17,6 +17,7 @@
                         </b-row>
                         <b-row class="mt-3">
                             <b-col class="opacity-text-8" md="12">
+                                {{space.capacity}} <br/>
                                 {{space.targets}} <br/>
                                 {{space.facilities}}
                             </b-col>
@@ -38,18 +39,11 @@
                     <b-col>
                         <b-card class="no-scale">
                             <b-row>
-                                <b-col>
-                                    <ins class="font-weight-bold">@ the cee spot</ins>
-                                </b-col>
+                                <h2>Ruimte boeken</h2>
                             </b-row>
                             <b-row>
                                 <b-col>
-                                    <span>test</span>
-                                </b-col>
-                            </b-row>
-                            <b-row>
-                                <b-col>
-                                    <span>test</span>
+                                    <span>{{space.costs}}</span>
                                 </b-col>
                             </b-row>
                             <b-row class="mt-2">
@@ -117,6 +111,7 @@
       SpaceApi.getSpace(this.$route.params.id).then(response => {
           this.space = response.data.data;
           this.booking.space_id = this.space.id;
+          this.booking.space_title = this.space.title;
       })
     },
     data() {

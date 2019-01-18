@@ -34,6 +34,9 @@ import AdminEditBlog from '@/components/Admin/Blogs/Editblog'
 import AdminSpaces from '@/components/Admin/Spaces/Spaces'
 import AdminSpace from '@/components/Admin/Spaces/Space'
 import AdminRequests from '@/components/Admin/Requests/Requests'
+import AdminSettings from '@/components/Admin/Settings/Settings'
+
+import Test from '@/components/Test/Test'
 
 Vue.use(Router)
 
@@ -100,6 +103,11 @@ export default new Router({
       path: '/account/settings',
       name: 'User',
       component: Settings
+    },
+    {
+      path: '/admin/',
+      name: 'Users',
+      component: AdminUsers
     },
     {
       path: '/admin/users',
@@ -171,5 +179,10 @@ export default new Router({
       name: 'editBlog',
       component: AdminEditBlog
     },
+    {
+      path: '/admin/settings',
+      name: 'AdminSettings',
+      component: AdminSettings
+    }
   ]
 })
