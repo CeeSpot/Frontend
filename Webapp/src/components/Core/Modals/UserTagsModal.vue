@@ -27,7 +27,9 @@
         <b-col style="margin-bottom: 30px;">
           <ul>
             <li v-for="(tag, index) in tags" :key="tag.id" >
-              <div :id="'tag' + tag.id" v-bind:class="{'btn-ceecee-oval-red': true,  'active': tag.active}" v-on:click="switchTag(index)">
+              <div :id="'tag' + tag.id"
+                   v-bind:class="{'btn-ceecee-oval-red': true,  active: tag.active}"
+                   v-on:click="switchTag(tag.id, index)">
                 {{tag.description}}
               </div>
             </li>
@@ -60,9 +62,29 @@ export default {
   },
   methods: {
     closeModal () {
+      for (let i = 0; i < this.user_tags.length; i++) {
+        if (this.user_tags[i].id === -1) {
+          document.getElementById('tag' + this.user_tags[i].tag_id).classList.remove('active')
+          this.user_tags.splice(i,1)
+        }
+      }
+      for (let i = 0; i < this.deleted.length; i++) {
+        if (this.deleted[i].id !== -1) {
+          document.getElementById('tag' + this.deleted[i].tag_id).classList.add('active')
+          this.user_tags.push(this.deleted[i])
+        }
+      }
+      this.deleted = []
       this.$refs.UserTagsModal.hide()
     },
-    switchTag (id) {
+    switchTag (tagElId, id) {
+      let el = document.getElementById('tag' + tagElId)
+      if (el.classList.contains('active')) {
+        el.classList.remove('active')
+      } else {
+        el.classList.add('active')
+      }
+
       let objToSwitch = this.tags[id]
       let userTagObj = this.user_tags.filter((obj) => {
         return obj.tag_id === objToSwitch.id
@@ -76,7 +98,8 @@ export default {
         }
         this.deleted.push({
           id: userTagObj[0].id,
-          tag_id: objToSwitch.id
+          tag_id: objToSwitch.id,
+          description: objToSwitch.description
         })
       } else {
         objToSwitch.active = true

@@ -1,78 +1,82 @@
 <template>
-  <b-container class="container-margin">
-      <b-row class="mt-3">
+    <b-container class="container-margin">
+        <b-row class="mt-3">
             <b-col md="8" class="mr-3">
-               <b-card v-for="blog in filterSearchAndTags()" v-on:click="routeToBlog(blog.id)">
+                <b-card v-for="blog in filterSearchAndTags()" v-on:click="routeToBlog(blog.id)">
                     <b-row>
-                    <b-col md="9">
-                        <div style="padding: 15px">
-                            <h3 class="bold">{{blog.title}}</h3>
-                            <p class="description">{{blog.description}}</p>
-                            <b-row>
-                            <b-col>
-                            <small class="text-muted">{{formatDate(blog.date_created)}}</small>
-                            </b-col>
-                            <b-col>
-                            <ul class="float-right">
-                                <li v-for="tag in blog.tags">
-                                    <div class="tags">{{tag.description}}
-                                    </div>
-                                </li>
-                            </ul>
-                            </b-col>
-                            </b-row>
-                        </div>
-                    </b-col>
-                    <b-col>
-                         <div class="blog-image" v-bind:style="{ backgroundImage: 'url(' + 'https://images.pexels.com/photos/1496183/pexels-photo-1496183.jpeg?cs=srgb&dl=adult-article-assortment-1496183.jpg&fm=jpg' + ')' }">
-                         </div>
-                    </b-col>
-                </b-row>
-                </b-card>
-           </b-col>
-          <b-col>
-            <b-row>
-                <div style="width: 100%; padding: 15px; font-size: 1.125em;" class="card shadow no-scale">
-                    <h3>Zoeken</h3>
-                    <hr>
-                    <b-row>
+                        <b-col md="9">
+                            <div style="padding: 15px">
+                                <h3 class="bold">{{blog.title}}</h3>
+                                <p class="description">{{blog.description}}</p>
+                                <b-row>
+                                    <b-col>
+                                        <small class="text-muted">{{formatDate(blog.date_created)}}</small>
+                                    </b-col>
+                                    <b-col>
+                                        <ul class="float-right">
+                                            <li v-for="tag in blog.tags">
+                                                <div class="tags">{{tag.description}}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </b-col>
+                                </b-row>
+                            </div>
+                        </b-col>
                         <b-col>
-                            <b-input-group class="form-group-search">
-                                <b-form-input v-model="search" :placeholder="$t('events.search')"
-                                                class="form-control"></b-form-input>
-                                <span class="form-control-icon">
+                            <div :id="'blogImg' + blog.id" class="blog-image"
+                                 v-bind:style="{ backgroundImage: 'url(' + getImage(blog.id) + ')' }">
+                            </div>
+                        </b-col>
+                    </b-row>
+                </b-card>
+            </b-col>
+            <b-col>
+                <b-row>
+                    <div style="width: 100%; padding: 15px; font-size: 1.125em;" class="card shadow no-scale">
+                        <h3>Zoeken</h3>
+                        <hr>
+                        <b-row>
+                            <b-col>
+                                <b-input-group class="form-group-search">
+                                    <b-form-input v-model="search" :placeholder="$t('events.search')"
+                                                  class="form-control"></b-form-input>
+                                    <span class="form-control-icon">
                                     <font-awesome-icon icon="search" class="search-color"/>
                                 </span>
-                            </b-input-group>
-                        </b-col>
-                    </b-row>
-                </div>
-            </b-row>
-            <b-row>
-                <div style="width: 100%; padding: 15px; font-size: 1.125em;" class="card shadow no-scale">
-                    <h3>Tags</h3>
-                    <hr>
-                    <b-row>
-                        <b-col>
-                            <ul>
-                                <li v-for="tag in tags">
-                                    <div :id="'tag' + tag.id" v-on:click="updateSelectedTags(tag.id);filterSearchAndTags();"
-                                        class="btn-ceecee-oval-red">{{tag.description}}
-                                    </div>
-                                </li>
-                            </ul>
-                        </b-col>
-                    </b-row>
-                </div>
-            </b-row>
-          </b-col>
-      </b-row>
-  </b-container>
+                                </b-input-group>
+                            </b-col>
+                        </b-row>
+                    </div>
+                </b-row>
+                <b-row>
+                    <div style="width: 100%; padding: 15px; font-size: 1.125em;" class="card shadow no-scale">
+                        <h3>Tags</h3>
+                        <hr>
+                        <b-row>
+                            <b-col>
+                                <ul>
+                                    <li v-for="tag in tags">
+                                        <div :id="'tag' + tag.id"
+                                             v-on:click="updateSelectedTags(tag.id);filterSearchAndTags();"
+                                             class="btn-ceecee-oval-red">{{tag.description}}
+                                        </div>
+                                    </li>
+                                </ul>
+                            </b-col>
+                        </b-row>
+                    </div>
+                </b-row>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 <script>
-import Vue from 'vue'
-import blogApi from '@/services/api/blogs.js'
-import moment from 'moment'
+  import Vue from 'vue'
+  import blogApi from '@/services/api/blogs.js'
+  import moment from 'moment'
+  import uploadFile from '@/services/api/uploadFile.js'
+
   export default {
     name: 'Blogs',
     data() {
@@ -80,14 +84,15 @@ import moment from 'moment'
         blogs: [],
         tags: [],
         search: '',
-        selectedTags: []
+        selectedTags: [],
+        images: []
       }
     },
     methods: {
       formatDate(date) {
-            return moment(date).format('MMMM DD, YYYY')
+        return moment(date).format('MMMM DD, YYYY')
       },
-     updateSelectedTags: function (id) {
+      updateSelectedTags: function (id) {
         let button = document.getElementById("tag" + id);
         if (button.classList.contains('btn-ceecee-oval-red-active')) {
           button.classList.remove("btn-ceecee-oval-red-active");
@@ -117,20 +122,33 @@ import moment from 'moment'
         }
         return newBlogsList;
       },
-      routeToBlog(id){
-          location.href = '/blog/' + id;
+      routeToBlog(id) {
+        location.href = '/blog/' + id;
+      },
+      getImage(id) {
+        uploadFile.checkIfFileExists(this.imageBaseURL + '/blogs_header/' + id + '.jpg')
+          .then((res) => {
+            document.getElementById('blogImg' + id).style.backgroundImage = 'url(\'' + this.imageBaseURL + '/blogs_header/' + id + '.jpg' + '\')'
+          })
+          .catch((err) => {
+            document.getElementById('blogImg' + id).style.backgroundImage = 'url(\'/static/images/header.jpg\')'
+          });
       }
     },
     mounted() {
-       blogApi.getBlogs().then(response => this.blogs = response.data.data);
-       blogApi.getBlogsTags().then(response => this.tags = response.data.data);
+      blogApi.getBlogsTags().then(response => this.tags = response.data.data);
+    },
+    created() {
+      blogApi.getBlogs().then(response => {
+        this.blogs = response.data.data;
+      });
     },
     computed: {
-        blogList() {
-            return this.blogs.filter(blog => {
-                return blog.title.toLowerCase().includes(this.search.toLowerCase())
-            })
-        }
+      blogList() {
+        return this.blogs.filter(blog => {
+          return blog.title.toLowerCase().includes(this.search.toLowerCase())
+        })
+      }
     }
   }
 </script>
@@ -140,9 +158,9 @@ import moment from 'moment'
     }
 
     .blog-image {
-        width: 100%; 
+        width: 100%;
         height: 100%;
-        position: center center;
+        background-position: center center;
         background-size: cover;
     }
 
@@ -170,10 +188,10 @@ import moment from 'moment'
     }
 
     .description {
-     overflow: hidden;
-     display: -webkit-box;
-     -webkit-line-clamp: 2;
-     -webkit-box-orient: vertical;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     .card-title {
@@ -194,13 +212,13 @@ import moment from 'moment'
     }
 
     .card-image {
-          background-repeat: no-repeat;
-          background-size: auto;
-          height: 100%;
+        background-repeat: no-repeat;
+        background-size: auto;
+        height: 100%;
     }
 
     .blog-card {
-         cursor: pointer;
+        cursor: pointer;
     }
 
     .card-body {
@@ -208,18 +226,18 @@ import moment from 'moment'
     }
 
     .tags {
-    border: 2px solid grey;
-    border-radius: 15px;
-    background-color: transparent;
-    color: grey;
-    height: 30px;
-    line-height: 15px;
-    text-align: center;
-    min-width: 70px;
-    font-weight: 500;
-    padding: 5px;
-    margin-right: 8px;
-    transform: scale(0.7);
-    transform-origin: 0 0;
-}
+        border: 2px solid grey;
+        border-radius: 15px;
+        background-color: transparent;
+        color: grey;
+        height: 30px;
+        line-height: 15px;
+        text-align: center;
+        min-width: 70px;
+        font-weight: 500;
+        padding: 5px;
+        margin-right: 8px;
+        transform: scale(0.7);
+        transform-origin: 0 0;
+    }
 </style>
