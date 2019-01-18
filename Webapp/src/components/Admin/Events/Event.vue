@@ -1,18 +1,6 @@
 <template>
     <b-container style="margin-top: 150px;">
     <b-col cols="4" class="text-center" offset="4" style="margin-bottom: 20px;">
-    <action-button 
-        color="red" 
-        icon="save" 
-        :fixed="false"
-        v-on:click.native="updateEvent"></action-button>
-    <action-button 
-        color="red" 
-        icon="trash" 
-        :fixed="false"
-        v-on:click.native="deleteEvent"
-        style="margin-left: 15px;"></action-button>
-
     </b-col>
     <b-row>
     <b-col cols="6">
@@ -50,6 +38,32 @@
     </b-card>
     </b-col>
     </b-row>
+    <div class="fab-buttons">
+        <b-row>
+          <b-col>
+        <action-button 
+        color="red" 
+        icon="trash" 
+        :fixed="false"
+        v-on:click.native="deleteEvent"
+        ></action-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+       <action-button 
+        color="red" 
+        icon="save" 
+        :fixed="false"
+        v-on:click.native="updateEvent"></action-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+              <action-button color="red" :fixed="false" icon="chevron-left" @click.native="back()"></action-button>
+          </b-col>
+        </b-row>
+        </div>
     </b-container>
 </template>
 
@@ -103,6 +117,9 @@
           this.event.end = this.end;
           
           AdminEventApi.updateEvent(this.event).then(response => { alert('succesvol gewijzigd') });
+      },
+      back() {
+        location.href = '/admin/events/'
       }
     },
     mounted() {
