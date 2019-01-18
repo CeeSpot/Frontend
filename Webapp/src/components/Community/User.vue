@@ -1,105 +1,204 @@
 <template>
-  <div>
-    <b-container id="userContainer">
-      <b-row>
-        <b-col v-bind:md="user.user.companies.length ? 8: 12" id="userDesc">
-          <div class="bg-white box-shadow">
-            <b-row>
-              <b-col id="userProfileCol">
-                <b-row>
-                  <div id="image-container">
-                    <b-img @error="imageLoadError"
-                           style="width: 150px;" rounded="circle"
-                           v-bind:src="imageURL"
-                           class="box-shadow"></b-img>
-                  </div>
-                </b-row>
-                <b-row>
-                  <b-col class="text-justify" id="userInformation">
-                    <h1 class="text-center">{{ user.user.first_name + ' ' + user.user.last_name }}</h1>
-                    <p>{{ user.user.description }}</p>
-                  </b-col>
-                </b-row>
+  <b-container fluid style="margin-top: 100px;">
+    <b-row class="main-bg">
+      <b-container>
+        <b-row  align-v="start" class="d-flex flex-row">
+          <b-col lg="auto" md="auto" sm="auto" cols="auto" clas="d-flex flex-column">
+            <div class="image-wrapper" id="baseImg"
+                 v-bind:style="{backgroundImage: 'url(\'../static/images/users/6.png\')',
+                                backgroundSize: 'cover',
+                                borderRadius: '50%'}">
+            </div>
+          </b-col>
+          <b-col class="text-white d-flex flex-column flex-grow">
+
+            <!-- Social media -->
+            <b-row style="position:absolute;right:0;top:0;" class="d-none d-lg-block d-xl-block">
+              <b-col class="opacity-text-8 text-white">
+                <b-link v-if="user.website !== null && user.website.length > 0" class="social-media-link website" v-bind:href="user.website">
+                  <font-awesome-icon :icon="{prefix: 'fas', iconName: 'globe'}"></font-awesome-icon>
+                </b-link>
+                <b-link v-for="site in user.social_media_sites" v-bind:class="'social-media-link ' + site.site + ' text-white'" v-bind:href="getLinkFromSite(site)" target="_blank">
+                  <font-awesome-icon :icon="{ prefix: 'fab', iconName: site.site }"></font-awesome-icon>
+                </b-link>
               </b-col>
             </b-row>
-            <b-row>
-              <b-col style="min-height: 50px; padding: 25px;">
+
+            <!-- Persons name -->
+            <b-row class=" text-white">
+              <b-col md="12">
+                <h2 class="text-white">
+                  {{user.first_name}} {{user.insertions}} {{user.last_name}}
+                </h2>
+              </b-col>
+            </b-row>
+
+            <!-- Employed at -->
+            <b-row class="mt-2" v-if="typeof user.companies !== 'undefined'">
+              <b-col v-if="user.companies.length > 0">
+                <span v-for="company in user.companies">
+                  <b>{{company.role}} @ <a class="text-white text-underline" v-bind:href="'/company/' + company.company_id">{{company.name}}</a></b><br>
+                </span>
+              </b-col>
+            </b-row>
+
+            <b-row class="mt-3 d-lg-none">
+              <b-col class="text-right header-text-sm-xs">
+                <b-link v-if="user.website !== null && user.website.length > 0" class="social-media-link website" v-bind:href="user.website">
+                  <font-awesome-icon :icon="{prefix: 'fas', iconName: 'globe'}"></font-awesome-icon>
+                </b-link>
+                <b-link v-for="site in user.social_media_sites" v-bind:class="'social-media-link ' + site.site" v-bind:href="getLinkFromSite(site)" target="_blank">
+                  <font-awesome-icon :icon="{ prefix: 'fab', iconName: site.site }"></font-awesome-icon>
+                </b-link>
+              </b-col>
+            </b-row>
+
+            <!-- Description -->
+            <b-row class="mt-3">
+              <b-col class="opacity-text-8" >
+                {{user.description}}
+              </b-col>
+            </b-row>
+
+            <!-- Tags-->
+            <b-row class="mt-3">
+              <b-col>
                 <ul>
-                  <li v-for="tag in tags">
-                    <tag v-bind:id="tag.id" v-bind:name='tag.name'></tag>
+                  <li v-for="tag in user.tags" :key="tag.id" >
+                    <div :id="'tag' + tag.id"
+                         class="btn-ceecee-oval-red">{{tag.description}}
+                    </div>
                   </li>
                 </ul>
               </b-col>
             </b-row>
-          </div>
-        </b-col>
-        <b-col v-if="user.user.companies.length" cols="4" style="padding: 25px;" class="company-images">
-          <div class="bg-white box-shadow" style="padding: 20px;">
-            <b-row v-for="company in user.user.companies">
-              <b-col>
-                <b-img fluid v-bind:src="'/static/images/companies/' + company.id + '.png'"></b-img>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-row>
+    <b-row style="margin-top: -50px;">
+      <b-container>
+        <b-row>
+          <b-col md="6" class="get-in-touch">
+            <b-row>
+
+              <b-col md="12">
+                <b-card class="no-scale"
+                        tag="article">
+                  <b-row>
+                    <b-col md="12">
+                      <h6 class="text-uppercase"><b>Get in touch</b>
+                      </h6>
+                    </b-col>
+                  </b-row>
+
+                  <!-- Website -->
+                  <b-row class="mt-3" v-if="user.website">
+                    <b-col md="12">
+                      <font-awesome-icon class="text-light main-icon"
+                                         :icon="{ prefix: 'fas', iconName: 'globe' }"/>
+                      <b style="padding-left: 5px;">Website</b>
+                    </b-col>
+                    <b-col style="padding-left: 45px;">
+                      <span class="text-primary edit">{{user.website}}</span>
+                    </b-col>
+                  </b-row>
+
+                  <!-- Address -->
+                  <b-row class="mt-3">
+                    <b-col md="12">
+                      <font-awesome-icon class="text-light main-icon"
+                                         :icon="{ prefix: 'fas', iconName: 'map-marker-alt' }"/>
+                      <b style="padding-left: 5px;">Address</b>
+                    </b-col>
+                    <b-col style="padding-left: 50px;">
+                      <b-row>
+                          <span class="text-primary edit">{{user.address}}</span>
+                      </b-row>
+                      <b-row>
+                          <span class="text-primary edit">{{user.city}}, {{user.zipcode}}</span>
+                      </b-row>
+                      <b-row>
+                          <span class="text-primary edit">{{user.country}}</span>
+                      </b-row>
+                    </b-col>
+                  </b-row>
+                  <!-- Email -->
+                  <b-row class="mt-3" v-if="user.email && user.mailVis">
+                    <b-col md="12">
+                      <font-awesome-icon class="text-light main-icon"
+                                         :icon="{ prefix: 'far', iconName: 'envelope' }"/>
+                      <b style="padding-left: 5px;">Email</b>
+                    </b-col>
+                    <b-col style="padding-left: 45px;">
+                      <span class="text-primary edit">{{user.email}}</span>
+                    </b-col>
+                  </b-row>
+
+                  <!-- Phonenumber -->
+                  <b-row class="mt-3" v-if="user.phone">
+                    <b-col md="12">
+                      <font-awesome-icon class="text-light main-icon"
+                                         :icon="{ prefix: 'fas', iconName: 'mobile-alt' }"/>
+                      <b style="padding-left: 5px;">Phone</b>
+                    </b-col>
+                    <b-col style="padding-left: 45px;">
+                      <span class="text-primary edit">{{user.phone}}</span>
+                    </b-col>
+                  </b-row>
+
+                </b-card>
               </b-col>
             </b-row>
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
-  import CommunityApi from '@/services/api/community.js'
-  import Tag from '@/components/Core/Other/Tag' // Import the navigation into the base app
+import CommunityApi from '@/services/api/community.js'
+import Tag from '@/components/Core/Other/Tag' // Import the navigation into the base app
 
-  export default {
-    name: 'User',
-    data() {
-      return {
-        user: {
-          success: false,
-          user: {
-            first_name: '',
-            last_name: '',
-            description: '',
-            companies: []
-          }
-        },
-        tags: [
-          {
-            id: 0,
-            name: 'PHP'
-          },
-          {
-            id: 1,
-            name: 'MySQL'
-          }
-        ],
-        imageURL: ''
-      }
-    },
-    mounted() {
-      let self = this;
-      CommunityApi.getUser(this.id).then(function (response) {
-        self.user = response.data;
-        self.imageURL = '/static/images/users/' + self.id + '.png';
-
-        if (null == response.data.user.companies) {
-          self.user.user.companies = [];
-        }
-      });
-    },
-    methods: {
-      imageLoadError() {
-        this.imageURL = '/static/images/users/user-icon.svg';
-      }
-    },
-    created() {
-      this.id = this.$route.params.id;
-    },
-    components: {
-      Tag
+export default {
+  name: 'User',
+  data() {
+    return {
+      user: null,
+      imageURL: ''
     }
+  },
+  mounted() {
+    let self = this
+    CommunityApi.getUser(this.id).then((response) => {
+      this.user = response.data.user
+      console.log(this.user)
+      self.imageURL = '/static/images/users/' + this.id + '.png';
+
+      // if (null == response.data.user.companies) {
+      //   this.user.user.companies = [];
+      // }
+    });
+  },
+  methods: {
+    imageLoadError() {
+      this.imageURL = '/static/images/users/user-icon.svg';
+    },
+    getLinkFromSite (site) {
+      if (site.site === 'linkedin') {
+        return 'https://www.linkedin.com/in/' + site.url
+      }
+      return 'https://www.' + site.site + '.com/' + site.url
+    },
+  },
+  created() {
+    this.id = this.$route.params.id;
+  },
+  components: {
+    Tag
   }
+}
 </script>
 
 <style>
@@ -145,4 +244,73 @@
   #userProfileCol {
     margin-top: 20px;
   }
+
+  .main-icon {
+    width: 20px;
+    text-align: right;
+  }
+
+  .text-light {
+    color: #bbb !important;
+  }
+
+  .btn-ceecee-oval-red {
+    background-color: #E60000;
+    color:#fff;
+  }
+  .get-in-touch {
+    margin-left:160px;
+  }
+  .social-media-link {
+    margin-right: 15px;
+    color: #7dacff;
+    color: white;
+    font-size:25px;
+    line-height:25px;
+  }
+  .social-media-link:last-of-type{
+    margin-right: 0;
+  }
+  .image-wrapper{
+    display:inline-block;
+    padding: 0;
+    width: 125px;
+    height: 125px;
+  }
+  .main-bg{
+    background-color: #1d2337;
+    padding-top: 50px;
+    padding-bottom: 80px;
+  }
+  @media screen and (max-width:992px) {
+    .main-bg{
+      padding-bottom: 80px;
+    }
+    .get-in-touch {
+      /*margin-left: 0;*/
+      margin-left: 150px;
+    }
+
+  }
+  .header-text-xs{
+    padding-left: 165px;
+    text-align: left !important;
+
+  }
+  .header-text-sm-xs{
+    text-align: left !important;
+  }
+  @media screen and (max-width:520px) {
+    .image-wrapper {
+      width: 90px;
+      height: 90px;
+    }
+    .header-text-xs {
+      padding-left: 115px;
+    }
+    .get-in-touch {
+      margin-left: 0;
+    }
+  }
+
 </style>

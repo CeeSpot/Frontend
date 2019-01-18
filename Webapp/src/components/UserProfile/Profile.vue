@@ -374,11 +374,6 @@
           </b-col>
 
         </b-row>
-        <b-row>
-          <b-col v-for="company in companies">
-            {{company.name}}
-          </b-col>
-        </b-row>
       </b-container>
     </b-row>
     <social-media-modal v-bind:sites="socialMediaSites" v-bind:smrs="user.social_media_sites" v-bind:resourceId="user.id" v-bind:type="type" v-bind:website="user.website"></social-media-modal>
@@ -574,6 +569,10 @@ export default {
   .main-icon {
     width: 20px;
     text-align: right;
+    cursor: pointer;
+  }
+  .main-icon:hover{
+    color:#999;
   }
 
   .text-light {
