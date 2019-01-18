@@ -8,15 +8,27 @@
                     delectus deleniti enim error provident!</p>
             </b-col>
         </b-row>
+        <b-row class="search-toggle-container">
+            <b-col md="4">
+                <div>
+                    <b-input-group class="form-group-search">
+                        <b-form-input v-model="search" placeholder="Zoeken..."
+                                      class="form-control"></b-form-input>
+                        <span class="form-control-icon">
+                      <font-awesome-icon icon="search" class="search-color"/>
+                  </span>
+                    </b-input-group>
+                </div>
+            </b-col>
+            </b-row>
 
         <b-row class="mt-3">
-            <b-col v-for="space in spaces" md="4">
+            <b-col v-for="space in spaceList" md="4">
                 <b-card
                         v-on:click="routeToSpace(space.id)"
                         :title="space.title"
                         img-src="https://picsum.photos/600/300/?image=1"
                         img-top
-                        tag="event"
                 >
                     <b-row>
                         <b-col md="12">
@@ -50,7 +62,8 @@ export default {
   name: 'Spaces',
   data() {
     return {
-      spaces: []
+        search: '',
+        spaces: []
     }
   },
   methods: {
@@ -60,7 +73,14 @@ export default {
   },
   mounted() {
       SpaceApi.getSpaces().then(response => this.spaces = response.data.data);
-  }
+  },
+    computed: {
+        spaceList() {
+            return this.spaces.filter(space => {
+                return space.title.toLowerCase().includes(this.search.toLowerCase())
+            })
+        }
+    }
 }
 </script>
 
@@ -70,5 +90,28 @@ export default {
         background: #000;
         border: 1px solid green;
         color: #fff;
+    }
+
+    .form-group-search .form-control {
+        padding-left: 0rem;
+    }
+
+    .form-group-search .form-control-icon {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        width: 2.375rem;
+        right: 5px;
+        height: 2.375rem;
+        line-height: 2.375rem;
+        text-align: center;
+        padding-top: 5px;
+        pointer-events: none;
+        color: #aaa;
+    }
+
+    .search-color {
+        color: #E60000;
+        font-size: 25px;
     }
 </style>
