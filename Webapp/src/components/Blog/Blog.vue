@@ -3,7 +3,7 @@
       <div style="width: 100%; height: 100%; font-size: 1.125em;" class="card shadow no-scale">
         <b-row>
           <b-col>
-            <div class="blog-image" v-bind:style="{ backgroundImage: 'url(' + 'https://images.pexels.com/photos/1496183/pexels-photo-1496183.jpeg?cs=srgb&dl=adult-article-assortment-1496183.jpg&fm=jpg' + ')' }">
+            <div class="blog-image" v-bind:style="{ backgroundImage: 'url(' + this.imageURL + ')' }">
               <!-- <div class="carousel-caption">
                 <b-row>
                 <b-col>
@@ -95,6 +95,8 @@ import Vue from 'vue'
 import blogApi from '@/services/api/blogs.js'
 import CommunityApi from '@/services/api/community.js'
 import moment from 'moment'
+import uploadFile from '@/services/api/uploadFile.js'
+
   export default {
     name: 'Blog',
     data() {
@@ -126,9 +128,19 @@ import moment from 'moment'
       }
     },
     mounted() {
-      blogApi.getBlog(this.id).then(response => { 
+      blogApi.getBlog(this.id).then(response => {
         this.blog = response.data.data[0] 
         this.blogUrl = 'http://localhost:8080/blog/' + this.id;
+      });
+
+      uploadFile.checkIfFileExists(this.imageBaseURL + '/blogs_header/' + this.id + '.jpg')
+        .then((res) => {
+          console.log("bestaat");
+          this.imageURL = this.imageBaseURL + '/blogs_header/' + this.id + '.jpg';
+        })
+        .catch((err) => {
+          console.log("bestaat niet");
+          this.imageURL = '/static/images/header.jpg';
         });
     }
   }

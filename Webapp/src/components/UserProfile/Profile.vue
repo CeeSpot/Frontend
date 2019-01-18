@@ -445,7 +445,7 @@ export default {
         reader.readAsDataURL(event.target.files[0])
 
         let imageFile = event.target.files[0] // this is the img file
-        uploadFile.uploadFile(this.user.id, 'user', imageFile)
+        uploadFile.uploadFile(this.user.id, 'profile', imageFile)
       }
     },
     getLinkFromSite (site) {
@@ -572,6 +572,8 @@ export default {
   },
   mounted () {
     this.getProfile()
+    let imageURL = ""
+    uploadFile.checkIfFileExists(this.user.id);
   }
 }
 </script>

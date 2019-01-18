@@ -8,5 +8,10 @@ export default{
     formData.append('type', type);
     console.log(formData.get('image'));
     axios.post("/api/file_upload", formData);
+  },
+
+  checkIfFileExists(url)
+  {
+    return axios.get(url);
   }
 }
