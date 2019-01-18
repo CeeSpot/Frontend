@@ -85,8 +85,8 @@ export const store = new Vuex.Store({
     jwt: JSON.parse(localStorage.getItem(JSON_TOKEN)),
     // user: jwtDecode(jwt),
     endpoints: {
-      obtainJWT: API_URL + API_PORT + '/api/users/authenticate',
-      refreshJWT: API_URL + API_PORT + '/api/users/refresh'
+      obtainJWT: baseURL + '/api/users/authenticate',
+      refreshJWT: baseURL + '/api/users/refresh'
     }
   },
   getters: {
