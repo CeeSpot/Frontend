@@ -9,7 +9,13 @@ export default {
       }
     })
   },
-  getEvent(id) {
+  getUpcoming() {
+    return axios.get('/api/eventsupcoming', {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
+  },getEvent(id) {
     return axios.get('/api/event/' + id, {
       headers: {
         'x-access-token': store.state.jwt

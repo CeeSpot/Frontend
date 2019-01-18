@@ -1,5 +1,6 @@
 <template>
     <b-container class="p-3 container-margin">
+    <b-row><h1>Test</h1></b-row>
         <b-row style="height: 40px;">
             <b-col xs="6" v-if="showCalendar">
                 <b-button style="background-color: white; color: black; height: 30px; line-height: 15px;"
@@ -81,7 +82,6 @@
           {
             events(start, end, timezone, callback) {
               eventApi.getEvents().then(response => {
-                  console.log(response.data.data);
                 callback(response.data.data)
               })
             }
@@ -98,7 +98,8 @@
         headerTitle: '',
         showCalendar: true,
         events: [],
-        search: ''
+        search: '',
+        upcoming: []
       }
     },
     mounted() {
@@ -107,6 +108,7 @@
           this.toggleLocale(locale);
       });
       eventApi.getEvents().then(response => this.events = response.data.data);
+      eventApi.getUpcoming().then(response => this.upcoming = response.data.data);
     },
     methods: {
       eventSelected(event, jsEvent, view) {
@@ -127,7 +129,6 @@
           this.$refs.CalendarRef.fireMethod('option', 'locale', newLocale);
       },
       toggleView(){
-        console.log(this.showCalendar);
         this.showCalendar = !this.showCalendar;
       },
       routeToEvent(id) {
