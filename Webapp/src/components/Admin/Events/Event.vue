@@ -27,10 +27,9 @@
     <b-col cols="6">
     <b-card class="no-scale" title="Location">
     <b-form-input class="mb15" type="text" v-model="event.location_name" placeholder="Naam"></b-form-input>
+    <b-form-input class="mb15" type="text" v-model="event.location_address" placeholder="Straat"></b-form-input>
     <b-form-input class="mb15" type="text" v-model="event.location_postalcode" placeholder="Postcode"></b-form-input>
     <b-form-input class="mb15" type="text" v-model="event.location_city" placeholder="Stad"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.location_street" placeholder="Straat"></b-form-input>
-    <b-form-input class="mb15" type="text" v-model="event.location_number" placeholder="Huisnummer"></b-form-input>
     </b-card>
     </b-col>
 <b-col cols="6">
@@ -102,6 +101,7 @@
       updateEvent() {
           this.event.start = this.start;
           this.event.end = this.end;
+          
           AdminEventApi.updateEvent(this.event).then(response => { alert('succesvol gewijzigd') });
       }
     },
