@@ -1,20 +1,6 @@
 <template>
     <b-container style="margin-top: 150px;">
     <b-row>
-    <b-col cols="4" class="text-center" offset="4" style="margin-bottom: 20px;">
-    <action-button 
-        color="red" 
-        icon="save" 
-        :fixed="false"
-        v-on:click.native="updateUser"></action-button>
-    <action-button 
-        color="red" 
-        icon="trash" 
-        :fixed="false"
-        v-on:click.native="deleteUser"
-        style="margin-left: 15px;"></action-button>
-
-    </b-col>
     <b-col cols="6">
     <b-card class="no-scale" title="Personal info">
         <b-form-input class="mb15" type="text" v-model="user.first_name" placeholder="First name"></b-form-input>
@@ -43,6 +29,31 @@
     </b-card>
     </b-col>
     </b-row>
+    <div class="fab-buttons">
+        <b-row class="mt-3">
+          <b-col>
+            <action-button 
+            color="red" 
+            icon="trash" 
+            :fixed="false"
+            v-on:click.native="deleteUser"></action-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+            <action-button 
+            color="red" 
+            icon="save" 
+            :fixed="false"
+            v-on:click.native="updateUser"></action-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-3">
+          <b-col>
+              <action-button color="red" :fixed="false" icon="chevron-left" v-on:click.native="back()"></action-button>
+          </b-col>
+        </b-row>
+    </div>
     </b-container>
 </template>
 
@@ -79,6 +90,9 @@
           AdminUserApi.updateUser(data).then(response => {
               alert('user successfully updated')
           });
+      },
+      back(){
+          this.$router.push({path: '/admin/users'});
       }
     },
     mounted() {
