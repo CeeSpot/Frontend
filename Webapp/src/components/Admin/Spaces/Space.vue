@@ -78,7 +78,7 @@
     },
     mounted() {
       SpaceApi.getSpace(this.$route.params.id).then(response => {
-          this.space = response.data.data[0];
+          this.space = response.data.data;
       })
     }
   }
