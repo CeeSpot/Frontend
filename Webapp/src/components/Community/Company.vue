@@ -62,20 +62,22 @@
                 <b-col>
                   <ul>
                     <li v-for="participant in company.users">
-                      <b-row>
-                        <b-col>
-                          <b-img center rounded="circle" v-b-tooltip.hover
-                                 class="image-profile-chips center-block " width="100" height="100"
-                                 src="https://images.pexels.com/photos/555790/pexels-photo-555790.png?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
-                          </b-img>
-                        </b-col>
-                      </b-row>
-                      <div class="mt-3 text-center">
-                        <b>{{participant.name}}</b>
-                      </div>
-                      <div class="text-center">
-                          {{participant.role}}
-                      </div>
+                      <b-link v-bind:href="'/user/' + participant.id" class="text-dark">
+                        <b-row>
+                          <b-col>
+                            <b-img center rounded="circle" v-b-tooltip.hover
+                                   class="image-profile-chips center-block " width="100" height="100"
+                                   src="https://images.pexels.com/photos/555790/pexels-photo-555790.png?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+                            </b-img>
+                          </b-col>
+                        </b-row>
+                        <div class="mt-3 text-center">
+                          <b>{{participant.name}}</b>
+                        </div>
+                        <div class="text-center">
+                            {{participant.role}}
+                        </div>
+                      </b-link>
                     </li>
                   </ul>
                 </b-col>

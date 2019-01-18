@@ -33,7 +33,7 @@
             <b-col style="margin-bottom: 30px;">
                 <ul>
                     <li v-for="tag in tags">
-                        <div :id="'tag' + tag.id" v-on:click="updateSelectedTags(tag.id);filterSearchAndTags();"
+                        <div :id="'tag' + tag.id" v-on:click="updateSelectedUserTags(tag.id);filterSearchAndUserTags();"
                              class="btn-ceecee-oval-red">{{tag.description}}
                         </div>
                     </li>
@@ -41,7 +41,7 @@
             </b-col>
         </b-row>
         <b-row v-if="showMembers">
-            <b-col md="4" v-for="user in filterSearchAndTags()" :key="user.id">
+            <b-col md="4" v-for="user in filterSearchAndUserTags()" :key="user.id">
                 <b-card
                         :key="user.id"
                         :title="fullName(user.first_name, user.insertions, user.last_name)"
@@ -55,6 +55,18 @@
                     </p>
                 </b-card>
             </b-col>
+        </b-row>
+
+        <b-row v-if="!showMembers">
+          <b-col style="margin-bottom: 30px;">
+            <ul>
+              <li v-for="tag in companyTags">
+                <div :id="'tag' + tag.id" v-on:click="updateSelectedUserTags(tag.id);filterSearchAndUserTags();"
+                     class="btn-ceecee-oval-red">{{tag.description}}
+                </div>
+              </li>
+            </ul>
+          </b-col>
         </b-row>
         <b-row v-if="!showMembers">
             <b-col md="4" v-for="company in companyList" :key="company.id">
@@ -125,7 +137,7 @@ export default {
       }
       return '';
     },
-    updateSelectedTags: function (id) {
+    updateSelectedUserTags: function (id) {
       let button = document.getElementById("tag" + id);
       if (button.classList.contains('btn-ceecee-oval-red-active')) {
         button.classList.remove("btn-ceecee-oval-red-active");
@@ -135,7 +147,7 @@ export default {
         this.selectedTags.push(id);
       }
     },
-    filterSearchAndTags() {
+    filterSearchAndUserTags() {
       let newUserList = [];
       let filteredTags = 0;
       this.userList.forEach(user => {
