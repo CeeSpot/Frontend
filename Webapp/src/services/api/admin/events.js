@@ -1,16 +1,30 @@
 import axios from 'axios'
+import {store} from "../../../main";
 
 export default{
   addEvent (data) {
-    return axios.post('/api/events/add', data)
+    return axios.post('/api/events/add', data, {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
   },
   deleteEvent (data) {
-    return axios.delete('/api/events/delete', data)
+    return axios.delete('/api/events/delete', {
+      headers: {
+        'x-access-token': store.state.jwt
+      },
+      data: data
+    })
   },
   updateEvent (data) {
-    return axios.put('/api/events/update', data)
+    return axios.put('/api/events/update', data, {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
   },
-  getParticipants (event_id) {
-    return axios.get('/api/events/participants/' + event_id)
+  getParticipants (eventId) {
+    return axios.get('/api/events/participants/' + eventId)
   }
 }
