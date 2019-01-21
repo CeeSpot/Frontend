@@ -8,7 +8,7 @@
                     delectus deleniti enim error provident!</p>
             </b-col>
         </b-row>
-        <b-row class="search-toggle-container">
+        <!--<b-row class="search-toggle-container">
             <b-col md="4">
                 <div>
                     <b-input-group class="form-group-search">
@@ -20,10 +20,10 @@
                     </b-input-group>
                 </div>
             </b-col>
-            </b-row>
+            </b-row> -->
 
         <b-row class="mt-3">
-            <b-col v-for="space in spaceList" md="4">
+            <b-col v-for="space in spaces" md="4">
                 <b-card
                         v-on:click="routeToSpace(space.id)"
                         :title="space.title"
@@ -40,13 +40,10 @@
                     <hr>
                     <b-row class="text-center">
                         <b-col md="4">
-                            {{space.capacity}} personen
+                            <font-awesome-icon icon="users"/> {{space.capacity}}
                         </b-col>
-                        <b-col md="4">
-                            
-                        </b-col>
-                        <b-col md="4">
-                            {{space.costs}}
+                        <b-col md="8">
+                            &euro; {{space.costs}}
                         </b-col>
                     </b-row>
                 </b-card>
