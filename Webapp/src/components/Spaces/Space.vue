@@ -59,14 +59,7 @@
         </b-row>
         <b-row>
           <b-col md="12">
-            <div style="height: 600px;">
-              <vue-masonry-gallery :imgsArr="imgsArr" :maxCols="4" :imgWidth="360"
-                                   @click="clickFn"></vue-masonry-gallery>
-              <b-modal ref="myModalRef" hide-footer size="lg" v-bind:title="modalTitle">
-                <b-img v-bind:src="modalContent" fluid></b-img>
-                <p class="mt-3 text-center">{{ modalTitle }}</p>
-              </b-modal>
-            </div>
+          <full-calendar :events="reservations" :config="config"></full-calendar>
           </b-col>
         </b-row>
       </b-container>
@@ -130,6 +123,8 @@ export default {
       this.space = response.data.data;
       this.booking.space_id = this.space.id;
       this.booking.space_title = this.space.title;
+      
+      this.reservations = this.space.reservations;
     })
   },
   data() {
@@ -140,7 +135,22 @@ export default {
       space: {},
       booking: {},
       imgsArr: [],
-      loggedIn: false
+      loggedIn: false,
+      eventSources: [],
+      reservations: [],
+      config: {
+        header: {
+  left:   'title',
+  center: '',
+  right:  'today prev,next'
+},
+       defaultView: 'month',
+       editable: false,
+       eventTextColor: '#FFFFFF',
+       eventColor: '#E60000',
+       locale: 'en',
+       displayEventEnd: true
+      }
     }
   },
   methods: {
