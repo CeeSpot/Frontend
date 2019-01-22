@@ -93,10 +93,10 @@ export const store = new Vuex.Store({
   getters: {
     getUser: state => {
       if (!state.jwt) {
-        console.log("hi")
+      //  console.log("hi")
         return null
       }
-      console.log("hi2")
+    //  console.log("hi2")
       return jwtDecode(state.jwt)
     }
   },

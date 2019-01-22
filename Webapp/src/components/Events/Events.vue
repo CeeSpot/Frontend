@@ -69,7 +69,7 @@
                             img-top
                             >
                         <p style="font-size: 1em;">
-                            {{changeDateFormat(calEvent.start,true)}} - {{changeDateFormat(calEvent.end)}}
+                        {{getDateFormat(calEvent.start)}} @ {{getTimeFormat(calEvent.start)}} - {{getTimeFormat(calEvent.end)}}
                         </p>
                         <p>
                             {{ calEvent.small_description }}

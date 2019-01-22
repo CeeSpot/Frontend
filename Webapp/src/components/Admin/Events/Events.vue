@@ -19,6 +19,10 @@
                        placeholder="Omschrijving"></b-form-textarea>
       <b-form-textarea class="mb15" rows="2" v-model="newEvent.small_description" type="text"
                        placeholder="Korte omschrijving"></b-form-textarea>
+
+                       <b-form-select class="mb15" :options="event_categories" 
+                       v-model="newEvent.category"></b-form-select>
+
       <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Starttijd"
                 format="dd-MM-yyyy HH:mm:ss" v-model="newEvent.start"></datetime>
       <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Eindtijd"
@@ -57,7 +61,8 @@ export default {
       date: '',
       openEvent: null,
       editEvent: null,
-      authorised: false
+      authorised: false,
+      event_categories: [],
     }
   },
   methods: {
@@ -65,8 +70,8 @@ export default {
       return moment(date).format('DD-MM-YYYY')
     },
     addEvent() {
-      this.newEvent.start = moment(this.newEvent.start).format('YYYY-MM-DD HH:mm:ss')
-      this.newEvent.end = moment(this.newEvent.end).format('YYYY-MM-DD HH:mm:ss')
+      this.newEvent.start = moment(this.newEvent.start).format('YYYY-MM-DD HH:mm:ss');
+      this.newEvent.end = moment(this.newEvent.end).format('YYYY-MM-DD HH:mm:ss');
 
       AdminEventApi.addEvent({event: this.newEvent}).then(response => {
         if (response.data.success && response.data.authorised) {
@@ -104,7 +109,11 @@ export default {
   mounted() {
     Emitter.$on('authorised', () => {
       this.authorised = true
-      EventApi.getEvents().then((response) => this.events = response.data.data)
+      EventApi.getEvents().then((response) => this.events = response.data.data);
+      EventApi.getEventCategories().then(response => {
+        this.event_categories = response.data.data;
+        this.event_categories.push({ value: null, text: 'Geen categorie'});
+        });
     })
   }
 }
