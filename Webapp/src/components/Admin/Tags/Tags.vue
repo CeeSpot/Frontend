@@ -53,7 +53,7 @@
         </b-row>
       <b-row>
         <b-col>
-           <b-button class="float-left" variant="danger" v-on:click="deleteTag()">Delete</b-button>
+           <b-button class="float-left" variant="danger" v-on:click="deleteTag()">Delete tag</b-button>
         </b-col>
         <b-col>
            <b-button class="float-right" v-on:click="editTag()">Save</b-button>
