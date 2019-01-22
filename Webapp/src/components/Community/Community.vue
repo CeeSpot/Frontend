@@ -29,7 +29,7 @@
             </b-col>
         </b-row>
 
-        <b-row v-if="showMembers">
+        <b-row v-if="showMemberContainer">
             <b-col style="margin-bottom: 30px;">
                 <ul>
                     <li v-for="tag in tags">
@@ -40,7 +40,7 @@
                 </ul>
             </b-col>
         </b-row>
-        <b-row v-if="showMembers">
+        <b-row v-if="showMemberContainer">
             <b-col md="4" v-for="user in filterSearchAndUserTags()" :key="user.id">
                 <b-card
                         :key="user.id"
@@ -68,7 +68,7 @@
             <!--</ul>-->
           <!--</b-col>-->
         <!--</b-row>-->
-        <b-row v-if="!showMembers">
+        <b-row v-if="showCompanyContainer">
             <b-col md="4" v-for="company in companyList" :key="company.id">
                 <b-card
                         :key="company.id"
@@ -80,6 +80,22 @@
                         v-on:click="routeToCompany(company.id)">
                     <p class="card-text">
                         {{descriptionLimited(company.description)}}
+                    </p>
+                </b-card>
+            </b-col>
+        </b-row>
+        <b-row v-if="search.length > 0">
+            <b-col md="4" v-for="entity in filteredList">
+                <b-card
+                        :key="entity.id"
+                        :title="entity.name"
+                        img-src="https://images.unsplash.com/photo-1525904971217-668a1229f701?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+                        img-alt="Image"
+                        img-top
+                        tag="article"
+                        v-on:click="routeToEntity(entity.id, entity.type)">
+                    <p class="card-text">
+                        {{entity.description}}
                     </p>
                 </b-card>
             </b-col>
@@ -102,12 +118,12 @@ export default {
       tags: [],
       showMembers: true,
       search: '',
-      selectedTags: []
+      selectedTags: [],
+      searchList: []
     }
   },
   mounted() {
     CommunityApi.getUsers().then(response => {
-      console.log(response);
       this.users = response.data.data
     })
     CommunityApi.getCompanies().then(response => this.companies = response.data)
@@ -172,6 +188,14 @@ export default {
     },
     routeToCompany (id) {
       location.href = '/company/' + id
+    },
+    routeToEntity (id,type) {
+        if (type === "company"){
+            location.href = '/company/' + id
+        }
+        else{
+            location.href = '/user/' + id
+        }
     }
   },
   components: {},
@@ -185,6 +209,37 @@ export default {
       return this.companies.filter(company => {
         return company.name.toLowerCase().includes(this.search.toLowerCase())
       })
+    },
+    filteredList(){
+        this.searchList = [];
+
+        this.users.forEach(user => {
+            if (this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase())){
+                let entity = {id: user.id, type: 'user', name: this.fullName(user.first_name, user.insertions, user.last_name),
+                    description: this.descriptionLimited(user.description)}
+                this.searchList.push(entity);
+            }
+        });
+
+        this.companies.forEach(company => {
+            if (company.name.toLowerCase().includes(this.search.toLowerCase())){
+                let entity = {id: company.id, type: 'company', name: company.name,
+                    description: this.descriptionLimited(company.description)}
+                this.searchList.push(entity);
+            }
+        });
+
+        return this.searchList;
+    },
+    showMemberContainer(){
+        if (this.showMembers && this.search.length === 0){
+            return true;
+        }
+    },
+    showCompanyContainer(){
+        if (!this.showMembers && this.search.length === 0){
+            return true;
+        }
     }
   }
 }
