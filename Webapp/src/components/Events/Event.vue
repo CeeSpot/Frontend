@@ -88,7 +88,6 @@
                   Er hebben zich nog geen gebruikers aangemeld voor dit event
                 </b-col>
                 <b-col>
-
                   <ul>
                     <li v-for="participant in participants">
                       <b-img rounded="circle" v-b-tooltip.hover
