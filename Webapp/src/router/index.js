@@ -35,6 +35,7 @@ import AdminSpaces from '@/components/Admin/Spaces/Spaces'
 import AdminSpace from '@/components/Admin/Spaces/Space'
 import AdminRequests from '@/components/Admin/Requests/Requests'
 import AdminSettings from '@/components/Admin/Settings/Settings'
+import AdminTags from '@/components/Admin/Tags/Tags'
 
 import Test from '@/components/Test/Test'
 
@@ -183,6 +184,11 @@ export default new Router({
       path: '/admin/settings',
       name: 'AdminSettings',
       component: AdminSettings
+    },
+    {
+      path: '/admin/tags',
+      name: 'AdminTags',
+      component: AdminTags
     }
   ]
 })
