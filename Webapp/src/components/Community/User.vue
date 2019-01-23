@@ -37,7 +37,7 @@
             <b-row class="mt-2" v-if="typeof user.companies !== 'undefined'">
               <b-col v-if="user.companies.length > 0">
                 <span v-for="company in user.companies">
-                  <b>{{company.role}} @ <a class="text-white text-underline" v-bind:href="'/company/' + company.company_id">{{company.name}}</a></b><br>
+                  <b>{{company.role}} @ <a class="text-white text-underline" v-bind:href="getCompanyLink(company.company_id, company.name)">{{company.name}}</a></b><br>
                 </span>
               </b-col>
             </b-row>
@@ -185,6 +185,10 @@ export default {
       }).catch(() => {
         this.getUser()
       })
+    },
+    getCompanyLink(id, name) {
+      name = name.replace(/\s+/g, '-').toLowerCase()
+      return '/company/' + id + '/' + name
     },
     imageLoadError() {
       this.imageURL = '/static/images/users/user-icon.svg';

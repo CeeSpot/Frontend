@@ -201,8 +201,8 @@ export default {
       }
       return newUserList
     },
-    routeToMember (id, first_name, insertions, last_name) {
-      let full = this.fullName(first_name, insertions, last_name)
+    routeToMember (id, firstName, insertions, lastName) {
+      let full = this.fullName(firstName, insertions, lastName)
       full = full.replace(/\s+/g, '-').toLowerCase()
       location.href = '/user/' + id + '/' + full
     },

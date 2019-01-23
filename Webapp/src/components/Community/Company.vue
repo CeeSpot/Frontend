@@ -31,7 +31,7 @@
                 <ul>
                   <li class="no-marg" v-for="tag in company.tags" :key="tag.id" >
                     <div :id="'tag' + tag.id"
-                         class="btn-ceecee-oval-red">{{tag.name}}
+                         class="btn-ceecee-oval-red">{{tag.description}}
                     </div>
                   </li>
                 </ul>
@@ -57,7 +57,8 @@
                 <b-col>
                   <ul>
                     <li v-for="participant in company.users">
-                      <b-link v-bind:href="'/user/' + participant.id" class="text-dark">
+                      <!--{{JSON.stringify(participant)}}-->
+                      <b-link v-bind:href="routeToMember(participant.id, participant.name)" class="text-dark">
                         <b-row>
                           <b-col>
                             <b-img center rounded="circle" v-b-tooltip.hover
@@ -134,14 +135,21 @@ export default {
     getCompanyProfile () {
       let self = this
       CommunityApi.getCompany(this.id).then(response => {
+        console.log(response)
         self.failedMessage = null
         self.company = response.data.company
         self.type = response.data.type
         console.log(response.data.company)
-      }).catch(() => {
+      }).catch((err) => {
+        console.log(err)
         this.failedMessage = 'Failed loading data, please '
       })
     },
+    routeToMember (id, name) {
+      // let full = this.fullName(firstName, insertions, lastName)
+      name = name.replace(/\s+/g, '-').toLowerCase()
+      return '/user/' + id + '/' + name
+    }
   },
   mounted () {
     this.id = this.$route.params.id

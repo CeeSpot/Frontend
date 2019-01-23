@@ -29,7 +29,7 @@
               <b-col v-if="user.companies.length > 0">
                 <span v-for="company in user.companies">
                   <b>{{company.role}} @ <a class="text-white text-underline"
-                                           v-bind:href="'/company/' + company.company_id">{{company.name}}</a></b><br>
+                                           v-bind:href="getCompanyLink(company.company_id, company.name)">{{company.name}}</a></b><br>
                 </span>
               </b-col>
               <b-col v-if="user.companies.length ===0">
@@ -564,6 +564,10 @@ export default {
       this.socialMediaSites = socialMediaSites.filter(function (item) {
         return ids.indexOf(item.id) === -1
       })
+    },
+    getCompanyLink(id, name) {
+      name = name.replace(/\s+/g, '-').toLowerCase()
+      return '/company/' + id + '/' + name
     },
     getProfile () {
       CommunityApi.getProfile().then(response => {
