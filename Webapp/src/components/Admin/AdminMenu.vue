@@ -1,5 +1,5 @@
 <template>
-    <b-col md="4">
+    <b-col md="4" v-if="authorised">
         <div style="width: 100%; height: 100%;">
             <b-list-group class="shadow">
                 <b-list-group-item v-for="item in items" v-bind:class="active === item ? 'active' : '' ">
@@ -11,17 +11,31 @@
 </template>
 
 <script>
-  export default {
-    name: "admin-menu",
-    props: ['active'],
-    data() {
-      return {
-        items: [
-          "Users", "Events", "Companies", "Blogs", "Website", "Spaces", "Requests", "Settings"
-        ]
-      }
+import AuthorisationApi from '@/services/api/Authorisation.js'
+export default {
+  name: "admin-menu",
+  props: ['active'],
+  data() {
+    return {
+      items: [
+        "Users", "Events", "Companies", "Blogs", "Website", "Spaces", "Requests", "Settings"
+      ],
+      authorised: false
     }
+  },
+  created () {
+    AuthorisationApi.isAdmin().then((resp) => {
+      if (!resp.data.authorised) {
+        location.href = '/'
+      } else {
+        this.authorised = true
+        Emitter.$emit('authorised')
+      }
+    }).catch((err) => {
+      location.href = '/'
+    })
   }
+}
 </script>
 
 <style scoped>

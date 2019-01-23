@@ -16,7 +16,7 @@
     button {
         margin-top: 4px;
         border: 2px solid #E60000;
-        border-radius: 15px;
+        border-radius: 10px;
         background-color: transparent;
         color: #E60000;
         height: 30px;

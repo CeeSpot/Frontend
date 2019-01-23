@@ -2,12 +2,14 @@
   <div id="app">
     <navigation></navigation>
     <router-view/>
+    <page-footer></page-footer>
   </div>
 </template>
 
 <script>
   import { JSON_TOKEN } from  './constants'
   import Navigation from '@/components/Core/Navigation/Navigation' // Import the navigation into the base app
+  import PageFooter from '@/components/Core/Footer/PageFooter'
   export default {
     name: 'App',
     data() {
@@ -24,7 +26,8 @@
 //      this.token = JSON.parse(localStorage.getItem(JSON_TOKEN))
     },
     components: {
-      Navigation
+      Navigation,
+      PageFooter
     }
   }
 </script>

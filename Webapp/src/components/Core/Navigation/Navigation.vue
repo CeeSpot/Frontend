@@ -3,7 +3,7 @@
     <b-container>
 
       <b-navbar-brand href="/">
-        <img src="https://www.theceespot.nl/images/ceecee-logo.svg"> the cee spot
+        <img src="/static/images/ceespot_logo.svg">
       </b-navbar-brand>
 
       <b-collapse is-nav id="nav_collapse">

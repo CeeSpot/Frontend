@@ -1,6 +1,6 @@
 {
     "community": {
-      "search": "Search...",
+      "search": " Search...",
       "members": "Members",
       "companies": "Companies"
     },
@@ -8,7 +8,7 @@
       "month": "Month",
       "week": "Week",
       "day": "Day",
-      "search": "Search..."
+      "search": " Search..."
     },
     "event": {
       "login-to-join": "Login to join this event!",

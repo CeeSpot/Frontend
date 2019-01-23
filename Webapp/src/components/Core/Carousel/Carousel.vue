@@ -6,8 +6,6 @@
                     indicators
                     background="#ababab"
                     :interval="0"
-                    img-width="1024"
-                    img-height="480"
                     v-model="slide"
                     @sliding-start="onSlideStart"
                     @sliding-end="onSlideEnd">
@@ -15,7 +13,7 @@
             <!-- Text slides with image -->
             <b-carousel-slide caption="Welcome to the cee spot!"
                               text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-                              img-src="/static/images/header.jpg"
+                              img-src="/static/images/header.png"
             ></b-carousel-slide>
 
         </b-carousel>

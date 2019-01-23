@@ -1,5 +1,5 @@
 <template>
-  <b-container style="margin-top: 150px;">
+  <b-container v-if="authorised" style="margin-top: 150px;">
     <b-row>
       <b-col cols="6">
         <b-card class="no-scale" title="Personal info">
@@ -58,44 +58,58 @@
 </template>
 
 <script>
-  import AdminMenu from '@/components/Admin/AdminMenu'
-  import CommunityApi from '@/services/api/community.js'
-  import Authentication from '@/services/api/Authentication.js'
-  import AdminUserApi from '@/services/api/admin/users.js'
-  import moment from 'moment'
-  import ActionButton from '@/components/Core/Other/ActionButton'
+import AdminMenu from '@/components/Admin/AdminMenu'
+import CommunityApi from '@/services/api/community.js'
+import AdminUserApi from '@/services/api/admin/users.js'
+import moment from 'moment'
+import ActionButton from '@/components/Core/Other/ActionButton'
+import AuthorisationApi from '@/services/api/Authorisation.js'
 
-  export default {
-    name: 'user',
-    components: {
-      AdminMenu,
-      ActionButton
-    },
-    deleteUser () {
-      let data = {user_id: this.user.id}
-      Authentication.deleteUser(data).then((resp) => {
-        if (resp.data.success) {
-          this.$router.push({path: '/admin/users'})
-        } else {
-          this.$toasted.show('Failed to delete this account.',
-            {
-              position: 'top-center',
-              duration: 3000
-            }
-          )
-        }
-      })
-    },
-    updateUser () {
-      let data = {user: this.user}
-      AdminUserApi.updateUser(data).then(() => {
-        alert('user successfully updated')
-      })
-    },
-    mounted () {
-      CommunityApi.getUser(this.$route.params.id).then(response => this.user = response.data.user)
+export default {
+  name: "user",
+  components: {
+    AdminMenu,
+    ActionButton
+  },
+  data() {
+    return {
+      user: {},
+      authorised: false
     }
+  },
+  methods: {
+    formatDate(date) {
+      return moment(date).format('DD-MM-YYYY');
+    },
+    deleteUser() {
+      let data = {data: {user_id: this.user.id}}
+      AdminUserApi.deleteUser(data).then(response => {
+        this.$router.push({path: '/admin/users'})
+      });
+    },
+    updateUser() {
+      let data = {data: this.user}
+      AdminUserApi.updateUser(data).then(response => {
+        alert('user successfully updated')
+      });
+    },
+    back() {
+      this.$router.push({path: '/admin/users'});
+    }
+  },
+  mounted() {
+    AuthorisationApi.isAdmin().then((resp) => {
+      if (resp.data.authorised) {
+        this.authorised = true
+        CommunityApi.getUser(this.$route.params.id).then((response) => this.user = response.data.user);
+      } else {
+        location.href = '/'
+      }
+    }).catch(() => {
+      location.href = '/'
+    })
   }
+}
 </script>
 
 <style scoped>
