@@ -106,14 +106,45 @@ export default {
     }
   },
   mounted() {
-    CommunityApi.getUsers().then(response => {
-      console.log(response);
-      this.users = response.data.data
-    })
-    CommunityApi.getCompanies().then(response => this.companies = response.data)
-    TagApi.getUserTags().then(response => this.tags = response.data)
+    this.getCompanies()
+    this.getTags()
+    this.getUsers()
   },
   methods: {
+    getTags () {
+      TagApi.getUserTags().then((response) => {
+        if (response.data.success) {
+          this.tags = response.data.data
+        } else {
+          this.getTags()
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.getTags()
+      })
+    },
+    getCompanies () {
+      CommunityApi.getCompanies().then((response) => {
+        if (response.data.success) {
+          this.companies = response.data.data
+        } else {
+          this.getCompanies()
+        }
+      }).catch(() => {
+        this.getCompanies()
+      })
+    },
+    getUsers() {
+      CommunityApi.getUsers().then((response) => {
+        if (response.data.success) {
+          this.users = response.data.data
+        } else {
+          this.getUsers()
+        }
+      }).catch(() => {
+        this.getUsers()
+      })
+    },
     toggle: function (value) {
       if (value === 'members') {
         this.showMembers = true

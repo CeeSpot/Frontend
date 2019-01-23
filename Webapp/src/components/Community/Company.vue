@@ -24,11 +24,6 @@
                 <b-link v-for="site in company.social_media_sites" class="social-media-link" v-bind:href="site.url.includes('https://') ? site.url : 'https://' + site.url" target="_blank">
                   <font-awesome-icon :icon="{ prefix: 'fab', iconName: site.site }"></font-awesome-icon>
                 </b-link>
-                <span v-if="company.social_media_sites.length === 0" class="modal-hover" v-b-modal.AddSocialMediaModal>
-                  Add social media sites
-                  <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}"></font-awesome-icon>
-                </span>
-                <font-awesome-icon v-if="company.social_media_sites.length > 0" class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}" v-b-modal.AddSocialMediaModal></font-awesome-icon>
               </b-col>
             </b-row>
             <b-row class="mt-4">

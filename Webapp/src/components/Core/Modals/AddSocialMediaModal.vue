@@ -109,8 +109,12 @@ export default {
         website: this.website
       }
       socialMediaApi.addResourceSite(post).then((resp) => {
+        console.log(resp)
+        console.log(this.resp)
         if (this.type === 1) {
           Emitter.$emit('updatedSocialMediaSiteForUser', resp.data.token)
+        } else if (this.type === 2) {
+          Emitter.$emit('updatedSocialMediaSiteForCompany', resp.data.token)
         }
         this.$refs.AddSocialMediaModal.hide()
       }).catch((err) => {

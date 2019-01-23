@@ -73,15 +73,23 @@
       VueEditor,
       Multiselect
     },
-    data() {
-      return {
-        blogs: [],
-        content: '',
-        title: '',
-        description: '',
-        tags: [],
-        values: null,
-        file: null
+    addBlog() {
+      let blog = {title: this.title, description: this.description, body: this.content, tags: this.values}
+      if (this.title && this.description && this.content) {
+        AdminBlogApi.addBlog(blog).then(response => {
+          if (response.data.success && response.data.authorised) {
+            uploadFile.uploadFile(response.data.data.insertId, 'blogs_header', this.file)
+            // location.href = '/admin/blogs/'
+          } else {
+            if (!response.data.authorised) {
+              this.$router.push({path: '/'})
+            }
+          }
+        }).catch((err) => {
+          if (!err.data.authorised) {
+            this.$router.push({path: '/'})
+          }
+        })
       }
     },
     methods: {

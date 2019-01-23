@@ -12,10 +12,17 @@ export default {
     return axios.get('/api/companies')
   },
   getCompany(id) {
-    return axios.get('/api/companies/' + id)
+    return axios.get('/api/companies/company/' + id)
   },
   getProfile () {
     return axios.get('/api/users/me', {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
+  },
+  getCompanyProfile () {
+    return axios.get('/api/companies/me', {
       headers: {
         'x-access-token': store.state.jwt
       }

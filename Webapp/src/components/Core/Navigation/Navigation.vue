@@ -20,15 +20,21 @@
                    src="https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg"
                    width="30"></b-img>
           </b-nav-item>
-          <b-nav-item v-if="typeof user === 'undefined' || user === null" right href="/lr"><b>Login</b></b-nav-item>
-          <!--<b-nav-item v-if="typeof user !== 'undefined' && user !== null" right href="/account">{{user.first_name}} {{user.last_name}}</b-nav-item>-->
+          <b-nav-item v-if="typeof resource === 'undefined' || resource === null" right href="/lr"><b>Login</b></b-nav-item>
+          <!--<b-nav-item v-if="typeof resource !== 'undefined' && resource !== null" right href="/account">{{resource.first_name}} {{resource.last_name}}</b-nav-item>-->
 
-          <b-nav-item-dropdown v-if="typeof user !== 'undefined' && user !== null" right>
+          <b-nav-item-dropdown v-if="typeof resource !== 'undefined' && resource !== null" right>
             <!-- Using button-content slot -->
-            <template slot="button-content" class="username-link">
-              <b>{{user.first_name}} {{user.last_name}}</b>
+            <template slot="button-content" v-if="typeof resource.company_resource_roles === 'undefined'" class="resourcename-link">
+              <b>{{resource.first_name}} {{resource.last_name}}</b>
             </template>
-            <b-dropdown-item href="/account">Profile</b-dropdown-item>
+            <b-dropdown-item href="/account" v-if="typeof resource.company_resource_roles === 'undefined'">Profile</b-dropdown-item>
+
+            <template slot="button-content"  v-if="typeof resource.company_resource_roles !== 'undefined'" class="resourcename-link">
+              <b>{{resource.name}}</b>
+            </template>
+            <b-dropdown-item href="/account/company" v-if="typeof resource.company_resource_roles !== 'undefined'">profile</b-dropdown-item>
+
             <b-dropdown-item v-on:click="logout()">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -40,86 +46,86 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import settingsApi from '@/services/api/admin/settings.js'
+import Vue from 'vue'
+import settingsApi from '@/services/api/admin/settings.js'
 
-  const LANGUAGE_KEY = 'CCLanguage'
-  export default {
-    name: 'Navigation',
-    data() {
-      return {
-        msg: 'Welcome to Your Vue.js App',
-        language: 'nl',
-        user: null,
-        blogActive: false
+const LANGUAGE_KEY = 'CCLanguage'
+export default {
+  name: 'Navigation',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App',
+      language: 'nl',
+      resource: null,
+      blogActive: false
+    }
+  },
+  methods: {
+    /**
+     * Switch the language
+     */
+    switchLanguage () {
+      if (this.language === 'nl') {
+        this.setLanguage('en')
+        Vue.i18n.set('en')
+        this.$root.$emit('toggleLocaleCalendar', 'en')
+      } else {
+        this.setLanguage('nl')
+        Vue.i18n.set('nl')
+        this.$root.$emit('toggleLocaleCalendar', 'nl')
+      }
+      this.save()
+    },
+    /**
+     * Set a language
+     *
+     * @param lang
+     */
+    setLanguage (lang) {
+      this.language = lang
+      if (lang === 'nl') {
+        document.getElementById('language-img').src = 'https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg'
+        Vue.i18n.set('nl')
+        this.$root.$emit('toggleLocaleCalendar', 'nl')
+      } else {
+        document.getElementById('language-img').src = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg'
+        Vue.i18n.set('en')
+        this.$root.$emit('toggleLocaleCalendar', 'en')
       }
     },
-    methods: {
-      /**
-       * Switch the language
-       */
-      switchLanguage() {
-        if (this.language === 'nl') {
-          this.setLanguage('en')
-          Vue.i18n.set('en');
-          this.$root.$emit('toggleLocaleCalendar', 'en');
-        } else {
-          this.setLanguage('nl')
-          Vue.i18n.set('nl');
-          this.$root.$emit('toggleLocaleCalendar', 'nl');
-        }
-        this.save()
-      },
-      /**
-       * Set a language
-       *
-       * @param lang
-       */
-      setLanguage(lang) {
-        this.language = lang
-        if (lang === 'nl') {
-          document.getElementById('language-img').src = 'https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg'
-          Vue.i18n.set('nl');
-          this.$root.$emit('toggleLocaleCalendar', 'nl');
-        } else {
-          document.getElementById('language-img').src = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Flag_of_the_Netherlands.svg'
-          Vue.i18n.set('en');
-          this.$root.$emit('toggleLocaleCalendar', 'en');
-        }
-      },
-      logout() {
-        this.$store.dispatch('logout');
-      },
-
-      /**
-       * Save everything
-       */
-      save() {
-        localStorage.setItem(LANGUAGE_KEY, JSON.stringify(this.language))
-      }
+    logout () {
+      this.$store.dispatch('logout')
     },
-    mounted() {
-      this.language = JSON.parse(localStorage.getItem(LANGUAGE_KEY))
-      this.setLanguage(this.language)
 
-      this.user = this.$store.getters.getUser;
+    /**
+     * Save everything
+     */
+    save () {
+      localStorage.setItem(LANGUAGE_KEY, JSON.stringify(this.language))
+    }
+  },
+  mounted () {
+    this.language = JSON.parse(localStorage.getItem(LANGUAGE_KEY))
+    this.setLanguage(this.language)
+
+    this.resource = this.$store.getters.getUser
 //      this.$store.dispatch('inspectToken').then((response) =>{
 //        console.log(response);
 //        this.loggedInUser = response;
 //      });
-//      console.log(user);
-//      if (typeof user !== 'undefined' && user !== null && user.length > 0) {
-//        this.loggedInUser = user;
+//      console.log(resource);
+//      if (typeof resource !== 'undefined' && resource !== null && resource.length > 0) {
+//        this.loggedInUser = resource;
 //      }
-      settingsApi.getSettings().then(response => { 
-          if(response.data.data[0].is_on == 1){
-            this.blogActive = true;
-          } else {
-            this.blogActive = false;
-          }
-      });
-    }
+    settingsApi.getSettings().then(response => {
+      if (response.data.data[0].is_on == 1) {
+        this.blogActive = true
+      } else {
+        this.blogActive = false
+      }
+    })
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

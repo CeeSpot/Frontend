@@ -11,7 +11,7 @@ import User from '@/components/Community/User'
 import Blogs from '@/components/Blog/Blogs' // Community base page
 import Blog from '@/components/Blog/Blog' // Community base page
 
-//Authentication
+// Authentication
 import Register from '@/components/Core/Authentication/RegisterAndLogin'
 
 // User
@@ -20,6 +20,7 @@ import Settings from '@/components/UserProfile/Settings'
 
 // Company
 import Company from '@/components/Community/Company'
+import CompanyProfile from '@/components/Community/CompanyProfile'
 
 // Admin
 import AdminUsers from '@/components/Admin/Users/Users'
@@ -103,6 +104,11 @@ export default new Router({
       path: '/account/settings',
       name: 'User',
       component: Settings
+    },
+    {
+      path: '/account/company',
+      name: 'Company',
+      component: CompanyProfile
     },
     {
       path: '/admin/',

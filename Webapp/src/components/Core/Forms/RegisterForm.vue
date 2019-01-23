@@ -111,74 +111,71 @@
 </template>
 
 <script>
-    import auth from '@/services/api/Authentication.js'
-    export default {
-        name: 'register-form',
-        data () {
-            return {
-                msg: 'Register form',
-                form: {
-                    username: '',
-                    password: '',
-                    passwordRepeat: '',
-                    firstname: '',
-                    insertions: '',
-                    lastname: '',
-                    email: '',
-                },
-                passwordMatch: null,
-                passwordsMatchColor: '#ced4da',
+import auth from '@/services/api/Authentication.js'
+export default {
+  name: 'register-form',
+  data () {
+    return {
+      msg: 'Register form',
+      form: {
+        username: '',
+        password: '',
+        passwordRepeat: '',
+        firstname: '',
+        insertions: '',
+        lastname: '',
+        email: ''
+      },
+      passwordMatch: null,
+      passwordsMatchColor: '#ced4da',
 
-                emailCorrect: null,
-                emailCorrectColor: '#ced4da',
-                registerFailedMessage: ''
-//                token : ''
-            }
-        },
-        methods: {
-            goToLogin () {
-                Emitter.$emit('goToLoginFromRegister')
-            },
-            onSubmit (evt) {
-                evt.preventDefault();
-                console.log("asdsa");
-                auth.register(this.form).then((resp) => {
-                    console.log(resp.data);
-                    if (resp.data.success) {
-                       Emitter.$emit('registerred', resp.data.token);
-                    } else {
-                        this.registerFailedMessage = resp.data.message;
-                        console.log(this.registerFailedMessage);
-                    }
-                }).catch((resp) => {
-                    console.log(resp);
-                    this.registerFailedMessage = resp.data.message;
-                });
-            },
-            passwordsMatch: function(event) {
-                if(this.form.password===this.form.passwordRepeat){
-                    this.passwordsMatchColor = '#28a745';
-                    this.passwordMatch = true;
-                }else{
-                    this.passwordsMatchColor = '#bd2130';
-                    this.passwordMatch = false;
-                }
-            },
-            checkEmail: function(event) {
-                if(this.validateEmail(this.form.email)){
-                    this.emailCorrectColor = '#ced4da';
-                    this.emailCorrect = true;
-                }else{
-                    this.emailCorrectColor = '#bd2130';
-                    this.emailCorrect = false;
-                }
-            },
-            validateEmail(email){
-                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(email);
-            }
-        }
+      emailCorrect: null,
+      emailCorrectColor: '#ced4da',
+      registerFailedMessage: ''
     }
+  },
+  methods: {
+    goToLogin () {
+      Emitter.$emit('goToLoginFromRegister')
+    },
+    onSubmit (evt) {
+      evt.preventDefault()
+      auth.register(this.form).then((resp) => {
+        console.log(resp)
+        if (resp.data.success) {
+          Emitter.$emit('registerred', resp.data.token)
+        } else {
+          this.registerFailedMessage = resp.data.data
+        }
+      }).catch((resp) => {
+        console.log(resp)
+        this.registerFailedMessage = resp.data.data;
+      })
+    },
+    passwordsMatch: function (event) {
+      if (this.form.password === this.form.passwordRepeat) {
+        this.passwordsMatchColor = '#28a745'
+        this.passwordMatch = true
+      } else {
+        this.passwordsMatchColor = '#bd2130'
+        this.passwordMatch = false
+      }
+    },
+    checkEmail: function (event) {
+      if (this.validateEmail(this.form.email)) {
+        this.emailCorrectColor = '#ced4da'
+        this.emailCorrect = true
+      } else {
+        this.emailCorrectColor = '#bd2130'
+        this.emailCorrect = false
+      }
+    },
+    validateEmail (email) {
+      var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email)
+    }
+  }
+}
 </script>
 
 <style>

@@ -84,7 +84,7 @@ export const store = new Vuex.Store({
     jwt: JSON.parse(localStorage.getItem(JSON_TOKEN)),
     // user: jwtDecode(jwt),
     endpoints: {
-      obtainJWT: API_URL + API_PORT + '/api/users/authenticate',
+      obtainJWT: API_URL + API_PORT + '/api/auth/authenticate',
       refreshJWT: API_URL + API_PORT + '/api/users/refresh'
     }
   },
@@ -112,9 +112,9 @@ export const store = new Vuex.Store({
       window.location.href = '/lr'
     },
     obtainToken (context, data) {
-      return axios.post(this.state.endpoints.obtainJWT, {
-        username: data[0],
-        password: data[1]
+      return axios.post(this.state.endpoints.obtainJWT + '/' + data[0], {
+        username: data[1],
+        password: data[2]
       })
     },
     updateToken (context, newToken) {
