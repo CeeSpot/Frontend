@@ -40,7 +40,7 @@
                             <b-col>
                                 <b-input-group class="form-group-search">
                                     <b-form-input v-model="search" :placeholder="$t('events.search')"
-                                                  class="form-control"></b-form-input>
+                                                  class="form-control" style="border-radius: 4px;"></b-form-input>
                                     <span class="form-control-icon">
                                     <font-awesome-icon icon="search" class="search-color"/>
                                 </span>

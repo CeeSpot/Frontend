@@ -15,20 +15,32 @@
                                     libero provident quas quasi quibusdam, quo sed vel!</p>
                             </b-col>
                         </b-row>
-                        <b-row class="mt-5">
+                        <b-row class="mt-5 text-center">
                             <b-col md="4">
                                 <b-card class="no-scale shadow-sm normal-card bg-white">
-                                    Kaart 2
+                                    <h4>Community</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad, alias aperiam.</p>
+                                    <b-button variant="outline-danger" href="/community">
+                                        Community members
+                                    </b-button>
                                 </b-card>
                             </b-col>
                             <b-col md="4">
-                                <b-card class="no-scale shadow-lg big-card">
-                                    Kaart 1
+                                <b-card class="no-scale shadow-lg big-card te">
+                                    <h3>Book a tour</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad animi dignissimos ipsa.</p>
+                                    <b-button variant="danger" href="/contact">
+                                        Book a tour!
+                                    </b-button>
                                 </b-card>
                             </b-col>
                             <b-col md="4">
                                 <b-card class="no-scale shadow-sm normal-card">
-                                    Kaart 3
+                                    <h4>Spaces</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur ducimus.</p>
+                                    <b-button variant="outline-danger" href="/spaces">
+                                        Available spaces
+                                    </b-button>
                                 </b-card>
                             </b-col>
                         </b-row>
@@ -171,7 +183,7 @@
     }
 
     .card {
-        padding-left: 20px;
+        /*padding-left: 20px;*/
         background-image: url("/static/images/rectangle.svg");
         background-repeat: no-repeat;
     }
@@ -184,7 +196,7 @@
 
     .normal-card {
         font-size: 1em;
-        height: 140px;
+        height: 200px;
     }
 
     #bookATour {

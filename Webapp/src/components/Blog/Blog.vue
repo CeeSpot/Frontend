@@ -199,7 +199,7 @@ img{
 
 .tags {
     border: 2px solid white;
-    border-radius: 15px;
+    border-radius: 4px;
     background-color: transparent;
     color: white;
     height: 30px;

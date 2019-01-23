@@ -1,6 +1,6 @@
 {
     "community": {
-      "search": "Zoeken...",
+      "search": " Zoeken...",
       "members": "Leden",
       "companies": "Bedrijven"
     },
@@ -8,7 +8,7 @@
       "month": "Maand",
       "week": "Week",
       "day": "Dag",
-      "search": "Search..."
+      "search": " Search..."
     },
     "event": {
       "login-to-join": "Login om deel te nemen!",

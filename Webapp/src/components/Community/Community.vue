@@ -4,7 +4,7 @@
             <b-col md="4">
                 <div>
                     <b-input-group class="form-group-search">
-                        <b-form-input v-model="search" :placeholder="$t('community.search')"
+                        <b-form-input style="border-radius: 4px;" v-model="search" :placeholder="$t('community.search')"
                                       class="form-control"></b-form-input>
                         <span class="form-control-icon">
                       <font-awesome-icon icon="search" class="search-color"/>
