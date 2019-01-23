@@ -7,6 +7,7 @@ import Space from '@/components/Spaces/Space' // Space base page
 import Events from '@/components/Events/Events' // Events base page
 import Event from '@/components/Events/Event' // Event base page
 import Contact from '@/components/Contact/Contact' // Contact base page
+import Success from '@/components/Contact/Success' // Contact base page
 import User from '@/components/Community/User'
 import Blogs from '@/components/Blog/Blogs' // Community base page
 import Blog from '@/components/Blog/Blog' // Community base page
@@ -88,6 +89,11 @@ export default new Router({
       path: '/contact',
       name: 'Contact',
       component: Contact
+    },
+    {
+      path: '/contact/success',
+      name: 'Success',
+      component: Success
     },
     {
       path: '/lr',
