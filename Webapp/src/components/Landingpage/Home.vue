@@ -3,28 +3,30 @@
         <b-container fluid style="padding: 0; margin-top: 80px;">
             <carousel></carousel>
         </b-container>
-        <b-container fluid class="bg-white pt-5 pb-5" style="min-height: 400px;">
-            <b-row>
+        <b-container fluid class="bg-light pb-5" style="min-height: 400px; padding-top: 80px;">
+            <b-row style="padding-bottom: 80px;">
                 <b-col md="12">
                     <b-container>
                         <b-row>
                             <b-col md="12">
                                 <h1>Our story</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium autem beatae dicta harum ipsa minima natus numquam repudiandae. Cumque cupiditate eius impedit libero provident quas quasi quibusdam, quo sed vel!</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium autem beatae
+                                    dicta harum ipsa minima natus numquam repudiandae. Cumque cupiditate eius impedit
+                                    libero provident quas quasi quibusdam, quo sed vel!</p>
                             </b-col>
                         </b-row>
                         <b-row class="mt-5">
-                            <b-col md="3">
-                                <b-card class="no-scale shadow-sm normal-card">
+                            <b-col md="4">
+                                <b-card class="no-scale shadow-sm normal-card bg-white">
                                     Kaart 2
                                 </b-card>
                             </b-col>
-                            <b-col md="6">
+                            <b-col md="4">
                                 <b-card class="no-scale shadow-lg big-card">
                                     Kaart 1
                                 </b-card>
                             </b-col>
-                            <b-col md="3">
+                            <b-col md="4">
                                 <b-card class="no-scale shadow-sm normal-card">
                                     Kaart 3
                                 </b-card>
@@ -34,25 +36,31 @@
                 </b-col>
             </b-row>
         </b-container>
-        <b-container fluid>
+        <b-container fluid style="padding-top: 80px; padding-bottom: 80px;">
             <b-row class="mt-5">
                 <b-col md="12">
                     <b-container>
                         <b-row>
                             <b-col md="8">
-                                <h1>Meet our community.</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur delectus error fugiat harum laboriosam nobis optio possimus repudiandae? A accusamus aperiam deleniti esse ex fugit laborum nobis porro provident voluptatem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium adipisci commodi error eveniet nulla voluptatibus. Consectetur eligendi, fuga laborum molestiae placeat quasi quod, reiciendis, rerum saepe similique soluta ut vel?</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet eius et, eum, fugit illum iste laborum natus necessitatibus nobis omnis quo reiciendis repellat sequi tempora ullam unde veritatis vero voluptas.</p>
+                                <h1>Meet our community</h1>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur delectus error
+                                    fugiat harum laboriosam nobis optio possimus repudiandae? A accusamus aperiam
+                                    deleniti esse ex fugit.</p>
+                                <p>Laborum nobis porro provident voluptatem. Lorem ipsum dolor sit amet, consectetur
+                                    adipisicing elit. Accusantium adipisci commodi error eveniet nulla voluptatibus.
+                                    Consectetur eligendi, fuga laborum molestiae placeat quasi quod, reiciendis, rerum
+                                    saepe similique soluta ut vel.</p>
+
                             </b-col>
                             <b-col md="4" class="text-right">
-                                <b-img src="/static/images/guy.png" class="shadow"></b-img>
+                                <b-img src="/static/images/guy.png" rounded class="shadow"></b-img>
                             </b-col>
                         </b-row>
                     </b-container>
                 </b-col>
             </b-row>
         </b-container>
-        <b-container fluid style="background-color: #E60000; color: white; min-height: 250px;">
+        <b-container fluid style="background-color: #E60000; color: white; min-height: 250px;" class="shadow">
             <b-row class="mt-5 text-center">
                 <b-col md="12">
                     <b-container>
@@ -77,14 +85,16 @@
                 </b-col>
             </b-row>
         </b-container>
-        <b-container fluid>
+        <b-container fluid style="padding-top: 80px; padding-bottom: 80px;">
             <b-row class="mt-5">
                 <b-col md="12">
                     <b-container>
                         <b-row>
                             <b-col md="12">
-                                <h1>Meet our partners.</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aut deleniti dolor, enim facere fugiat in labore libero modi nisi provident quasi recusandae rerum similique tempore vel veritatis voluptas voluptate.</p>
+                                <h1>Meet our partners</h1>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aut deleniti dolor,
+                                    enim facere fugiat in labore libero modi nisi provident quasi recusandae rerum
+                                    similique tempore vel veritatis voluptas voluptate.</p>
                             </b-col>
                         </b-row>
                         <b-row class="text-center">
@@ -114,6 +124,25 @@
                 </b-col>
             </b-row>
         </b-container>
+        <b-container fluid id="bookATour">
+            <b-row class="mt-5">
+                <b-col md="12">
+                    <b-container>
+                        <b-row>
+                            <b-col md="8">
+                                <h1>Book a tour</h1>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt iste maxime
+                                    numquam sint tempora. Architecto at, ducimus eius enim in ipsum laboriosam, maiores
+                                    natus nostrum officia perspiciatis porro rerum voluptatibus.</p>
+                                <b-button variant="outline-danger" href="/contact">
+                                    Book a tour!
+                                </b-button>
+                            </b-col>
+                        </b-row>
+                    </b-container>
+                </b-col>
+            </b-row>
+        </b-container>
     </div>
 </template>
 
@@ -137,6 +166,16 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .bg-light {
+        background-color: #fcfcfc;
+    }
+
+    .card {
+        padding-left: 20px;
+        background-image: url("/static/images/rectangle.svg");
+        background-repeat: no-repeat;
+    }
+
     .big-card {
         /*transform: scale(1.3);*/
         font-size: 1.2em;
@@ -147,4 +186,22 @@
         font-size: 1em;
         height: 140px;
     }
+
+    #bookATour {
+        padding-top: 80px;
+        background-image: url('/static/images/bart-jan.jpg');
+        background-repeat: no-repeat;
+        background-color: white;
+        background-position: top right;
+        padding-bottom: 80px;
+        background-size: 30%;
+    }
+
+    @media (max-width: 768px) {
+        #bookATour {
+            background-image: none;
+        }
+    }
+
+
 </style>

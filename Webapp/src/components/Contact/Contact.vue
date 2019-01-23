@@ -1,13 +1,9 @@
 <template>
-    <b-container fluid style="margin-top: 100px;">
+    <b-container fluid style="margin-top: 90px;">
         <b-row style="background: linear-gradient(to right, #1d2337 40%,#1d2337);padding-top: 50px;padding-bottom: 150px;">
             <b-container>
                 <b-row>
-                    <b-col md="2">
-                        <b-img rounded="circle" width="200" height="200" class="image-border"
-                               src="https://www.theceespot.nl/img/school-of-AI-simply-scaled-640.jpg"></b-img>
-                    </b-col>
-                    <b-col md="9" class="text-white ml-5">
+                    <b-col md="12" class="text-white">
                         <b-row>
                             <b-col md="12">
                                 <h1 class="text-white font-weight-bold">
@@ -87,7 +83,14 @@
                     </b-col>
                     <b-col>
                         <b-card class="no-scale">
-                            Address
+                            <ul class="list-unstyled">
+                                <li><span class="font-weight-bold">the cee spot</span></li>
+                                <li>Brouwerijstraat 1</li>
+                                <li>7523 XC Enschede</li>
+                                <li>The Netherlands</li>
+                                <li>&nbsp;</li>
+                                <li><a href="mailto:info@ceecee.community">info@ceecee.community</a></li>
+                            </ul>
                         </b-card>
                     </b-col>
                 </b-row>

@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid style="background-color: #373737; min-height: 80px; border-top: 5px solid #E60000; color: white; margin-top: 50px;" id="footer">
+    <b-container fluid id="footer">
         <b-row>
             <b-col md="12">
                 <b-container>
@@ -24,5 +24,13 @@
 <style scoped>
     a {
         color: white;
+    }
+
+    #footer {
+        background-color: #373737;
+        min-height: 80px;
+        border-top: 5px solid #E60000;
+        color: white;
+        /*margin-top: 50px;*/
     }
 </style>
