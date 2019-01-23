@@ -34,6 +34,7 @@ import {faChevronLeft} from '@fortawesome/free-solid-svg-icons/faChevronLeft' //
 import {faChevronRight} from '@fortawesome/free-solid-svg-icons/faChevronRight' // Imports Fa chevron right
 import {faTrash} from '@fortawesome/free-solid-svg-icons/faTrash' // Imports Fa trash
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes'
+import {faUsers} from '@fortawesome/free-solid-svg-icons/faUsers'
 import {faFacebook} from '@fortawesome/free-brands-svg-icons/faFacebook'
 import {faTwitter} from '@fortawesome/free-brands-svg-icons/faTwitter'
 import {faLinkedin} from '@fortawesome/free-brands-svg-icons/faLinkedin'
@@ -61,6 +62,7 @@ library.add(faLinkedin)
 library.add(faSave)
 library.add(faCheck)
 library.add(faPlus)
+library.add(faUsers)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon) // create the vue-component so you can use it
 
@@ -91,10 +93,10 @@ export const store = new Vuex.Store({
   getters: {
     getUser: state => {
       if (!state.jwt) {
-        console.log("hi")
+      //  console.log("hi")
         return null
       }
-      console.log("hi2")
+    //  console.log("hi2")
       return jwtDecode(state.jwt)
     }
   },

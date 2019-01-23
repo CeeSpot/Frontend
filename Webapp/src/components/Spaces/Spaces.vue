@@ -8,24 +8,10 @@
                     delectus deleniti enim error provident!</p>
             </b-col>
         </b-row>
-        <b-row class="search-toggle-container">
-            <b-col md="4">
-                <div>
-                    <b-input-group class="form-group-search">
-                        <b-form-input v-model="search" placeholder="Zoeken..."
-                                      class="form-control"></b-form-input>
-                        <span class="form-control-icon">
-                      <font-awesome-icon icon="search" class="search-color"/>
-                  </span>
-                    </b-input-group>
-                </div>
-            </b-col>
-            </b-row>
-
         <b-row class="mt-3">
-            <b-col v-for="space in spaceList" md="4">
+            <b-col v-for="space in spaces" md="4">
                 <b-card
-                        v-on:click="routeToSpace(space.id)"
+                        v-on:click="routeToSpace(space.id, space.title)"
                         :title="space.title"
                         img-src="https://picsum.photos/600/300/?image=1"
                         img-top
@@ -40,13 +26,10 @@
                     <hr>
                     <b-row class="text-center">
                         <b-col md="4">
-                            {{space.capacity}} personen
+                            <font-awesome-icon icon="users"/> {{space.capacity}}
                         </b-col>
-                        <b-col md="4">
-                            
-                        </b-col>
-                        <b-col md="4">
-                            {{space.costs}}
+                        <b-col md="8">
+                            &euro; {{space.costs}}
                         </b-col>
                     </b-row>
                 </b-card>
@@ -67,8 +50,9 @@ export default {
     }
   },
   methods: {
-    routeToSpace(id) {
-        this.$router.push({ path: '/spaces/' + id })
+    routeToSpace(id, title) {
+        title = title.replace(/\s+/g, '-').toLowerCase();
+        this.$router.push({ path: '/spaces/' + id + '/' + title })
     }
   },
   mounted() {

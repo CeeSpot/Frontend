@@ -68,6 +68,12 @@ body {
   transform: scale(1);
 }
 
+/** Fullcalendar styling */
+#calendar{
+    background-color: white; 
+    box-shadow: 0 3px 5px #d2d2d2;
+}
+
 /**Fade in and outanimation **/
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
