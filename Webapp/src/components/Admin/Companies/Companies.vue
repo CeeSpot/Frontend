@@ -46,7 +46,7 @@
     mounted() {
       Emitter.$on('authorised', () => {
         this.authorised = true
-        CommunityApi.getCompanies().then((response) => this.companies = response.data)
+        CommunityApi.getCompanies().then((response) => this.companies = response.data.data)
       })
     }
   }

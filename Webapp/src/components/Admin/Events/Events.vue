@@ -50,22 +50,6 @@ export default {
     formatDate(date) {
       return moment(date).format('DD-MM-YYYY')
     },
-    deleteEvent(event) {
-      let data = {data: {event_id: event.id}}
-      AdminEventApi.deleteEvent(data).then(response => {
-        if (response.data.success && response.data.authorised) {
-          this.events = this.events.filter(e => e.id !== event.id)
-        } else {
-          if (!response.data.authorised) {
-            this.$router.push({path: '/'})
-          }
-        }
-      }).catch((err) => {
-        if (!err.data.authorised) {
-          this.$router.push({path: '/'})
-        }
-      })
-    },
     getEvents() {
       EventApi.getEvents().then((response) => {
         if (response.data.success) {
