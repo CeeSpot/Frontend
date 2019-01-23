@@ -51,12 +51,12 @@ export default new Router({
       component: Home
     },
     {
-      path: '/user/:id',
+      path: '/user/:id/:naam',
       name: 'User',
       component: User
     },
     {
-      path: '/company/:id',
+      path: '/company/:id/:name',
       name: 'Company',
       component: Company
     },
@@ -71,7 +71,7 @@ export default new Router({
       component: Spaces
     },
     {
-      path: '/spaces/:id',
+      path: '/spaces/:id/:title',
       name: 'Space',
       component: Space
     },
@@ -81,7 +81,7 @@ export default new Router({
       component: Events
     },
     {
-      path: '/event/:id',
+      path: '/event/:id/:title',
       name: 'Event',
       component: Event
     },
@@ -161,7 +161,7 @@ export default new Router({
       component: Blogs
     },
     {
-      path: '/blog/:id',
+      path: '/blog/:id/:title',
       name: 'Blog',
       component: Blog
     },

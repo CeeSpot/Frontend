@@ -49,25 +49,13 @@
                         img-alt="Image"
                         img-top
                         tag="article"
-                        v-on:click="routeToMember(user.id)">
+                        v-on:click="routeToMember(user.id, user.first_name, user.insertions, user.last_name)">
                     <p class="card-text">
                         {{descriptionLimited(user.description)}}
                     </p>
                 </b-card>
             </b-col>
         </b-row>
-
-        <!--<b-row v-if="!showMembers">-->
-          <!--<b-col style="margin-bottom: 30px;">-->
-            <!--<ul>-->
-              <!--<li v-for="tag in companyTags">-->
-                <!--<div :id="'tag' + tag.id" v-on:click="updateSelectedUserTags(tag.id);filterSearchAndUserTags();"-->
-                     <!--class="btn-ceecee-oval-red">{{tag.description}}-->
-                <!--</div>-->
-              <!--</li>-->
-            <!--</ul>-->
-          <!--</b-col>-->
-        <!--</b-row>-->
         <b-row v-if="showCompanyContainer">
             <b-col md="4" v-for="company in companyList" :key="company.id">
                 <b-card
@@ -77,7 +65,7 @@
                         img-alt="Image"
                         img-top
                         tag="article"
-                        v-on:click="routeToCompany(company.id)">
+                        v-on:click="routeToCompany(company.id, company.name)">
                     <p class="card-text">
                         {{descriptionLimited(company.description)}}
                     </p>
@@ -183,11 +171,14 @@ export default {
       }
       return newUserList;
     },
-    routeToMember (id) {
-      location.href = '/user/' + id
+    routeToMember (id,first_name,insertions,last_name) {
+      let full = this.fullName(first_name,insertions,last_name);
+      full = full.replace(/\s+/g, '-').toLowerCase();
+      location.href = '/user/' + id + '/' + full;
     },
-    routeToCompany (id) {
-      location.href = '/company/' + id
+    routeToCompany (id, name) {
+      name = name.replace(/\s+/g, '-').toLowerCase();
+      location.href = '/company/' + id + '/' + name
     },
     routeToEntity (id,type) {
         if (type === "company"){

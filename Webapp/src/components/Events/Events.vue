@@ -2,7 +2,7 @@
     <b-container class="p-3 container-margin">
     <b-row id="upcoming-header"><b-col><h1>Upcoming events</h1></b-col></b-row>
     <b-row id="upcoming-container">
-    <b-col cols="12" md="4" xl="4" lg="4" v-for="upcoming in upcomingEvents" v-on:click="routeToEvent(upcoming.id)">
+    <b-col cols="12" md="4" xl="4" lg="4" v-for="upcoming in upcomingEvents" v-on:click="routeToEvent(upcoming.id, upcoming.title)">
         <b-card class="upc-card">
             <div class="upc-title">
                 <strong>{{upcoming.title}}<br/></strong>
@@ -61,7 +61,7 @@
         </b-row>
         <b-row class="mt-3" v-bind:class="{'show': !showCalendar, 'hidden': showCalendar}">
             <b-col md="4" v-for="calEvent in eventList">
-                <a v-on:click="routeToEvent(calEvent.id)" style="color: black;">
+                <a v-on:click="routeToEvent(calEvent.id, calEvent.title)" style="color: black;">
                     <b-card
                             v-bind:title="calEvent.title"
                             img-src="https://picsum.photos/600/300/?image=23"
@@ -152,7 +152,7 @@
     },
     methods: {
         eventSelected(event, jsEvent, view) {
-            location.href = '/event/' + event.id;
+            location.href = '/event/' + event.id + '/' + event.title;
         },
         refreshEvents() {
             this.$refs.CalendarRef.$emit('refetch-events');
@@ -172,8 +172,9 @@
             if (type === 'calendar') this.showCalendar = true;
             else  this.showCalendar = false;
         },
-        routeToEvent(id) {
-            location.href = '/event/' + id;
+        routeToEvent(id, title) {
+            title = title.replace(/\s+/g, '-').toLowerCase();
+            location.href = '/event/' + id + '/' + title;
         },
         changeDateFormat(dateString, start){
             if(dateString && start){

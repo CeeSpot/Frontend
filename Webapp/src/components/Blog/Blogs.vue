@@ -2,7 +2,7 @@
     <b-container class="container-margin">
         <b-row class="mt-3">
             <b-col md="8" class="mr-3">
-                <b-card v-for="blog in filterSearchAndTags()" v-on:click="routeToBlog(blog.id)">
+                <b-card v-for="blog in filterSearchAndTags()" v-on:click="routeToBlog(blog.id, blog.title)">
                     <b-row>
                         <b-col md="9">
                             <div style="padding: 15px">
@@ -122,8 +122,9 @@
         }
         return newBlogsList;
       },
-      routeToBlog(id) {
-        location.href = '/blog/' + id;
+      routeToBlog(id, title) {
+        title = title.replace(/\s+/g, '-').toLowerCase();
+        location.href = '/blog/' + id + '/' + title;
       },
       getImage(id) {
         uploadFile.checkIfFileExists(this.imageBaseURL + '/blogs_header/' + id + '.jpg')
