@@ -147,7 +147,7 @@
     computed: {
       blogList() {
         return this.blogs.filter(blog => {
-          return blog.title.toLowerCase().includes(this.search.toLowerCase())
+          return blog.title.toLowerCase().includes(this.search.toLowerCase()) || blog.body.toLowerCase().includes(this.search.toLowerCase());
         })
       }
     }
