@@ -55,7 +55,12 @@ export default {
         if (response.data.success) {
           this.events = response.data.data
         } else {
-          this.getEvents()
+          this.$toasted.show('Failed to load events!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
         }
       }).catch(() => {
         this.getEvents()
@@ -67,7 +72,12 @@ export default {
           this.event_categories = response.data.data;
           this.event_categories.push({value: null, text: 'Geen categorie'});
         } else {
-          this.getEventCategories()
+            this.$toasted.show('Failed to load event categories!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
         }
       }).catch(() => {
         this.getEventCategories()

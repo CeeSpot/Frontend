@@ -135,7 +135,14 @@ export default {
     getCompanyProfile () {
       let self = this
       CommunityApi.getCompany(this.id).then(response => {
-        console.log(response)
+        if(!response.data.success){
+          this.$toasted.show('Failed load company try again later',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+           )
+        }
         self.failedMessage = null
         self.company = response.data.company
         self.type = response.data.type

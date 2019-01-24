@@ -43,6 +43,14 @@ export default {
     Emitter.$on('authorised', () => {
       this.authorised = true
       CommunityApi.getUsers().then((response) => {
+      if(!response.data.success){
+          this.$toasted.show('Failed load users try again later!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+        }
         this.userList = response.data.data
       })
     })

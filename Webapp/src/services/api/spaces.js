@@ -26,7 +26,7 @@ export default {
     let data = {space: space}
     return axios.put('/api/spaces/update', data, {
       headers: {
-        'x-access-tokeappn': store.state.jwt
+        'x-access-token': store.state.jwt
       }
     })
   },
