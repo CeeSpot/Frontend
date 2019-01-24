@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       items: [
-        "Users", "Events", "Companies", "Blogs", "Website", "Spaces", "Requests", "Settings"
+        "Users", "Events", "Companies", "Blogs", "Tags", "Website", "Spaces", "Requests", "Settings"
       ],
       authorised: false
     }

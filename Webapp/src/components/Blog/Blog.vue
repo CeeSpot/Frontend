@@ -4,42 +4,6 @@
         <b-row>
           <b-col>
             <div class="blog-image" v-bind:style="{ backgroundImage: 'url(' + this.imageURL + ')' }">
-              <!-- <div class="carousel-caption">
-                <b-row>
-                <b-col>
-                <h1>{{blog.title}}</h1>
-                  <ul>
-                      <li v-for="tag in blog.tags">
-                          <div :id="'tag' + tag.id" class="tags">{{tag.description}}
-                          </div>
-                      </li>
-                  </ul>
-                </b-col>
-                <b-col class="text-right">
-                  <div>
-                    <social-sharing url="http://localhost:8080/events"
-                                          :title="Test"
-                                          :description="Test"
-                                          hashtags="TheCeeSpot"
-                                          twitter-user="vuejs"
-                                          v-cloak inline-template>
-                              <div>
-                                  <network network="facebook" class="pr-2">
-                                      <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'facebook' }"/>
-                                  </network>
-                                  <network network="linkedin" class="pr-2">
-                                      <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'linkedin' }"/>
-                                  </network>
-                                  <network network="twitter" class="pr-2">
-                                      <font-awesome-icon :icon="{ prefix: 'fab', iconName: 'twitter' }"/>
-                                  </network>
-                              </div>
-                    </social-sharing>
-                  </div>
-                  </b-col>
-                </b-row>
-              </div>
-                          !-->
               <b-row class="p-4" style="margin-top: 240px;">
                 <b-col>
                   <b-row>
@@ -130,7 +94,7 @@ import uploadFile from '@/services/api/uploadFile.js'
     mounted() {
       blogApi.getBlog(this.id).then(response => {
         this.blog = response.data.data[0] 
-        this.blogUrl = 'http://localhost:8080/blog/' + this.id;
+        this.blogUrl = window.location.href;
       });
 
       uploadFile.checkIfFileExists(this.imageBaseURL + '/blogs_header/' + this.id + '.jpg')

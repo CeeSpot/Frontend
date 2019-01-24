@@ -1,67 +1,88 @@
-body{
-	background-color: #F2F2F2;
+body {
+  background-color: #F2F2F2;
 }
 
-.mb15{
-    margin-bottom: 15px;
+.mb15 {
+  margin-bottom: 15px;
 }
 
-.vdatetime-popup__header{
-    background: #E60000 !important;
+.vdate:nth-child(1){
+  height: 20px;
 }
 
-.vdatetime-calendar__month__day--selected > span > span{
-    background: #E60000 !important;
+.vdate .vdatetime-overlay{
+  position: relative !important;
+}
+
+.vdate .vdatetime-popup{
+  position: relative !important;
+}
+
+.vdatetime-popup__header {
+  background: #E60000 !important;
+}
+
+.vdatetime-calendar__month__day--selected > span > span {
+  background: #E60000 !important;
 }
 
 .card {
-    position: relative;
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: flex;
-    -ms-flex-direction: column;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 0px;
-	border-radius: 0.25rem;
-	box-shadow: 0 3px 5px #d2d2d2;
-	transition: 0.2s ease;
-	cursor: pointer;
-	margin-bottom: 30px;
+  position: relative;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 0px;
+  border-radius: 0.25rem;
+  box-shadow: 0 3px 5px #d2d2d2;
+  transition: 0.2s ease;
+  cursor: pointer;
+  margin-bottom: 30px;
 }
 
-.card.no-scale{
-    cursor: auto;
+.card.no-scale {
+  cursor: auto;
 }
 
 .shadow {
-    box-shadow: 0 3px 5px #d2d2d2 !important;
+  box-shadow: 0 3px 5px #d2d2d2 !important;
 }
-.card:hover {
-	-ms-transform: scale(1.05); /* IE 9 */
-    -webkit-transform: scale(1.05); /* Safari */
-    transform: scale(1.05);
-}
-.card.no-scale:hover{
 
-    -ms-transform: scale(1); /* IE 9 */
-    -webkit-transform: scale(1); /* Safari */
-    transform: scale(1);
+.card:hover {
+  -ms-transform: scale(1.05); /* IE 9 */
+  -webkit-transform: scale(1.05); /* Safari */
+  transform: scale(1.05);
+}
+
+.card.no-scale:hover {
+
+  -ms-transform: scale(1); /* IE 9 */
+  -webkit-transform: scale(1); /* Safari */
+  transform: scale(1);
+}
+
+/** Fullcalendar styling */
+#calendar{
+    background-color: white; 
+    box-shadow: 0 3px 5px #d2d2d2;
 }
 
 /**Fade in and outanimation **/
 .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
+  transition: opacity .5s;
 }
 
 .fade-enter, .fade-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
+
 .btn-ceecee-oval-red {
     border: 2px solid #E60000;
     border-radius: 4px;
@@ -78,68 +99,69 @@ body{
 }
 
 .btn-ceecee-red {
-    color: #E60000;
-    background-color: transparent;
-    background-image: none;
-    border-color: #E60000
+  color: #E60000;
+  background-color: transparent;
+  background-image: none;
+  border-color: #E60000
 }
 
 .btn-ceecee-red:hover {
-    transition: 0.2s;
-    background-color: #E60000;
-    color: white;
+  transition: 0.2s;
+  background-color: #E60000;
+  color: white;
 }
 
 .btn-ceecee-oval-red:hover {
-    transition: 0.2s;
-    background-color: #E60000;
-    color: white;
+  transition: 0.2s;
+  background-color: #E60000;
+  color: white;
 }
+
 .btn-ceecee-oval-red:not(:hover) {
-    transition: 0.2s;
+  transition: 0.2s;
 }
 
 .btn-ceecee-oval-red-active {
-    background-color: #E60000;
-    color: white;
+  background-color: #E60000;
+  color: white;
 }
 
 .btn-ceecee-oval-red-active:hover {
-    background-color: transparent;
-    color: #E60000;
+  background-color: transparent;
+  color: #E60000;
 }
 
-.fc-event-container{
-    cursor: pointer;
+.fc-event-container {
+  cursor: pointer;
 }
 
 .modal-header {
-    background-color: #E60000;
+  background-color: #E60000;
 }
 
 .modal-title {
-    color: white;
+  color: white;
 }
 
-.modal-header .close{
-    border-radius: 50%;
-    background-color: white;
-    width: 25px;
-    height: 25px;
-    margin-top: 2px;
-    margin-right: 2px;
-    padding: 0rem;
-    opacity: 1;
+.modal-header .close {
+  border-radius: 50%;
+  background-color: white;
+  width: 25px;
+  height: 25px;
+  margin-top: 2px;
+  margin-right: 2px;
+  padding: 0rem;
+  opacity: 1;
 }
 
-.dropdown-toggle::after{
+.dropdown-toggle::after {
   color: #fff !important;
 }
 
 .fab-buttons {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    margin-bottom: 20px;
-    margin-right: 20px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 20px;
+  margin-right: 20px;
 }

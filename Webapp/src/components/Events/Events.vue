@@ -2,8 +2,8 @@
     <b-container class="p-3 container-margin">
     <b-row id="upcoming-header"><b-col><h1>Upcoming events</h1></b-col></b-row>
     <b-row id="upcoming-container">
-    <b-col cols="12" md="4" xl="4" lg="4" v-for="upcoming in upcomingEvents" v-on:click="routeToEvent(upcoming.id)">
-        <b-card class="mb-2 upc-card">
+    <b-col cols="12" md="4" xl="4" lg="4" v-for="upcoming in upcomingEvents" v-on:click="routeToEvent(upcoming.id, upcoming.title)">
+        <b-card class="upc-card">
             <div class="upc-title">
                 <strong>{{upcoming.title}}<br/></strong>
                 <span>{{getDateFormat(upcoming.start)}} @ {{getTimeFormat(upcoming.start)}} - {{getTimeFormat(upcoming.end)}}</span>
@@ -54,14 +54,14 @@
         </b-row>
         <b-row class="mt-3" v-bind:class="{'show':showCalendar, 'hidden':!showCalendar}">
             <b-col>
-                <full-calendar style="background-color: white; box-shadow: 0 3px 5px #d2d2d2;" ref="CalendarRef"
+                <full-calendar ref="CalendarRef"
                                :event-sources="eventSources" :config="config"
                                @event-selected="eventSelected"></full-calendar>
             </b-col>
         </b-row>
         <b-row class="mt-3" v-bind:class="{'show': !showCalendar, 'hidden': showCalendar}">
             <b-col md="4" v-for="calEvent in eventList">
-                <a v-on:click="routeToEvent(calEvent.id)" style="color: black;">
+                <a v-on:click="routeToEvent(calEvent.id, calEvent.title)" style="color: black;">
                     <b-card
                             v-bind:title="calEvent.title"
                             img-src="https://picsum.photos/600/300/?image=23"
@@ -69,7 +69,7 @@
                             img-top
                             >
                         <p style="font-size: 1em;">
-                            {{changeDateFormat(calEvent.start,true)}} - {{changeDateFormat(calEvent.end)}}
+                        {{getDateFormat(calEvent.start)}} @ {{getTimeFormat(calEvent.start)}} - {{getTimeFormat(calEvent.end)}}
                         </p>
                         <p>
                             {{ calEvent.small_description }}
@@ -78,15 +78,43 @@
                 </a>
             </b-col>
         </b-row>
+        <action-button color="red" :fixed="true" icon="plus" v-b-modal.newevent></action-button>
+    <!-- Modal Component -->
+    <b-modal ref="newEventModal" hide-footer id="newevent" title="Nieuw evenement">
+      <b-form-input class="mb15" v-model="newEvent.title" type="text" placeholder="Titel"></b-form-input>
+      <b-form-textarea class="mb15" rows="3" v-model="newEvent.description" type="text"
+                       placeholder="Omschrijving"></b-form-textarea>
+      <b-form-textarea class="mb15" rows="2" v-model="newEvent.small_description" type="text"
+                       placeholder="Korte omschrijving"></b-form-textarea>
+
+                       <!--<b-form-select class="mb15" :options="event_categories" 
+                       v-model="newEvent.category"></b-form-select> -->
+
+      <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Starttijd"
+                format="dd-MM-yyyy HH:mm:ss" v-model="newEvent.start"></datetime>
+      <datetime class="mb15" type="datetime" input-class="form-control" placeholder="Eindtijd"
+                format="dd-MM-yyyy HH:mm:ss" v-model="newEvent.end"></datetime>
+      <b-form-input class="mb15" v-model="newEvent.location_name" type="text" placeholder="Naam locatie"></b-form-input>
+      <b-form-input class="mb15" v-model="newEvent.location_address" type="text" placeholder="Adres"></b-form-input>
+      <b-form-input class="mb15" v-model="newEvent.location_postalcode" type="text"
+                    placeholder="Postcode"></b-form-input>
+      <b-form-input class="mb15" v-model="newEvent.location_city" type="text" placeholder="Stad"></b-form-input>
+      <b-button class="float-right" v-on:click="addEvent">Opslaan</b-button>
+    </b-modal>
     </b-container>
 </template>
 
 <script>
   import eventApi from '@/services/api/events.js'
+  import AdminEventApi from '@/services/api/admin/events.js'
   import moment from 'moment'
+  import ActionButton from '@/components/Core/Other/ActionButton'
 
   export default {
     name: 'Events',
+    components: {
+    ActionButton
+  },
     data() {
       return {
         eventSources: [
@@ -110,7 +138,8 @@
         showCalendar: false,
         events: [],
         search: '',
-        upcomingEvents: []
+        upcomingEvents: [],
+        newEvent: {}
       }
     },
     mounted() {
@@ -122,43 +151,59 @@
       eventApi.getUpcoming().then(response => this.upcomingEvents = response.data.data);
     },
     methods: {
-      eventSelected(event, jsEvent, view) {
-         location.href = '/event/' + event.id;
-      },
-      refreshEvents() {
-        this.$refs.CalendarRef.$emit('refetch-events');
-      },
-      fireMethodCalendar(method) {
-        this.$refs.CalendarRef.fireMethod(method);
-        this.getTitle();
-      },
-      getTitle() {
-        var view = this.$refs.CalendarRef.fireMethod('getView');
-        this.headerTitle = view.title;
-      },
-      toggleLocale(newLocale){
-          this.$refs.CalendarRef.fireMethod('option', 'locale', newLocale);
-      },
-      toggleView(type){
-          if (type === 'calendar') this.showCalendar = true;
-          else  this.showCalendar = false;
-      },
-      routeToEvent(id) {
-        location.href = '/event/' + id;
-      },
-      changeDateFormat(dateString, start){
-        if(dateString && start){
-          return moment(String(dateString)).format('hh:mm')
-        } else {
-          return moment(String(dateString)).format('hh:mm @ MM MMMM YYYY')
+        eventSelected(event, jsEvent, view) {
+            location.href = '/event/' + event.id + '/' + event.title;
+        },
+        refreshEvents() {
+            this.$refs.CalendarRef.$emit('refetch-events');
+        },
+        fireMethodCalendar(method) {
+            this.$refs.CalendarRef.fireMethod(method);
+            this.getTitle();
+        },
+        getTitle() {
+            var view = this.$refs.CalendarRef.fireMethod('getView');
+            this.headerTitle = view.title;
+        },
+        toggleLocale(newLocale){
+            this.$refs.CalendarRef.fireMethod('option', 'locale', newLocale);
+        },
+        toggleView(type){
+            if (type === 'calendar') this.showCalendar = true;
+            else  this.showCalendar = false;
+        },
+        routeToEvent(id, title) {
+            title = title.replace(/\s+/g, '-').toLowerCase();
+            location.href = '/event/' + id + '/' + title;
+        },
+        changeDateFormat(dateString, start){
+            if(dateString && start){
+            return moment(String(dateString)).format('hh:mm')
+            } else {
+            return moment(String(dateString)).format('hh:mm @ MM MMMM YYYY')
+            }
+        },
+        getDateFormat(input){
+            return moment(input).format('DD-MM-YYYY');
+        },
+        getTimeFormat(input){
+            return moment(input).format('HH:mm');
+        },
+        addEvent() {
+        this.newEvent.start = moment(this.newEvent.start).format('YYYY-MM-DD HH:mm:ss');
+        this.newEvent.end = moment(this.newEvent.end).format('YYYY-MM-DD HH:mm:ss');
+
+        AdminEventApi.addEvent({event: this.newEvent}).then(response => {
+            if (response.data.success && response.data.authorised) {
+                this.newEvent = {};
+                EventApi.getEvents().then(response => this.events = response.data.data)
+            }
+
+            this.$refs.newEventModal.hide();
+        }).catch((err) => {
+            this.$refs.newEventModal.hide();
+        });
         }
-      },
-      getDateFormat(input){
-          return moment(input).format('DD-MM-YYYY');
-      },
-      getTimeFormat(input){
-          return moment(input).format('HH:mm');
-      }
     },
     filters: {
       capitalize: function (value) {

@@ -38,43 +38,7 @@
       </b-col>
     </b-row>
     <action-button color="red" :fixed="true" icon="plus" v-b-modal.spacerequest></action-button>
-    <!-- Modal Component -->
-    <b-modal ref="spacerequest" hide-footer id="spacerequest" title="Verzoek ruimte">
-      <b-row>
-        <b-col>
-          <h3>Boeking {{activeSRequest.space_title}}</h3>
-          <table class="table table-borderless">
-            <tbody>
-            <tr>
-              <th>Naam:</th>
-              <td>{{activeSRequest.name}}</td>
-            </tr>
-            <tr>
-              <th>Telefoon:</th>
-              <td>{{activeSRequest.phone}}</td>
-            </tr>
-            <tr>
-              <th>Email:</th>
-              <td>{{activeSRequest.email}}</td>
-            </tr>
-            <tr>
-              <th>Datum:</th>
-              <td>{{activeSRequest.stringdate}}</td>
-            </tr>
-            <tr>
-              <th>Starttijd:</th>
-              <td>{{activeSRequest.start}}</td>
-            </tr>
-            <tr>
-              <th>Eindtijd:</th>
-              <td>{{activeSRequest.end}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </b-col>
-      </b-row>
-      <b-button class="float-right" v-on:click="approveDeclineSR(activeSRequest, 1)">Goedkeuren</b-button>
-    </b-modal>
+    <update-space-request-state-modal :activeSRequest="activeSRequest"></update-space-request-state-modal>
   </b-container>
 </template>
 
@@ -83,14 +47,16 @@ import AdminMenu from '@/components/Admin/AdminMenu'
 import moment from 'moment'
 import ActionButton from '@/components/Core/Other/ActionButton'
 import AdminCard from '@/components/Core/Other/AdminCard'
-import RequestApi from '@/services/api/admin/requests.js';
+import RequestApi from '@/services/api/admin/requests.js'
+import UpdateSpaceRequestStateModal from '@/components/Core/Modals/Admin/UpdateSpaceRequestStateModal'
 
 export default {
   name: "requests",
   components: {
     AdminMenu,
     ActionButton,
-    AdminCard
+    AdminCard,
+    UpdateSpaceRequestStateModal
   },
   data() {
     return {
@@ -115,30 +81,24 @@ export default {
       // let stringdate = moment(this.activeSRequest.date).format('DD-MM-YYYY')
       this.activeSRequest.stringdate = moment(this.activeSRequest.date).format('DD-MM-YYYY');
     },
-    approveDeclineSR(activeSR, approved) {
-      RequestApi.updateReservationState(activeSR, approved).then(response => {
-        if (response.data.success && response.data.authorised) {
-          let index = this.spaceRequests.findIndex(x => x.id === activeSR.id)
-          this.spaceRequests.splice(index, 1)
-          this.$refs.spacerequest.hide()
+    getSpaceRequests () {
+      RequestApi.getSpaceRequests().then(response => {
+        if (response.data.success) {
+          this.spaceRequests = response.data.data;
         } else {
-          if (!response.data.authorised) {
-            this.$router.push({path: '/'})
-          }
+          this.getSpaceRequests()
         }
-      }).catch((err) => {
-        if (!err.data.authorised) {
-          this.$router.push({path: '/'})
-        }
-      })
+      }).catch(() => this.getSpaceRequests())
     }
   },
   mounted() {
     Emitter.$on('authorised', () => {
       this.authorised = true
-      RequestApi.getSpaceRequests().then(response => {
-        this.spaceRequests = response.data.data;
-      });
+      this.getSpaceRequests()
+    })
+    Emitter.$on('updateStateSpaceRequest', (activeSRequest) => {
+      let index = this.spaceRequests.findIndex(x => x.id === activeSRequest.id)
+      this.spaceRequests.splice(index, 1)
     })
   }
 }

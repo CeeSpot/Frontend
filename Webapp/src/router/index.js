@@ -12,7 +12,7 @@ import User from '@/components/Community/User'
 import Blogs from '@/components/Blog/Blogs' // Community base page
 import Blog from '@/components/Blog/Blog' // Community base page
 
-//Authentication
+// Authentication
 import Register from '@/components/Core/Authentication/RegisterAndLogin'
 
 // User
@@ -21,6 +21,7 @@ import Settings from '@/components/UserProfile/Settings'
 
 // Company
 import Company from '@/components/Community/Company'
+import CompanyProfile from '@/components/Community/CompanyProfile'
 
 // Admin
 import AdminUsers from '@/components/Admin/Users/Users'
@@ -36,6 +37,7 @@ import AdminSpaces from '@/components/Admin/Spaces/Spaces'
 import AdminSpace from '@/components/Admin/Spaces/Space'
 import AdminRequests from '@/components/Admin/Requests/Requests'
 import AdminSettings from '@/components/Admin/Settings/Settings'
+import AdminTags from '@/components/Admin/Tags/Tags'
 
 import Test from '@/components/Test/Test'
 
@@ -51,12 +53,12 @@ export default new Router({
       component: Home
     },
     {
-      path: '/user/:id',
+      path: '/user/:id/:naam',
       name: 'User',
       component: User
     },
     {
-      path: '/company/:id',
+      path: '/company/:id/:name',
       name: 'Company',
       component: Company
     },
@@ -71,7 +73,7 @@ export default new Router({
       component: Spaces
     },
     {
-      path: '/spaces/:id',
+      path: '/spaces/:id/:title',
       name: 'Space',
       component: Space
     },
@@ -81,7 +83,7 @@ export default new Router({
       component: Events
     },
     {
-      path: '/event/:id',
+      path: '/event/:id/:title',
       name: 'Event',
       component: Event
     },
@@ -109,6 +111,11 @@ export default new Router({
       path: '/account/settings',
       name: 'User',
       component: Settings
+    },
+    {
+      path: '/account/company',
+      name: 'Company',
+      component: CompanyProfile
     },
     {
       path: '/admin/',
@@ -166,7 +173,7 @@ export default new Router({
       component: Blogs
     },
     {
-      path: '/blog/:id',
+      path: '/blog/:id/:title',
       name: 'Blog',
       component: Blog
     },
@@ -189,6 +196,11 @@ export default new Router({
       path: '/admin/settings',
       name: 'AdminSettings',
       component: AdminSettings
+    },
+    {
+      path: '/admin/tags',
+      name: 'AdminTags',
+      component: AdminTags
     }
   ]
 })

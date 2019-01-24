@@ -7,6 +7,16 @@
     </b-row>
     <b-row>
       <b-col md="10" offset-md="1">
+        <b-form-group>
+          <b-form-radio-group v-model="selected"
+                              :options="options"
+                              name="radioInline">
+          </b-form-radio-group>
+        </b-form-group>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col md="10" offset-md="1">
         <b-form-group id="usernameGroup"
                       label="Username"
                       label-for="username">
@@ -51,6 +61,11 @@ export default {
         username: '',
         password: ''
       },
+      selected: 1,
+      options: [
+        { text: 'User', value: 1 },
+        { text: 'Company', value: 2 }
+      ],
       loginFailedMessage: ''
     }
   },
@@ -70,8 +85,9 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault()
-      this.$store.dispatch('obtainToken', [this.form.username, this.form.password])
+      this.$store.dispatch('obtainToken', [this.selected, this.form.username, this.form.password])
         .then((response) => {
+          console.log(response)
           if (response.data.success) {
             this.$store.commit('updateToken', response.data.token)
             location.href = '/'
@@ -80,7 +96,8 @@ export default {
           }
         })
         .catch((error) => {
-          this.loginFailedMessage = error.data.data
+          console.log(error)
+          this.loginFailedMessage = error
         })
     }
   }

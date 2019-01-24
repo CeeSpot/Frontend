@@ -1,10 +1,12 @@
 import axios from 'axios'
+import {store} from '../../../main'
 
 export default{
-  deleteUser (data) {
-    return axios.delete('/api/users/delete', data)
-  },
-  updateUser(data){
-      return axios.put('api/users/update', data)
+  updateUser (data) {
+    return axios.put('api/users/update', data, {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
   }
 }

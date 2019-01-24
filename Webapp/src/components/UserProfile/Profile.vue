@@ -17,7 +17,8 @@
             </div>
           </b-col>
           <b-col md="9" class="text-white">
-            <b-row>
+            <b-button style="position: absolute;right: 0;top: 0;z-index: 8;" variant="light" v-b-modal.RegisterCompanyModal>Add company</b-button>
+            <b-row style="z-index:7;">
               <b-col md="12">
                 <h2 class="text-white">
                   {{user.first_name}} {{user.insertions}} {{user.last_name}}
@@ -28,7 +29,7 @@
               <b-col v-if="user.companies.length > 0">
                 <span v-for="company in user.companies">
                   <b>{{company.role}} @ <a class="text-white text-underline"
-                                           v-bind:href="'/company/' + company.company_id">{{company.name}}</a></b><br>
+                                           v-bind:href="getCompanyLink(company.company_id, company.name)">{{company.name}}</a></b><br>
                 </span>
               </b-col>
               <b-col v-if="user.companies.length ===0">
@@ -41,14 +42,24 @@
                                    v-b-modal.CompanyRoleModal></font-awesome-icon>
               </b-col>
             </b-row>
-            <b-row class="mt-2">
-              <b-col md="12">
-                <b>Nationality: </b><span class="opacity-text-8">{{user.country}}</span>
+            <b-row class="mt-3">
+              <b-col class="opacity-text-8" md="12" v-if="user.description !== null && user.description.length > 0 && !personalInfoEditting">
+                {{user.description}}
+                <font-awesome-icon class="social-media-link" :icon="{ prefix: 'fas', iconName: 'edit'}" v-on:click="editPersonalInfo()"></font-awesome-icon>
+              </b-col>
+
+              <b-col v-if="(user.description === null || user.description.length === 0) && !personalInfoEditting" v-on:click="editPersonalInfo()">
+                Add Description
+                <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}"></font-awesome-icon>
+              </b-col>
+              <b-col v-if="personalInfoEditting">
+                <b-textarea style="min-height: 100px;" v-model="user.description" type="text"></b-textarea>
               </b-col>
             </b-row>
-            <b-row class="mt-3">
-              <b-col class="opacity-text-8" md="12">
-                {{user.description}}
+            <b-row class="mt-2" v-if="personalInfoEditting">
+              <b-col>
+                <b-button v-on:click="saveBaseAccountInfo()" class="pull-right" variant="primary">Save</b-button>
+                <b-button v-on:click="editPersonalInfo()" class="pull-right" variant="danger">Cancel</b-button>
               </b-col>
             </b-row>
             <b-row class="mt-3">
@@ -190,7 +201,9 @@
                       <b style="padding-left: 5px;">Country</b>
                     </b-col>
                     <b-col style="padding-left: 45px;" v-if="!addressInfoEditting">
-                      <span class="text-primary edit" v-on:click="editAddressInfo()">{{user.country}}</span>
+                      <span class="text-primary edit" v-on:click="editAddressInfo()"
+                            v-if="user.country !== null">{{user.country}}</span>
+                      <span class="text-primary edit" v-on:click="editAddressInfo()" v-if="user.country === null">Add country</span>
                     </b-col>
                     <b-col style="padding-left: 45px;" v-if="addressInfoEditting">
                       <b-form-input v-model="user.country" type="text"></b-form-input>
@@ -204,7 +217,9 @@
                       <b style="padding-left: 5px;">City</b>
                     </b-col>
                     <b-col style="padding-left: 45px;" v-if="!addressInfoEditting">
-                      <span class="text-primary edit" v-on:click="editAddressInfo()">{{user.city}}</span>
+                      <span class="text-primary edit" v-on:click="editAddressInfo()"
+                            v-if="user.city !== null">{{user.city}}</span>
+                      <span class="text-primary edit" v-on:click="editAddressInfo()" v-if="user.city === null">Add city</span>
                     </b-col>
                     <b-col style="padding-left: 45px;" v-if="addressInfoEditting">
                       <b-form-input v-model="user.city" type="text"></b-form-input>
@@ -219,14 +234,16 @@
                       <b style="padding-left: 5px;">Address</b>
                     </b-col>
                     <b-col style="padding-left: 45px;" v-if="!addressInfoEditting">
-                      <span class="text-primary edit" v-on:click="editAddressInfo()">{{user.address}}</span>
+                      <span class="text-primary edit" v-on:click="editAddressInfo()"
+                            v-if="user.address !== null">{{user.address}}</span>
+                      <span class="text-primary edit" v-on:click="editAddressInfo()" v-if="user.address === null">Add address</span>
                     </b-col>
                     <b-col style="padding-left: 45px;" v-if="addressInfoEditting">
                       <b-form-input v-model="user.address" type="text"></b-form-input>
                     </b-col>
                   </b-row>
 
-                  <!-- Street -->
+                  <!-- Zipcode -->
                   <b-row class="mt-3">
                     <b-col md="12">
                       <font-awesome-icon class="text-light main-icon"
@@ -234,10 +251,15 @@
                       <b style="padding-left: 5px;">Zipcode</b>
                     </b-col>
                     <b-col style="padding-left: 45px;" v-if="!addressInfoEditting">
-                      <span class="text-primary edit" v-on:click="editAddressInfo()">{{user.zipcode}}</span>
+                      <span class="text-primary edit" v-on:click="editAddressInfo()"
+                            v-if="user.zipcode !== null">{{user.zipcode}}</span>
+                      <span class="text-primary edit" v-on:click="editAddressInfo()" v-if="user.zipcode === null">Add zipcode</span>
                     </b-col>
                     <b-col style="padding-left: 45px;" v-if="addressInfoEditting">
                       <b-form-input v-model="user.zipcode" type="text"></b-form-input>
+                      <b-form-checkbox v-model="user.addressVis">
+                        Address visible to everyone
+                      </b-form-checkbox>
                     </b-col>
                   </b-row>
 
@@ -264,7 +286,7 @@
                     <b-col class="text-right pull-right">
                       <font-awesome-icon v-on:click="editAccountInfo()" class=""
                                          :icon="{ prefix: 'far', iconName: 'edit' }"/>
-                      <font-awesome-icon v-on:click="removeAccount()" class="text-danger ml-1"
+                      <font-awesome-icon v-b-modal.DeleteAccountModal class="text-danger ml-1"
                                          :icon="{ prefix: 'fas', iconName: 'trash' }"/>
                     </b-col>
                   </b-row>
@@ -292,11 +314,8 @@
                       <font-awesome-icon class="text-light main-icon" :icon="{ prefix: 'far', iconName: 'user' }"/>
                       <b style="padding-left: 5px;">Username</b>
                     </b-col>
-                    <b-col style="padding-left: 45px;" v-if="!accountInfoEditting">
-                      <span class="text-primary edit" v-on:click="editAccountInfo()">{{user.username}}</span>
-                    </b-col>
-                    <b-col style="padding-left: 45px;" v-if="accountInfoEditting">
-                      <b-form-input v-model="user.username" type="tel"></b-form-input>
+                    <b-col style="padding-left: 45px;">
+                      <span class="text-primary edit">{{user.username}}</span>
                     </b-col>
                   </b-row>
 
@@ -363,12 +382,18 @@
                     </b-col>
                     <b-col style="padding-left: 45px;" v-if="!contactInfoEditting">
                       <span class="text-primary edit" v-on:click="editContactInfo()"
-                            v-if="user.birthdate !== null">{{user.birthdate}}</span>
+                            v-if="user.birthdate !== null">{{getBirthdateAsText(user.birthdate)}}</span>
                       <span class="text-primary edit" v-on:click="editContactInfo()" v-if="user.birthdate === null">Add birthdate</span>
                     </b-col>
                     <b-col style="padding-left: 45px;" v-if="contactInfoEditting">
-                      <b-form-input v-model="user.birthdate" type="date"></b-form-input>
+                      <datetime class="mb15 vdate" type="date" input-class="form-control" placeholder="" format="dd-MM-yyyy"
+                                v-model="user.birthdate"></datetime>
+
+                      <b-form-checkbox class="mt-3" v-model="user.birthdateVis">
+                        Birthdate visible to everyone
+                      </b-form-checkbox>
                     </b-col>
+
                   </b-row>
 
 
@@ -392,6 +417,8 @@
     <change-password-modal v-bind:username="user.username" v-bind:userid="user.id"></change-password-modal>
     <company-role-modal v-bind:companies="companies" v-bind:user_companies="user.companies"></company-role-modal>
     <user-tags-modal v-bind:tags="tags" v-bind:user_tags="user.tags"></user-tags-modal>
+    <delete-account-modal :id="user.id"></delete-account-modal>
+    <register-company-modal></register-company-modal>
   </b-container>
 </template>
 
@@ -408,9 +435,11 @@ import socialMediaModal from '@/components/Core/Modals/AddSocialMediaModal'
 import changePasswordModal from '@/components/Core/Modals/ChangePasswordModal'
 import companyRoleModal from '@/components/Core/Modals/CompanyRoleModal'
 import userTagsModal from '@/components/Core/Modals/UserTagsModal'
+import deleteAccountModal from '@/components/Core/Modals/DeleteAccountModal'
+import registerCompanyModal from '@/components/Core/Modals/RegisterCompanyModal'
 
 import Company from '../Admin/Companies/Company'
-
+import moment from 'moment'
 
 export default {
   name: 'user-profile',
@@ -421,7 +450,9 @@ export default {
     socialMediaModal,
     changePasswordModal,
     companyRoleModal,
-    userTagsModal
+    userTagsModal,
+    deleteAccountModal,
+    registerCompanyModal
   },
   data() {
     return {
@@ -435,7 +466,8 @@ export default {
       accountInfoEditting: false,
       addressInfoEditting: false,
       companies: [],
-      tags: []
+      tags: [],
+      date: null
     }
   },
   methods: {
@@ -461,6 +493,9 @@ export default {
       }
       return 'https://www.' + site.site + '.com/' + site.url
     },
+    getBirthdateAsText(birthdate) {
+      return moment(birthdate).format('DD-MM-YYYY')
+    },
     editContactInfo() {
       this.contactInfoEditting = !this.contactInfoEditting
     },
@@ -473,8 +508,25 @@ export default {
     editAddressInfo() {
       this.addressInfoEditting = !this.addressInfoEditting
     },
+    deleteUser() {
+      let data = {user_id: this.user.id}
+      auth.deleteUser(data).then((resp) => {
+        if (resp.data.success) {
+          this.$router.push({path: '/lr'})
+        } else {
+          this.$toasted.show('Failed to delete this account.',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+          )
+        }
+      })
+    },
     saveBaseAccountInfo() {
+      this.user.birthdate = moment(this.user.birthdate)
       auth.updateUser({user: this.user}).then((resp) => {
+        console.log(resp)
         if (!resp.data.success) {
           this.$toasted.show('Failed to change your information',
             {
@@ -497,6 +549,7 @@ export default {
           )
         }
       }).catch((err) => {
+        console.log(err)
         this.$toasted.show('Failed to change your information',
           {
             position: 'top-center',
@@ -512,6 +565,10 @@ export default {
         return ids.indexOf(item.id) === -1
       })
     },
+    getCompanyLink(id, name) {
+      name = name.replace(/\s+/g, '-').toLowerCase()
+      return '/company/' + id + '/' + name
+    },
     getProfile () {
       CommunityApi.getProfile().then(response => {
         if (!response.data.success) {
@@ -526,20 +583,28 @@ export default {
       })
 
       CommunityApi.getCompanies().then(response => {
-        this.companies = response.data
+        if (response.data.success) {
+          this.companies = response.data.data
+        } else {
+          this.$store.dispatch('logout')
+        }
       }).catch((err) => {
         this.$store.dispatch('logout')
       })
 
       TagsApi.getUserTags().then((resp) => {
-        this.tags = resp.data
+        if (resp.data.success) {
+          this.tags = resp.data.data
+        } else {
+          this.$store.dispatch('logout')
+        }
       }).catch((err) => {
         this.$store.dispatch('logout')
       })
     }
   },
   created () {
-    Emitter.$on('passwordChanged', (token) => {
+    Emitter.$on('userPasswordChanged', (token) => {
       this.$store.dispatch('updateToken', token)
       this.$toasted.show('Succesfully changed your password',
         {
@@ -576,7 +641,6 @@ export default {
         }
       )
     })
-
   },
   mounted() {
     this.getProfile()
@@ -685,4 +749,5 @@ export default {
     opacity: 1;
     visibility: visible;
   }
+
 </style>

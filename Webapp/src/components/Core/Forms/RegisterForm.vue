@@ -74,8 +74,7 @@
       <b-col md="10" offset-md="1">
         <b-form-group id="passwordGroup"
                       label="Password"
-                      label-for="password"
-        >
+                      label-for="password">
           <b-form-input v-on:keyup.native="passwordsMatch" id="password"
                         type="password"
                         v-model="form.password"
@@ -113,10 +112,9 @@
 
 <script>
 import auth from '@/services/api/Authentication.js'
-
 export default {
   name: 'register-form',
-  data() {
+  data () {
     return {
       msg: 'Register form',
       form: {
@@ -130,7 +128,6 @@ export default {
       },
       passwordMatch: null,
       passwordsMatchColor: '#ced4da',
-
       emailCorrect: null,
       emailCorrectColor: '#ced4da',
       registerFailedMessage: ''
@@ -143,15 +140,16 @@ export default {
     onSubmit (evt) {
       evt.preventDefault()
       auth.register(this.form).then((resp) => {
+        console.log(resp)
         if (resp.data.success) {
           Emitter.$emit('registerred', resp.data.token)
         } else {
-          this.registerFailedMessage = resp.data.message
+          this.registerFailedMessage = resp.data.data
         }
       }).catch((resp) => {
-        console.log(resp);
-        this.registerFailedMessage = resp.data.message;
-      });
+        console.log(resp)
+        this.registerFailedMessage = resp.data.data;
+      })
     },
     passwordsMatch: function (event) {
       if (this.form.password === this.form.passwordRepeat) {
@@ -164,11 +162,11 @@ export default {
     },
     checkEmail: function (event) {
       if (this.validateEmail(this.form.email)) {
-        this.emailCorrectColor = '#ced4da';
-        this.emailCorrect = true;
+        this.emailCorrectColor = '#ced4da'
+        this.emailCorrect = true
       } else {
-        this.emailCorrectColor = '#bd2130';
-        this.emailCorrect = false;
+        this.emailCorrectColor = '#bd2130'
+        this.emailCorrect = false
       }
     },
     validateEmail(email) {
