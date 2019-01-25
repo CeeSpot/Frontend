@@ -3,9 +3,7 @@
         <b-row>
             <b-col md="12">
                 <h1>Spaces</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum distinctio doloremque doloribus
-                    excepturi fugiat iusto nobis nostrum odit quaerat quidem quo recusandae saepe, tempora. Animi
-                    delectus deleniti enim error provident!</p>
+                <div v-html="text.value_en"></div>
             </b-col>
         </b-row>
         <b-row class="mt-3">
@@ -40,13 +38,15 @@
 
 <script>
 import SpaceApi from '@/services/api/spaces.js'
+import websiteApi from '@/services/api/website.js'
 
 export default {
   name: 'Spaces',
   data() {
     return {
         search: '',
-        spaces: []
+        spaces: [],
+        text: []
     }
   },
   methods: {
@@ -67,6 +67,9 @@ export default {
           }
           this.spaces = response.data.data
           });
+      websiteApi.getOneText(8).then(response => {
+          this.text = response.data.data[0];
+         })
   },
     computed: {
         spaceList() {

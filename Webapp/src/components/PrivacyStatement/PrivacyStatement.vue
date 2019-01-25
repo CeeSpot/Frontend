@@ -4,7 +4,7 @@
             <b-row>
                 <b-col class="p-5">
                     <h1>Privacy statement</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda eligendi eos in nam nostrum placeat reiciendis voluptatibus. Alias consequuntur facere, maiores quod totam velit voluptatum! Ipsa libero maiores minus ullam.</p>
+                    <div v-html="text.value_en"></div>
                 </b-col>
             </b-row>
         </div>
@@ -12,8 +12,19 @@
 </template>
 
 <script>
+  import websiteApi from '@/services/api/website.js'
   export default {
-    name: "about"
+    name: "about",
+    data() {
+        return {
+            text: []
+        }
+    },
+    mounted() {
+        websiteApi.getOneText(7).then(response => {
+          this.text = response.data.data[0];
+         })
+    }
   }
 </script>
 

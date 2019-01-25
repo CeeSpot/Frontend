@@ -10,9 +10,7 @@
                         <b-row>
                             <b-col md="12">
                                 <h1>Our story</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium autem beatae
-                                    dicta harum ipsa minima natus numquam repudiandae. Cumque cupiditate eius impedit
-                                    libero provident quas quasi quibusdam, quo sed vel!</p>
+                                <div v-html="text[4].value_en"></div>
                             </b-col>
                         </b-row>
                         <b-row class="mt-5 text-center">
@@ -55,14 +53,7 @@
                         <b-row>
                             <b-col md="8">
                                 <h1>Meet our community</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur delectus error
-                                    fugiat harum laboriosam nobis optio possimus repudiandae? A accusamus aperiam
-                                    deleniti esse ex fugit.</p>
-                                <p>Laborum nobis porro provident voluptatem. Lorem ipsum dolor sit amet, consectetur
-                                    adipisicing elit. Accusantium adipisci commodi error eveniet nulla voluptatibus.
-                                    Consectetur eligendi, fuga laborum molestiae placeat quasi quod, reiciendis, rerum
-                                    saepe similique soluta ut vel.</p>
-
+                                <div v-html="text[2].value_en"></div>
                             </b-col>
                             <b-col md="4" class="text-right">
                                 <b-img src="/static/images/guy.png" rounded class="shadow"></b-img>
@@ -104,9 +95,7 @@
                         <b-row>
                             <b-col md="12">
                                 <h1>Meet our partners</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aut deleniti dolor,
-                                    enim facere fugiat in labore libero modi nisi provident quasi recusandae rerum
-                                    similique tempore vel veritatis voluptas voluptate.</p>
+                                <div v-html="text[5].value_en"></div>
                             </b-col>
                         </b-row>
                         <b-row class="text-center">
@@ -143,9 +132,7 @@
                         <b-row>
                             <b-col md="8">
                                 <h1>Book a tour</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt iste maxime
-                                    numquam sint tempora. Architecto at, ducimus eius enim in ipsum laboriosam, maiores
-                                    natus nostrum officia perspiciatis porro rerum voluptatibus.</p>
+                                <div v-html="text[1].value_en"></div>
                                 <b-button variant="outline-danger" href="/contact">
                                     Book a tour!
                                 </b-button>
@@ -161,14 +148,19 @@
 <script>
   import axios from 'axios'
   import Carousel from '@/components/Core/Carousel/Carousel' // Import the navigation into the base app
+  import websiteApi from '@/services/api/website.js'
   export default {
     name: 'Landingpage',
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        msg: 'Welcome to Your Vue.js App',
+        text: []
       }
     },
     mounted() {
+    websiteApi.getText().then(response => {
+        this.text = response.data.data;
+      })
     },
     components: {
       Carousel
