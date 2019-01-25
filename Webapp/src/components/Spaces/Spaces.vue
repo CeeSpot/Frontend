@@ -2,7 +2,7 @@
     <b-container style="margin-top: 140px;">
         <b-row>
             <b-col md="12">
-                <h1>Spaces</h1>
+                <h1>{{$t('spaces.spaces')}}</h1>
                 <div v-html="text"></div>
             </b-col>
         </b-row>

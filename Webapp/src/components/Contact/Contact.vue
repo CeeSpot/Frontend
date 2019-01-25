@@ -7,7 +7,7 @@
                         <b-row>
                             <b-col md="12">
                                 <h1 class="text-white font-weight-bold">
-                                    Contact us!
+                                    {{$t('contact.contact-us')}}
                                 </h1>
                             </b-col>
                         </b-row>
@@ -28,7 +28,7 @@
                             <form>
                                 <b-row>
                                     <b-col md="4">
-                                        <label>Name</label>
+                                        <label>{{$t('contact.name')}}</label>
                                     </b-col>
                                     <b-col md="8">
                                         <b-form-input id="name" v-model="name" name="name" type="text"></b-form-input>
@@ -36,7 +36,7 @@
                                 </b-row>
                                 <b-row class="mt-1">
                                     <b-col md="4">
-                                        <label>Email</label>
+                                        <label>{{$t('contact.email')}}</label>
                                     </b-col>
                                     <b-col md="8">
                                         <b-form-input id="email" v-model="to" name="email" type="text"></b-form-input>
@@ -44,7 +44,7 @@
                                 </b-row>
                                 <b-row class="mt-1">
                                     <b-col md="4">
-                                        <label>Phone</label>
+                                        <label>{{$t('contact.phone')}}</label>
                                     </b-col>
                                     <b-col md="8">
                                         <b-form-input id="phone" v-model="phone" name="phone" type="text"></b-form-input>
@@ -52,7 +52,7 @@
                                 </b-row>
                                 <b-row class="mt-1">
                                     <b-col md="4">
-                                        <label>Subject</label>
+                                        <label>{{$t('contact.subject')}}</label>
                                     </b-col>
                                     <b-col md="8">
                                         <b-form-input id="subject" v-model="subject" name="subject" type="text"></b-form-input>
@@ -60,7 +60,7 @@
                                 </b-row>
                                 <b-row class="mt-1">
                                     <b-col md="4">
-                                        <label>Message</label>
+                                        <label>{{$t('contact.message')}}</label>
                                     </b-col>
                                     <b-col md="8">
                                         <b-form-textarea id="message"
@@ -74,7 +74,7 @@
                                 <b-row class="mt-1">
                                     <b-col md="4"></b-col>
                                     <b-col md="8">
-                                        <b-button v-on:click="sendMail" variant="danger" block>Send message</b-button>
+                                        <b-button v-on:click="sendMail" variant="danger" block>{{$t('contact.send-message-button')}}</b-button>
                                     </b-col>
                                 </b-row>
                             </form>

@@ -9,35 +9,35 @@
                     <b-container>
                         <b-row>
                             <b-col md="12">
-                                <h1>Our story</h1>
+                                <h1>{{$t('home.our-story')}}</h1>
                                 <div v-html="storytext"></div>
                             </b-col>
                         </b-row>
                         <b-row class="mt-5 text-center">
                             <b-col md="4">
                                 <b-card class="no-scale shadow-sm normal-card bg-white">
-                                    <h4>Community</h4>
+                                    <h4>{{$t('home.community')}}</h4>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad, alias aperiam.</p>
                                     <b-button variant="outline-danger" href="/community">
-                                        Community
+                                        {{$t('home.community-button')}}
                                     </b-button>
                                 </b-card>
                             </b-col>
                             <b-col md="4">
                                 <b-card class="no-scale shadow-lg big-card te">
-                                    <h3>Book a tour</h3>
+                                    <h3>{{$t('home.book-a-tour')}}</h3>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad animi dignissimos ipsa.</p>
                                     <b-button variant="danger" href="/contact">
-                                        Book a tour!
+                                       {{$t('home.book-a-tour-button')}}
                                     </b-button>
                                 </b-card>
                             </b-col>
                             <b-col md="4">
                                 <b-card class="no-scale shadow-sm normal-card">
-                                    <h4>Spaces</h4>
+                                    <h4>{{$t('home.spaces')}}</h4>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur ducimus.</p>
                                     <b-button variant="outline-danger" href="/spaces">
-                                        Spaces
+                                        {{$t('home.spaces-button')}}
                                     </b-button>
                                 </b-card>
                             </b-col>
@@ -52,7 +52,7 @@
                     <b-container>
                         <b-row>
                             <b-col md="8">
-                                <h1>Meet our community</h1>
+                                <h1>{{$t('home.meet-our-community')}}</h1>
                                 <div v-html="communitytext"></div>
                             </b-col>
                             <b-col md="4" class="text-right">
@@ -94,7 +94,7 @@
                     <b-container>
                         <b-row>
                             <b-col md="12">
-                                <h1>Meet our partners</h1>
+                                <h1>{{$t('home.meet-our-partners')}}</h1>
                                 <div v-html="partners"></div>
                             </b-col>
                         </b-row>
@@ -131,10 +131,10 @@
                     <b-container>
                         <b-row>
                             <b-col md="8">
-                                <h1>Book a tour</h1>
+                                <h1>{{$t('home.book-a-tour2')}}</h1>
                                 <div v-html="booktour"></div>
                                 <b-button variant="outline-danger" href="/contact">
-                                    Book a tour!
+                                    {{$t('home.book-a-tour2-button')}}
                                 </b-button>
                             </b-col>
                         </b-row>

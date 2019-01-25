@@ -8,7 +8,9 @@
       "month": "Month",
       "week": "Week",
       "day": "Day",
-      "search": " Search..."
+      "search": " Search...",
+      "upcoming-events": "Upcoming events",
+      "all-events": "All events"
     },
     "event": {
       "login-to-join": "Login to join this event!",
@@ -16,7 +18,38 @@
       "unsubscribe": "Unsubscribe!"
     },
     "other": {
-      "list": "list",
-      "calendar": "calendar"
+      "list": "List",
+      "calendar": "Calendar"
+    },
+    "home": {
+      "our-story": "Our story",
+      "community": "Community",
+      "book-a-tour": "Book a tour",
+      "spaces": "Spaces",
+      "meet-our-community": "Meet our community",
+      "meet-our-partners": "Meet our partners",
+      "book-a-tour2": "Book a tour",
+      "community-button": "Community",
+      "book-a-tour-button": "Book a tour!",
+      "spaces-button": "Spaces",
+      "book-a-tour2-button": "Book a tour!"
+    },
+    "spaces": {
+      "spaces": "Spaces"
+    },
+    "space": {
+      "book-a-space": "Book space"
+    },
+    "blogs": {
+      "search": "Search"
+    },
+    "contact": {
+      "contact-us": "Contact us!",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "subject": "Subject",
+      "message": "Message",
+      "send-message-button": "Send message"
     }
 }
