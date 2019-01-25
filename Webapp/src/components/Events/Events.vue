@@ -218,7 +218,6 @@
                 this.newEvent = {};
                 EventApi.getEvents().then(response => this.events = response.data.data)
             }
-
             this.$refs.newEventModal.hide();
         }).catch((err) => {
             this.$refs.newEventModal.hide();

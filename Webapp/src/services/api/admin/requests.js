@@ -17,5 +17,20 @@ export default{
         'x-access-token': store.state.jwt
       }
     })
+  },
+  getEventRequests () {
+    return axios.get('/api/events/requests', {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
+  },
+  approveEvent(id) {
+    let data = null;
+    return axios.put('/api/events/requests/state/' + id, data, {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
   }
 }
