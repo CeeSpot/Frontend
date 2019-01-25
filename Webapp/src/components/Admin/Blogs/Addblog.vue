@@ -129,6 +129,7 @@ export default {
             }
           }
         }).catch((err) => {
+          console.log(err)
           if (!err.data.authorised) {
             this.$router.push({path: '/'})
           }
