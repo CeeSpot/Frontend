@@ -79,6 +79,14 @@ export default {
       evt.preventDefault()
       CommunityApi.addCompanies(this.user_companies, this.deleted).then((data) => {
         this.$refs.CompanyRoleModal.hide()
+        if(data.data.success){
+         this.$toasted.show('Successfully added companies!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+        }
         Emitter.$emit('companyRolesChanged')
       }).catch((err) => {
         this.failedMessage = 'Something went wrong, please try again'
@@ -99,6 +107,7 @@ export default {
     }
   },
   created () {
+    console.log('companies' + JSON.stringify(this.companies))
     for (let i = 0; i < this.companies.length; i++) {
       this.options.push({
         value: this.companies[i].id,

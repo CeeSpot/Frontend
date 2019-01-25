@@ -120,6 +120,14 @@ export default {
       evt.preventDefault()
       CommunityApi.addTags(this.user_tags, this.deleted).then((data) => {
         this.$refs.UserTagsModal.hide()
+        if(data.data.success){
+         this.$toasted.show('Successfully added tags!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+        }
         Emitter.$emit('userTagsChanged')
       }).catch((err) => {
         this.failedMessage = 'Something went wrong, please try again'

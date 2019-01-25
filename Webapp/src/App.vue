@@ -1,13 +1,19 @@
 <template>
   <div id="app">
     <navigation></navigation>
-    <router-view/>
+    <div id="main" role="main">
+      <router-view/>
+    </div>
+    <div id="footer" class="footer">
+      <page-footer></page-footer>
+    </div>
   </div>
 </template>
 
 <script>
   import { JSON_TOKEN } from  './constants'
   import Navigation from '@/components/Core/Navigation/Navigation' // Import the navigation into the base app
+  import PageFooter from '@/components/Core/Footer/PageFooter'
   export default {
     name: 'App',
     data() {
@@ -24,7 +30,8 @@
 //      this.token = JSON.parse(localStorage.getItem(JSON_TOKEN))
     },
     components: {
-      Navigation
+      Navigation,
+      PageFooter
     }
   }
 </script>
@@ -42,4 +49,14 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  html {
+    position: relative;
+    min-height: 100%;
+  }
+  body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+  }
+
 </style>

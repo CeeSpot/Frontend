@@ -88,7 +88,6 @@
                   Er hebben zich nog geen gebruikers aangemeld voor dit event
                 </b-col>
                 <b-col>
-
                   <ul>
                     <li v-for="participant in participants">
                       <b-img rounded="circle" v-b-tooltip.hover
@@ -138,6 +137,14 @@ export default {
     },
     getEvent () {
       eventApi.getEvent(this.id).then(response => {
+          if(!response.data.success){
+          this.$toasted.show('Failed to load event try again later!',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+          )
+         }
         this.event = response.data.data
         this.user = this.$store.getters.getUser
         if (this.event.show_attendees) {
@@ -164,15 +171,24 @@ export default {
     signUpEvent () {
       let data = {event_id: this.event.id}
       eventApi.addUserEvent(data).then(response => {
-        this.participants.push(this.user)
-        this.user_attend = true
-      })
-      this.$toasted.show('Succesfully signed up',
-        {
-          position: 'bottom-center',
-          duration: 5000
+        if(response.data.success){
+                this.$toasted.show('Succesfully signed up',
+                  {
+                    position: 'bottom-center',
+                    duration: 5000
+                  }
+                );
+                this.participants.push(this.user)
+                this.user_attend = true
+        } else {
+                this.$toasted.show('Something went wrong try again later!',
+                  {
+                    position: 'bottom-center',
+                    duration: 5000
+                  }
+                );
         }
-      );
+      })
     },
     removeUserEvent () {
       let data = {
@@ -182,14 +198,23 @@ export default {
           }
       }
       eventApi.removeUserEvent(data).then(response => {
-        this.participants.splice(this.user, 1);
-        this.user_attend = false;
-        this.$toasted.show('Succesfully unsubscribed',
-          {
-            position: 'bottom-center',
-            duration: 5000
-          }
-        )
+        if(response.data.success){
+          this.participants.splice(this.user, 1);
+          this.user_attend = false;
+          this.$toasted.show('Succesfully unsubscribed',
+            {
+              position: 'bottom-center',
+              duration: 5000
+            }
+          )
+        } else {
+          this.$toasted.show('Something went wrong try again later!',
+            {
+              position: 'bottom-center',
+              duration: 5000
+            }
+          )
+        }
       })
     }
   }

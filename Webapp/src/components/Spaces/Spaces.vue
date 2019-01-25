@@ -2,30 +2,14 @@
     <b-container style="margin-top: 140px;">
         <b-row>
             <b-col md="12">
-                <h1>Spaces</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum distinctio doloremque doloribus
-                    excepturi fugiat iusto nobis nostrum odit quaerat quidem quo recusandae saepe, tempora. Animi
-                    delectus deleniti enim error provident!</p>
+                <h1>{{$t('spaces.spaces')}}</h1>
+                <div v-html="text"></div>
             </b-col>
         </b-row>
-        <b-row class="search-toggle-container">
-            <b-col md="4">
-                <div>
-                    <b-input-group class="form-group-search">
-                        <b-form-input v-model="search" placeholder="Zoeken..."
-                                      class="form-control"></b-form-input>
-                        <span class="form-control-icon">
-                      <font-awesome-icon icon="search" class="search-color"/>
-                  </span>
-                    </b-input-group>
-                </div>
-            </b-col>
-            </b-row>
-
         <b-row class="mt-3">
-            <b-col v-for="space in spaceList" md="4">
+            <b-col v-for="space in spaces" md="4">
                 <b-card
-                        v-on:click="routeToSpace(space.id)"
+                        v-on:click="routeToSpace(space.id, space.title)"
                         :title="space.title"
                         img-src="https://picsum.photos/600/300/?image=1"
                         img-top
@@ -40,13 +24,11 @@
                     <hr>
                     <b-row class="text-center">
                         <b-col md="4">
-                            {{space.capacity}} personen
+                            <font-awesome-icon icon="users"/>
+                            {{space.capacity}}
                         </b-col>
-                        <b-col md="4">
-                            
-                        </b-col>
-                        <b-col md="4">
-                            {{space.costs}}
+                        <b-col md="8">
+                            &euro; {{space.costs}}
                         </b-col>
                     </b-row>
                 </b-card>
@@ -56,32 +38,52 @@
 </template>
 
 <script>
-import SpaceApi from '@/services/api/spaces.js'
+  import SpaceApi from '@/services/api/spaces.js'
+  import websiteApi from '@/services/api/website.js'
 
-export default {
-  name: 'Spaces',
-  data() {
-    return {
+  export default {
+    name: 'Spaces',
+    data() {
+      return {
         search: '',
-        spaces: []
-    }
-  },
-  methods: {
-    routeToSpace(id) {
-        this.$router.push({ path: '/spaces/' + id })
-    }
-  },
-  mounted() {
-      SpaceApi.getSpaces().then(response => this.spaces = response.data.data);
-  },
-    computed: {
-        spaceList() {
-            return this.spaces.filter(space => {
-                return space.title.toLowerCase().includes(this.search.toLowerCase())
-            })
+        spaces: [],
+        text: ''
+      }
+    },
+    methods: {
+      routeToSpace(id, title) {
+        title = title.replace(/\s+/g, '-').toLowerCase();
+        this.$router.push({path: '/spaces/' + id + '/' + title})
+      }
+    },
+    mounted() {
+      SpaceApi.getSpaces().then(response => {
+        if (!response.data.success) {
+          this.$toasted.show('Failed load spaces try again later',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+          )
         }
+        this.spaces = response.data.data
+      });
+      websiteApi.getOneText(8).then(response => {
+        if (this.language === "en") {
+          this.text = response.data.data[0].value_en;
+        } else {
+          this.text = response.data.data[0].value_nl;
+        }
+      })
+    },
+    computed: {
+      spaceList() {
+        return this.spaces.filter(space => {
+          return space.title.toLowerCase().includes(this.search.toLowerCase())
+        })
+      }
     }
-}
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

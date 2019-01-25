@@ -86,10 +86,20 @@ export default {
     },
     onSubmit (evt) {
       if (this.passwordMatch) {
-        auth.changePassword(this.form).then((data) => {
+        auth.changePassword(this.form, this.type).then((data) => {
           if (data.data.success === true) {
             this.$refs.ChangePasswordModal.hide()
-            Emitter.$emit('passwordChanged', data.data.token)
+            this.$toasted.show('Successfully changed password!',
+                  {
+                    position: 'top-center',
+                    duration: 3000
+                  }
+            )
+            if (this.type === 1) {
+              Emitter.$emit('userPasswordChanged', data.data.token)
+            } else if (this.type === 2) {
+              Emitter.$emit('companyPasswordChanged', data.data.token)
+            }
           } else {
             this.passwordChangedMessage = data.data.data
           }
@@ -116,7 +126,7 @@ export default {
       }
     }
   },
-  props: ['username', 'userid']
+  props: ['username', 'userid', 'type']
 }
 </script>
 

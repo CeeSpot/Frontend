@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid style="margin-top: 100px;">
+  <b-container fluid style="margin-top: 90px;">
     <b-row class="main-bg">
       <b-container>
         <b-row  align-v="start" class="d-flex flex-row">
@@ -12,20 +12,20 @@
           </b-col>
           <b-col class="text-white d-flex flex-column flex-grow">
 
-            <!-- Social media -->
-            <b-row style="position:absolute;right:0;top:0;" class="d-none d-lg-block d-xl-block">
+            <!-- Social media on big screen -->
+            <b-row style="position:absolute;right:0;top:0;z-index:8;" class="d-none d-lg-block d-xl-block">
               <b-col class="opacity-text-8 text-white">
                 <b-link v-if="user.website !== null && user.website.length > 0" class="social-media-link website" v-bind:href="user.website">
                   <font-awesome-icon :icon="{prefix: 'fas', iconName: 'globe'}"></font-awesome-icon>
                 </b-link>
-                <b-link v-for="site in user.social_media_sites" v-bind:class="'social-media-link ' + site.site + ' text-white'" v-bind:href="getLinkFromSite(site)" target="_blank">
+                <b-link v-for="site in user.social_media_sites" :key="site.id" v-bind:class="'social-media-link ' + site.site" v-bind:href="getLinkFromSite(site)"  target="_blank">
                   <font-awesome-icon :icon="{ prefix: 'fab', iconName: site.site }"></font-awesome-icon>
                 </b-link>
               </b-col>
             </b-row>
 
             <!-- Persons name -->
-            <b-row class=" text-white">
+            <b-row class=" text-white" style="z-index: 5;">
               <b-col md="12">
                 <h2 class="text-white">
                   {{user.first_name}} {{user.insertions}} {{user.last_name}}
@@ -37,17 +37,18 @@
             <b-row class="mt-2" v-if="typeof user.companies !== 'undefined'">
               <b-col v-if="user.companies.length > 0">
                 <span v-for="company in user.companies">
-                  <b>{{company.role}} @ <a class="text-white text-underline" v-bind:href="'/company/' + company.company_id">{{company.name}}</a></b><br>
+                  <b>{{company.role}} @ <a class="text-white text-underline" v-bind:href="getCompanyLink(company.company_id, company.name)">{{company.name}}</a></b><br>
                 </span>
               </b-col>
             </b-row>
 
+            <!-- Social media on small screen-->
             <b-row class="mt-3 d-lg-none">
               <b-col class="text-right header-text-sm-xs">
                 <b-link v-if="user.website !== null && user.website.length > 0" class="social-media-link website" v-bind:href="user.website">
                   <font-awesome-icon :icon="{prefix: 'fas', iconName: 'globe'}"></font-awesome-icon>
                 </b-link>
-                <b-link v-for="site in user.social_media_sites" v-bind:class="'social-media-link ' + site.site" v-bind:href="getLinkFromSite(site)" target="_blank">
+                <b-link v-for="site in user.social_media_sites" :key="site.id" v-bind:class="'social-media-link ' + site.site" v-bind:href="getLinkFromSite(site)" target="_blank">
                   <font-awesome-icon :icon="{ prefix: 'fab', iconName: site.site }"></font-awesome-icon>
                 </b-link>
               </b-col>
@@ -76,7 +77,7 @@
         </b-row>
       </b-container>
     </b-row>
-    <b-row style="margin-top: -50px;">
+    <b-row style="margin-top: -50px;" v-if="(user.email.length > 0 && user.mailVis) || user.addressVis">
       <b-container>
         <b-row>
           <b-col md="6" class="get-in-touch">
@@ -105,20 +106,20 @@
                   </b-row>
 
                   <!-- Address -->
-                  <b-row class="mt-3">
+                  <b-row class="mt-3" v-if="user.addressVis">
                     <b-col md="12">
                       <font-awesome-icon class="text-light main-icon"
                                          :icon="{ prefix: 'fas', iconName: 'map-marker-alt' }"/>
                       <b style="padding-left: 5px;">Address</b>
                     </b-col>
                     <b-col style="padding-left: 50px;">
-                      <b-row>
+                      <b-row v-if="user.address !== null">
                           <span class="text-primary edit">{{user.address}}</span>
                       </b-row>
-                      <b-row>
-                          <span class="text-primary edit">{{user.city}}, {{user.zipcode}}</span>
+                      <b-row v-if="user.zipcode !== null || user.city !== null">
+                          <span class="text-primary edit" v-if="user.city !== null">{{user.city}}, </span><span v-if="user.zipcode !== null" class="text-primary edit">{{user.zipcode}}</span>
                       </b-row>
-                      <b-row>
+                      <b-row v-if="user.country !== null">
                           <span class="text-primary edit">{{user.country}}</span>
                       </b-row>
                     </b-col>
@@ -130,7 +131,7 @@
                                          :icon="{ prefix: 'far', iconName: 'envelope' }"/>
                       <b style="padding-left: 5px;">Email</b>
                     </b-col>
-                    <b-col style="padding-left: 45px;">
+                    <b-col style="padding-left: 42px;">
                       <span class="text-primary edit">{{user.email}}</span>
                     </b-col>
                   </b-row>
@@ -142,7 +143,7 @@
                                          :icon="{ prefix: 'fas', iconName: 'mobile-alt' }"/>
                       <b style="padding-left: 5px;">Phone</b>
                     </b-col>
-                    <b-col style="padding-left: 45px;">
+                    <b-col style="padding-left: 35px;">
                       <span class="text-primary edit">{{user.phone}}</span>
                     </b-col>
                   </b-row>
@@ -169,19 +170,31 @@ export default {
       imageURL: ''
     }
   },
-  mounted() {
-    let self = this
-    CommunityApi.getUser(this.id).then((response) => {
-      this.user = response.data.user
-      console.log(this.user)
-      self.imageURL = '/static/images/users/' + this.id + '.png';
-
-      // if (null == response.data.user.companies) {
-      //   this.user.user.companies = [];
-      // }
-    });
+  mounted () {
+    this.getUser()
   },
   methods: {
+    getUser () {
+      CommunityApi.getUser(this.id).then((response) => {
+        if (response.data.success) {
+          this.user = response.data.user
+          this.imageURL = '/static/images/users/' + this.id + '.png';
+        } else {
+          this.$toasted.show('Failed load user try again later',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+           )
+        }
+      }).catch(() => {
+        this.getUser()
+      })
+    },
+    getCompanyLink(id, name) {
+      name = name.replace(/\s+/g, '-').toLowerCase()
+      return '/company/' + id + '/' + name
+    },
     imageLoadError() {
       this.imageURL = '/static/images/users/user-icon.svg';
     },
@@ -263,13 +276,18 @@ export default {
   }
   .social-media-link {
     margin-right: 15px;
-    color: #7dacff;
-    color: white;
+    color: rgba(255,255,255,.75);
+    /*color:blue;*/
     font-size:25px;
     line-height:25px;
+    cursor:pointer;
+    transition:250ms;
   }
   .social-media-link:last-of-type{
     margin-right: 0;
+  }
+  .social-media-link:hover{
+    color: #fff;
   }
   .image-wrapper{
     display:inline-block;

@@ -53,7 +53,6 @@
               <action-button color="red" :fixed="false" icon="chevron-left" @click.native="back()"></action-button>
           </b-col>
         </b-row>
-
     </div>
     </b-container>
 </template>
@@ -81,13 +80,41 @@
           let data = {data: {space_id: this.space.id}}
           SpaceApi.deleteSpace(data).then(response => {
               if (response.data.success){
+                  this.$toasted.show('Successfully deleted space!',
+                      {
+                        position: 'top-center',
+                        duration: 3000
+                      }
+                  )
                   this.$router.push({ path: '/admin/spaces' });
+              } else {
+                  this.$toasted.show('Something went wrong when deleting space!',
+                      {
+                        position: 'top-center',
+                        duration: 3000
+                      }
+                  )
               }
           });
       },
       updateSpace() {
           SpaceApi.updateSpace(this.space).then(response => { 
-              console.log(response.data.success);
+                if (response.data.success){
+                  this.$toasted.show('Successfully updated space!',
+                      {
+                        position: 'top-center',
+                        duration: 3000
+                      }
+                  )
+                  this.$router.push({ path: '/admin/spaces' });
+              } else {
+                  this.$toasted.show('Something went wrong when updating space!',
+                      {
+                        position: 'top-center',
+                        duration: 3000
+                      }
+                  )
+              }
               });
       },
       back() {
@@ -96,6 +123,14 @@
     },
     mounted() {
       SpaceApi.getSpace(this.$route.params.id).then(response => {
+          if(!response.data.success){
+            this.$toasted.show('Failed to load space!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+          }
           this.space = response.data.data;
       })
     }

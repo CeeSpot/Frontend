@@ -2,7 +2,7 @@
     <b-container class="container-margin">
         <b-row class="mt-3">
             <b-col md="8" class="mr-3">
-                <b-card v-for="blog in filterSearchAndTags()" v-on:click="routeToBlog(blog.id)">
+                <b-card v-for="blog in filterSearchAndTags()" v-on:click="routeToBlog(blog.id, blog.title)">
                     <b-row>
                         <b-col md="9">
                             <div style="padding: 15px">
@@ -34,13 +34,13 @@
             <b-col>
                 <b-row>
                     <div style="width: 100%; padding: 15px; font-size: 1.125em;" class="card shadow no-scale">
-                        <h3>Zoeken</h3>
+                        <h3>{{$t('blogs.search')}}</h3>
                         <hr>
                         <b-row>
                             <b-col>
                                 <b-input-group class="form-group-search">
                                     <b-form-input v-model="search" :placeholder="$t('events.search')"
-                                                  class="form-control"></b-form-input>
+                                                  class="form-control" style="border-radius: 4px;"></b-form-input>
                                     <span class="form-control-icon">
                                     <font-awesome-icon icon="search" class="search-color"/>
                                 </span>
@@ -122,8 +122,9 @@
         }
         return newBlogsList;
       },
-      routeToBlog(id) {
-        location.href = '/blog/' + id;
+      routeToBlog(id, title) {
+        title = title.replace(/\s+/g, '-').toLowerCase();
+        location.href = '/blog/' + id + '/' + title;
       },
       getImage(id) {
         uploadFile.checkIfFileExists(this.imageBaseURL + '/blogs_header/' + id + '.jpg')
@@ -136,17 +137,36 @@
       }
     },
     mounted() {
-      blogApi.getBlogsTags().then(response => this.tags = response.data.data);
+      blogApi.getBlogsTags().then(response => {
+        if(!response.data.success){
+            this.$toasted.show('Failed load blogs tags try again later',
+                {
+                    position: 'top-center',
+                    duration: 3000
+                }
+            )
+        }
+        this.tags = response.data.data
+      }
+      );
     },
     created() {
       blogApi.getBlogs().then(response => {
+        if(!response.data.success){
+            this.$toasted.show('Failed load blogs try again later',
+                {
+                    position: 'top-center',
+                    duration: 3000
+                }
+            )
+        }
         this.blogs = response.data.data;
       });
     },
     computed: {
       blogList() {
         return this.blogs.filter(blog => {
-          return blog.title.toLowerCase().includes(this.search.toLowerCase())
+          return blog.title.toLowerCase().includes(this.search.toLowerCase()) || blog.body.toLowerCase().includes(this.search.toLowerCase());
         })
       }
     }

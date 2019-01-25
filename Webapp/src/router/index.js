@@ -1,17 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Landingpage/Home' // Home base page
-import Community from '@/components/Community/Community' // Community base page
-import Spaces from '@/components/Spaces/Spaces' // Spaces base page
-import Space from '@/components/Spaces/Space' // Space base page
-import Events from '@/components/Events/Events' // Events base page
-import Event from '@/components/Events/Event' // Event base page
-import Contact from '@/components/Contact/Contact' // Contact base page
+import Community from '@/components/Community/Community'
+import Spaces from '@/components/Spaces/Spaces'
+import Space from '@/components/Spaces/Space'
+import Events from '@/components/Events/Events'
+import Event from '@/components/Events/Event'
+import Contact from '@/components/Contact/Contact'
+import Success from '@/components/Contact/Success'
+import About from '@/components/About/About'
+import PrivacyStatement from '@/components/PrivacyStatement/PrivacyStatement'
 import User from '@/components/Community/User'
-import Blogs from '@/components/Blog/Blogs' // Community base page
-import Blog from '@/components/Blog/Blog' // Community base page
+import Blogs from '@/components/Blog/Blogs'
+import Blog from '@/components/Blog/Blog'
 
-//Authentication
+// Authentication
 import Register from '@/components/Core/Authentication/RegisterAndLogin'
 
 // User
@@ -20,6 +23,7 @@ import Settings from '@/components/UserProfile/Settings'
 
 // Company
 import Company from '@/components/Community/Company'
+import CompanyProfile from '@/components/Community/CompanyProfile'
 
 // Admin
 import AdminUsers from '@/components/Admin/Users/Users'
@@ -35,8 +39,14 @@ import AdminSpaces from '@/components/Admin/Spaces/Spaces'
 import AdminSpace from '@/components/Admin/Spaces/Space'
 import AdminRequests from '@/components/Admin/Requests/Requests'
 import AdminSettings from '@/components/Admin/Settings/Settings'
+import AdminTags from '@/components/Admin/Tags/Tags'
+import AdminWebsite from '@/components/Admin/Website/Website'
+import AdminEditWebsite from '@/components/Admin/Website/Editwebsite'
 
 import Test from '@/components/Test/Test'
+
+// 404
+import NotFoundComponent from '@/components/Core/Other/NotFoundComponent'
 
 Vue.use(Router)
 
@@ -50,12 +60,12 @@ export default new Router({
       component: Home
     },
     {
-      path: '/user/:id',
+      path: '/user/:id/:naam',
       name: 'User',
       component: User
     },
     {
-      path: '/company/:id',
+      path: '/company/:id/:name',
       name: 'Company',
       component: Company
     },
@@ -70,7 +80,7 @@ export default new Router({
       component: Spaces
     },
     {
-      path: '/spaces/:id',
+      path: '/spaces/:id/:title',
       name: 'Space',
       component: Space
     },
@@ -80,7 +90,7 @@ export default new Router({
       component: Events
     },
     {
-      path: '/event/:id',
+      path: '/event/:id/:title',
       name: 'Event',
       component: Event
     },
@@ -88,6 +98,11 @@ export default new Router({
       path: '/contact',
       name: 'Contact',
       component: Contact
+    },
+    {
+      path: '/contact/success',
+      name: 'Success',
+      component: Success
     },
     {
       path: '/lr',
@@ -103,6 +118,11 @@ export default new Router({
       path: '/account/settings',
       name: 'User',
       component: Settings
+    },
+    {
+      path: '/account/company',
+      name: 'Company',
+      component: CompanyProfile
     },
     {
       path: '/admin/',
@@ -160,7 +180,7 @@ export default new Router({
       component: Blogs
     },
     {
-      path: '/blog/:id',
+      path: '/blog/:id/:title',
       name: 'Blog',
       component: Blog
     },
@@ -183,6 +203,36 @@ export default new Router({
       path: '/admin/settings',
       name: 'AdminSettings',
       component: AdminSettings
+    },
+    {
+      path: '/admin/tags',
+      name: 'AdminTags',
+      component: AdminTags
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: About
+    },
+    {
+      path: '/privacy-statement',
+      name: 'PrivacyStatement',
+      component: PrivacyStatement
+    },
+    {
+      path: '/admin/website',
+      name: 'AdminWebsite',
+      component: AdminWebsite
+    },
+    {
+      path: '/admin/website/edit/:id',
+      name: 'AdminEditWebsite',
+      component: AdminEditWebsite
+    },
+    {
+      path: '*',
+      name: 'NotFoundComponent',
+      component: NotFoundComponent
     }
   ]
 })

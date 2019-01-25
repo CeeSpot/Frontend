@@ -1,17 +1,17 @@
 <template>
-    <b-container style="margin-top: 150px;">
+  <b-container style="margin-top: 150px;">
     <b-row>
-            <admin-menu v-bind:active="active"></admin-menu>
-            <b-col md="8">
-                <b-row v-for="company in companies" class="user-list-item">
-                <AdminCard 
-                    :firstcol="company.name"
-                    :secondcol="company.name" 
-                    :target="'/admin/companies/' + company.id"></AdminCard>
-                </b-row>
-            </b-col>
+      <admin-menu v-bind:active="active"></admin-menu>
+      <b-col md="8" v-if="authorised">
+        <b-row v-for="company in companies" class="user-list-item">
+          <AdminCard
+            :firstcol="company.name"
+            :secondcol="company.name"
+            :target="'/admin/companies/' + company.id"></AdminCard>
         </b-row>
-    </b-container>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -31,19 +31,33 @@
     data() {
       return {
         active: "Companies",
-        companies: []
+        companies: [],
+        authorised: false,
       }
     },
     methods: {
-        formatDate(date) {
-            return moment(date).format('DD-MM-YYYY')
+      formatDate(date) {
+        return moment(date).format('DD-MM-YYYY')
       },
       openDetailPage(id) {
-          this.$router.push('/admin/companies/' + id);
+        this.$router.push('/admin/companies/' + id);
       }
     },
     mounted() {
-        CommunityApi.getCompanies().then(response => this.companies = response.data)
+      Emitter.$on('authorised', () => {
+        this.authorised = true
+        CommunityApi.getCompanies().then((response) => {
+          if(!response.data.success){
+            this.$toasted.show('Failed to load companies!',
+                {
+                  position: 'top-center',
+                  duration: 3000
+                }
+            )
+          }
+          this.companies = response.data.data
+          })
+      })
     }
   }
 </script>

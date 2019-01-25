@@ -9,7 +9,13 @@ export default {
       }
     })
   },
-  getUpcoming() {
+  getEventCategories() {
+    return axios.get('/api/eventcategories', {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
+  },getUpcoming() {
     return axios.get('/api/eventsupcoming', {
       headers: {
         'x-access-token': store.state.jwt
@@ -33,4 +39,38 @@ export default {
     data.headers = {'x-access-token': store.state.jwt};
     return axios.delete('/api/events/userevent', data)
   },
+  getiCalEvent(event_id) {
+    axios({
+      url: '/api/ical/events/' + event_id,
+      method: 'GET',
+      responseType: 'blob', // important
+    }).then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'event-' + event_id +'.ics'); //or any other extension
+      document.body.appendChild(link);
+      link.click();
+    }).catch(function (err) {
+      // Do something with error
+      console.log('Failed to get iCal file')
+  });
+  },
+  getiCalAllEvents() {
+    axios({
+      url: '/api/ical/events',
+      method: 'GET',
+      responseType: 'blob', // important
+    }).then((response) => {
+       const url = window.URL.createObjectURL(new Blob([response.data]));
+       const link = document.createElement('a');
+       link.href = url;
+       link.setAttribute('download', 'events.ics'); //or any other extension
+       document.body.appendChild(link);
+       link.click();
+    }).catch(function (err) {
+      // Do something with error
+      console.log('Failed to get iCal file')
+  });
+  }
 }

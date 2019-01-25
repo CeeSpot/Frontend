@@ -24,11 +24,6 @@
                 <b-link v-for="site in company.social_media_sites" class="social-media-link" v-bind:href="site.url.includes('https://') ? site.url : 'https://' + site.url" target="_blank">
                   <font-awesome-icon :icon="{ prefix: 'fab', iconName: site.site }"></font-awesome-icon>
                 </b-link>
-                <span v-if="company.social_media_sites.length === 0" class="modal-hover" v-b-modal.AddSocialMediaModal>
-                  Add social media sites
-                  <font-awesome-icon class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}"></font-awesome-icon>
-                </span>
-                <font-awesome-icon v-if="company.social_media_sites.length > 0" class="social-media-link ml-3" :icon="{ prefix: 'fas', iconName: 'edit'}" v-b-modal.AddSocialMediaModal></font-awesome-icon>
               </b-col>
             </b-row>
             <b-row class="mt-4">
@@ -36,7 +31,7 @@
                 <ul>
                   <li class="no-marg" v-for="tag in company.tags" :key="tag.id" >
                     <div :id="'tag' + tag.id"
-                         class="btn-ceecee-oval-red">{{tag.name}}
+                         class="btn-ceecee-oval-red">{{tag.description}}
                     </div>
                   </li>
                 </ul>
@@ -62,7 +57,8 @@
                 <b-col>
                   <ul>
                     <li v-for="participant in company.users">
-                      <b-link v-bind:href="'/user/' + participant.id" class="text-dark">
+                      <!--{{JSON.stringify(participant)}}-->
+                      <b-link v-bind:href="routeToMember(participant.id, participant.name)" class="text-dark">
                         <b-row>
                           <b-col>
                             <b-img center rounded="circle" v-b-tooltip.hover
@@ -139,14 +135,28 @@ export default {
     getCompanyProfile () {
       let self = this
       CommunityApi.getCompany(this.id).then(response => {
+        if(!response.data.success){
+          this.$toasted.show('Failed load company try again later',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+           )
+        }
         self.failedMessage = null
         self.company = response.data.company
         self.type = response.data.type
         console.log(response.data.company)
-      }).catch(() => {
+      }).catch((err) => {
+        console.log(err)
         this.failedMessage = 'Failed loading data, please '
       })
     },
+    routeToMember (id, name) {
+      // let full = this.fullName(firstName, insertions, lastName)
+      name = name.replace(/\s+/g, '-').toLowerCase()
+      return '/user/' + id + '/' + name
+    }
   },
   mounted () {
     this.id = this.$route.params.id

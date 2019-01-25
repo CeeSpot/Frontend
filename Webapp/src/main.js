@@ -34,6 +34,7 @@ import {faChevronLeft} from '@fortawesome/free-solid-svg-icons/faChevronLeft' //
 import {faChevronRight} from '@fortawesome/free-solid-svg-icons/faChevronRight' // Imports Fa chevron right
 import {faTrash} from '@fortawesome/free-solid-svg-icons/faTrash' // Imports Fa trash
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes'
+import {faUsers} from '@fortawesome/free-solid-svg-icons/faUsers'
 import {faFacebook} from '@fortawesome/free-brands-svg-icons/faFacebook'
 import {faTwitter} from '@fortawesome/free-brands-svg-icons/faTwitter'
 import {faLinkedin} from '@fortawesome/free-brands-svg-icons/faLinkedin'
@@ -61,6 +62,7 @@ library.add(faLinkedin)
 library.add(faSave)
 library.add(faCheck)
 library.add(faPlus)
+library.add(faUsers)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon) // create the vue-component so you can use it
 
@@ -78,6 +80,8 @@ let baseURL = 'https://vps437.directvps.nl:3000'
 axios.defaults.baseURL = baseURL
 Vue.prototype.imageBaseURL = baseURL + '/images'
 
+Vue.prototype.language = JSON.parse(localStorage.getItem('CCLanguage'))
+
 window.Emitter = new Vue()
 
 export const store = new Vuex.Store({
@@ -92,8 +96,10 @@ export const store = new Vuex.Store({
   getters: {
     getUser: state => {
       if (!state.jwt) {
+      //  console.log("hi")
         return null
       }
+    //  console.log("hi2")
       return jwtDecode(state.jwt)
     }
   },
@@ -113,9 +119,9 @@ export const store = new Vuex.Store({
       window.location.href = '/lr'
     },
     obtainToken (context, data) {
-      return axios.post(this.state.endpoints.obtainJWT, {
-        username: data[0],
-        password: data[1]
+      return axios.post(this.state.endpoints.obtainJWT + '/' + data[0], {
+        username: data[1],
+        password: data[2]
       })
     },
     updateToken (context, newToken) {
