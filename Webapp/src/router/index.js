@@ -40,8 +40,13 @@ import AdminSpace from '@/components/Admin/Spaces/Space'
 import AdminRequests from '@/components/Admin/Requests/Requests'
 import AdminSettings from '@/components/Admin/Settings/Settings'
 import AdminTags from '@/components/Admin/Tags/Tags'
+import AdminWebsite from '@/components/Admin/Website/Website'
+import AdminEditWebsite from '@/components/Admin/Website/Editwebsite'
 
 import Test from '@/components/Test/Test'
+
+// 404
+import NotFoundComponent from '@/components/Core/Other/NotFoundComponent'
 
 Vue.use(Router)
 
@@ -213,6 +218,21 @@ export default new Router({
       path: '/privacy-statement',
       name: 'PrivacyStatement',
       component: PrivacyStatement
+    },
+    {
+      path: '/admin/website',
+      name: 'AdminWebsite',
+      component: AdminWebsite
+    },
+    {
+      path: '/admin/website/edit/:id',
+      name: 'AdminEditWebsite',
+      component: AdminEditWebsite
+    },
+    {
+      path: '*',
+      name: 'NotFoundComponent',
+      component: NotFoundComponent
     }
   ]
 })

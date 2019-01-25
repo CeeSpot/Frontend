@@ -50,10 +50,14 @@
     }
 
     #footer {
-        background-color: #373737;
-        min-height: 80px;
         border-top: 5px solid #E60000;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        min-height: 80px;
+        /*line-height: 60px; !* Vertically center the text there *!*/
+        background-color: #373737;
         color: white;
-        /*margin-top: 50px;*/
     }
 </style>

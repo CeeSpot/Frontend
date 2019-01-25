@@ -1,8 +1,12 @@
 <template>
   <div id="app">
     <navigation></navigation>
-    <router-view/>
-    <page-footer></page-footer>
+    <div id="main" role="main">
+      <router-view/>
+    </div>
+    <div id="footer" class="footer">
+      <page-footer></page-footer>
+    </div>
   </div>
 </template>
 
@@ -45,4 +49,14 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  html {
+    position: relative;
+    min-height: 100%;
+  }
+  body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+  }
+
 </style>

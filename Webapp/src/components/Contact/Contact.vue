@@ -13,9 +13,7 @@
                         </b-row>
                         <b-row class="mt-3">
                             <b-col class="opacity-text-8" md="12">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam autem consequuntur
-                                corporis dolore enim esse, facere fuga fugit harum maxime neque praesentium quam, quos,
-                                ratione repellendus repudiandae sequi ut vel.
+                               <div v-html="text"></div>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -103,7 +101,7 @@
 
 <script>
   import contact from '@/services/api/contact.js'
-
+  import websiteApi from '@/services/api/website.js'
   export default {
     name: 'Contact',
     data() {
@@ -112,10 +110,19 @@
         to: '',
         phone: '',
         subject: '',
-        message: ''
+        message: '',
+        text: ''
       }
     },
     mounted() {
+        websiteApi.getOneText(4).then(response => {
+          if(this.language === "en") {
+            this.text = response.data.data[0].value_en;
+          } else {
+            this.text = response.data.data[0].value_nl;
+          }
+
+        })
     },
     methods: {
       sendMail() {
