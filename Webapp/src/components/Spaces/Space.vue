@@ -39,7 +39,7 @@
           <b-col>
             <b-card class="no-scale">
               <b-row>
-                <h2>Ruimte boeken</h2>
+                <h2>{{$t('space.book-a-space')}}</h2>
               </b-row>
               <b-row>
                 <b-col>
@@ -50,7 +50,7 @@
                 <b-col class="text-center">
                   <button type="button" style="width:100%;"
                           class="btn btn-ceecee-red text-center" v-b-modal.bookspace>
-                    Ruimte boeken
+                    {{$t('space.book-a-space')}}
                   </button>
                 </b-col>
               </b-row>

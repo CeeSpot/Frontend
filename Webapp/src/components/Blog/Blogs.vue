@@ -34,7 +34,7 @@
             <b-col>
                 <b-row>
                     <div style="width: 100%; padding: 15px; font-size: 1.125em;" class="card shadow no-scale">
-                        <h3>Zoeken</h3>
+                        <h3>{{$t('blogs.search')}}</h3>
                         <hr>
                         <b-row>
                             <b-col>

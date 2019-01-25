@@ -8,7 +8,9 @@
       "month": "Maand",
       "week": "Week",
       "day": "Dag",
-      "search": " Search..."
+      "search": " Search...",
+      "upcoming-events": "Aankomende evenementen",
+      "all-events": "Alle evenementen"
     },
     "event": {
       "login-to-join": "Login om deel te nemen!",
@@ -16,7 +18,38 @@
       "unsubscribe": "Afmelden van evenement!"
     },
     "other": {
-      "list": "lijst",
-      "calendar": "kalender"
+      "list": "Lijst",
+      "calendar": "Kalender"
+    },
+    "home": {
+      "our-story": "Ons verhaal",
+      "community": "Community",
+      "book-a-tour": "Boek een toer",
+      "spaces": "Ruimtes",
+      "meet-our-community": "Onze community",
+      "meet-our-partners": "Onze partners",
+      "book-a-tour2": "Boek een toer",
+      "community-button": "Community",
+      "book-a-tour-button": "Boek een toer!",
+      "spaces-button": "Ruimtes",
+      "book-a-tour2-button": "Boek een toer!"
+    },
+    "spaces": {
+      "spaces": "Ruimtes"
+    },
+    "space": {
+      "book-a-space": "Ruimte boeken"
+    },
+    "blogs": {
+      "search": "Zoeken"
+    },
+    "contact": {
+      "contact-us": "Neem contact op!",
+      "name": "Naam",
+      "email": "E-mailadres",
+      "phone": "Telefoonnummer",
+      "subject": "Onderwerp",
+      "message": "Bericht",
+      "send-message-button": "Verstuur bericht"
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <b-container class="p-3 container-margin">
-    <b-row id="upcoming-header"><b-col><h1>Upcoming events</h1></b-col></b-row>
+    <b-row id="upcoming-header"><b-col><h1>{{$t('events.upcoming-events')}}</h1></b-col></b-row>
     <b-row id="upcoming-container">
     <b-col cols="12" md="4" xl="4" lg="4" v-for="upcoming in upcomingEvents" v-on:click="routeToEvent(upcoming.id, upcoming.title)">
         <b-card class="upc-card">
@@ -11,7 +11,7 @@
         </b-card>
     </b-col>
     </b-row>
-    <b-row id="allevents-header"><b-col><h1>All events</h1></b-col></b-row>
+    <b-row id="allevents-header"><b-col><h1>{{$t('events.all-events')}}</h1></b-col></b-row>
         <b-row style="height: 40px;">
             <b-col xs="6" v-if="showCalendar">
                 <b-button style="background-color: white; color: black; height: 30px; line-height: 15px;"
@@ -43,10 +43,10 @@
                     <div class="switch">
                         <input type="radio" class="switch-input" name="view" value="calendar" id="calendar"
                                v-on:click="toggleView('list')" checked>
-                        <label for="calendar" class="switch-label switch-label-off">&nbsp;list</label>
+                        <label for="calendar" class="switch-label switch-label-off">&nbsp;{{$t('other.list')}}</label>
                         <input type="radio" class="switch-input" name="view" value="calendar" id="list"
                                v-on:click="toggleView('calendar')">
-                        <label for="list" class="switch-label switch-label-on">&nbsp;calendar</label>
+                        <label for="list" class="switch-label switch-label-on">&nbsp;{{$t('other.calendar')}}</label>
                         <span class="switch-selection"></span>
                     </div>
                 </div>
