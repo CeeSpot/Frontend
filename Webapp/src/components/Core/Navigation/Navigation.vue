@@ -74,7 +74,8 @@ export default {
         Vue.i18n.set('nl')
         this.$root.$emit('toggleLocaleCalendar', 'nl')
       }
-      this.save()
+      this.save();
+      window.location.reload();
     },
     /**
      * Set a language

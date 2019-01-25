@@ -10,7 +10,7 @@
                         <b-row>
                             <b-col md="12">
                                 <h1>Our story</h1>
-                                <div v-html="text[4].value_en"></div>
+                                <div v-html="storytext"></div>
                             </b-col>
                         </b-row>
                         <b-row class="mt-5 text-center">
@@ -53,7 +53,7 @@
                         <b-row>
                             <b-col md="8">
                                 <h1>Meet our community</h1>
-                                <div v-html="text[2].value_en"></div>
+                                <div v-html="communitytext"></div>
                             </b-col>
                             <b-col md="4" class="text-right">
                                 <b-img src="/static/images/guy.png" rounded class="shadow"></b-img>
@@ -95,7 +95,7 @@
                         <b-row>
                             <b-col md="12">
                                 <h1>Meet our partners</h1>
-                                <div v-html="text[5].value_en"></div>
+                                <div v-html="partners"></div>
                             </b-col>
                         </b-row>
                         <b-row class="text-center">
@@ -132,7 +132,7 @@
                         <b-row>
                             <b-col md="8">
                                 <h1>Book a tour</h1>
-                                <div v-html="text[1].value_en"></div>
+                                <div v-html="booktour"></div>
                                 <b-button variant="outline-danger" href="/contact">
                                     Book a tour!
                                 </b-button>
@@ -154,13 +154,28 @@
     data() {
       return {
         msg: 'Welcome to Your Vue.js App',
-        text: []
+        text: [],
+        storytext: '',
+        communitytext: '',
+        partners: '',
+        booktour: ''
       }
     },
     mounted() {
     websiteApi.getText().then(response => {
-        this.text = response.data.data;
-      })
+      if(this.language === "en") {
+        this.storytext = response.data.data[4].value_en;
+        this.communitytext = response.data.data[2].value_en;
+        this.partners = response.data.data[5].value_en;
+        this.booktour = response.data.data[1].value_en;
+      } else {
+        this.storytext = response.data.data[4].value_nl;
+        this.communitytext = response.data.data[2].value_nl;
+        this.partners = response.data.data[5].value_nl;
+        this.booktour = response.data.data[1].value_nl;
+      }
+      console.log(response);
+    })
     },
     components: {
       Carousel

@@ -4,7 +4,7 @@
             <b-row>
                 <b-col class="p-5">
                     <h1>About the cee spot</h1>
-                    <div v-html="text.value_en"></div>
+                    <div v-html="text"></div>
                 </b-col>
             </b-row>
         </div>
@@ -17,12 +17,16 @@
     name: "about",
     data() {
         return {
-            text: []
+            text: ''
         }
     },
     mounted() {
         websiteApi.getOneText(1).then(response => {
-          this.text = response.data.data[0];
+          if(this.language === "en") {
+            this.text = response.data.data[0].value_en;
+          } else {
+            this.text = response.data.data[0].value_nl;
+          }
          })
     }
   }

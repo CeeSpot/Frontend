@@ -79,6 +79,8 @@ axios.defaults.baseURL = 'http://localhost:3000'
 let baseURL = 'http://localhost:3000'
 Vue.prototype.imageBaseURL = baseURL + '/images'
 
+Vue.prototype.language = JSON.parse(localStorage.getItem('CCLanguage'))
+
 window.Emitter = new Vue()
 
 export const store = new Vuex.Store({

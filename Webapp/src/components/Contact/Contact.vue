@@ -13,7 +13,7 @@
                         </b-row>
                         <b-row class="mt-3">
                             <b-col class="opacity-text-8" md="12">
-                               <div v-html="text.value_en"></div>
+                               <div v-html="text"></div>
                             </b-col>
                         </b-row>
                     </b-col>
@@ -111,13 +111,18 @@
         phone: '',
         subject: '',
         message: '',
-        text: []
+        text: ''
       }
     },
     mounted() {
         websiteApi.getOneText(4).then(response => {
-          this.text = response.data.data[0];
-         })
+          if(this.language === "en") {
+            this.text = response.data.data[0].value_en;
+          } else {
+            this.text = response.data.data[0].value_nl;
+          }
+
+        })
     },
     methods: {
       sendMail() {
