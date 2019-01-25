@@ -81,7 +81,7 @@
           img-alt="Image"
           img-top
           tag="article"
-          v-on:click="routeToEntity(entity.id, entity.type)">
+          v-on:click="routeToEntity(entity.id, entity.type, entity.name)">
           <p class="card-text">
             {{entity.description}}
           </p>
@@ -225,11 +225,12 @@ export default {
       name = name.replace(/\s+/g, '-').toLowerCase()
       location.href = '/company/' + id + '/' + name
     },
-    routeToEntity (id, type) {
+    routeToEntity (id, type, name) {
+        name = name.replace(/\s+/g, '-').toLowerCase()
       if (type === 'company') {
-        location.href = '/company/' + id
+        location.href = '/company/' + id + '/' + name
       } else {
-        location.href = '/user/' + id
+        location.href = '/user/' + id + '/' + name
       }
     }
   },
