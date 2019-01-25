@@ -86,7 +86,12 @@ export default {
         if (response.data.success) {
           this.spaceRequests = response.data.data;
         } else {
-          this.getSpaceRequests()
+          this.$toasted.show('Failed to space requests!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
         }
       }).catch(() => this.getSpaceRequests())
     }

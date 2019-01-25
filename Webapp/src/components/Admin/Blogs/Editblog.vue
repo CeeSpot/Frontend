@@ -85,8 +85,20 @@ export default {
       this.blog.tags = this.values;
       AdminBlogApi.updateBlog(this.blog).then(response => {
         if (response.data.success && response.data.authorised) {
+          this.$toasted.show('Successfully edited blog!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
           location.href = '/admin/blogs/'
         } else {
+          this.$toasted.show('Something went wrong try again later!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
           if (!response.data.authorised) {
             this.$router.push({path: '/'})
           }

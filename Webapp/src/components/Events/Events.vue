@@ -147,8 +147,28 @@
       this.$root.$on('toggleLocaleCalendar', (locale) => {
           this.toggleLocale(locale);
       });
-      eventApi.getEvents().then(response => this.events = response.data.data);
-      eventApi.getUpcoming().then(response => this.upcomingEvents = response.data.data);
+      eventApi.getEvents().then(response => {
+          if(!response.data.success){
+          this.$toasted.show('Failed to load events try again later!',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+          )
+          }
+          this.events = response.data.data
+          });
+      eventApi.getUpcoming().then(response => {
+          if(!response.data.success){
+          this.$toasted.show('Failed to load upcoming events try again later!',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+          )
+          }
+          this.upcomingEvents = response.data.data
+          });
     },
     methods: {
         eventSelected(event, jsEvent, view) {

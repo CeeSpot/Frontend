@@ -132,9 +132,39 @@ export default {
   mounted () {
     Emitter.$on('authorised', () => {
       this.authorised = true
-      blogApi.getBlogsTags().then((response) => this.blogtags = response.data.data)
-      TagApi.getUserTags().then(response => this.usertags = response.data.data)
-      TagApi.getCompanyTags().then(response => this.companytags = response.data.data)
+      blogApi.getBlogsTags().then((response) => {
+        if(!response.data.success){
+          this.$toasted.show('Failed load blog tags try again later!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+        }
+        this.blogtags = response.data.data
+        })
+      TagApi.getUserTags().then(response => {
+        if(!response.data.success){
+          this.$toasted.show('Failed load user tags try again later!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+        }
+        this.usertags = response.data.data
+        })
+      TagApi.getCompanyTags().then(response => {
+        if(!response.data.success){
+          this.$toasted.show('Failed load company tags try again later!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+        }
+        this.companytags = response.data.data
+        })
     })
 
     Emitter.$on('editTag', (data) => {

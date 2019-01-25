@@ -137,10 +137,29 @@
       }
     },
     mounted() {
-      blogApi.getBlogsTags().then(response => this.tags = response.data.data);
+      blogApi.getBlogsTags().then(response => {
+        if(!response.data.success){
+            this.$toasted.show('Failed load blogs tags try again later',
+                {
+                    position: 'top-center',
+                    duration: 3000
+                }
+            )
+        }
+        this.tags = response.data.data
+      }
+      );
     },
     created() {
       blogApi.getBlogs().then(response => {
+        if(!response.data.success){
+            this.$toasted.show('Failed load blogs try again later',
+                {
+                    position: 'top-center',
+                    duration: 3000
+                }
+            )
+        }
         this.blogs = response.data.data;
       });
     },
