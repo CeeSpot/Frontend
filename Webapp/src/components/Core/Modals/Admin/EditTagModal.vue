@@ -44,6 +44,14 @@ export default {
       }
       adminTagsApi.deleteTag(data, this.selectedTab).then((response) => {
         // let tag
+        if(response.data.success){
+         this.$toasted.show('Successfully deleted tag!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+        }
         Emitter.$emit('deleteTag', [this.selectedId, this.selectedTab])
         // switch (this.selectedTab) {
         //   case 0:

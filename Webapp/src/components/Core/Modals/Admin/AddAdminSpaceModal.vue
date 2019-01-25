@@ -58,6 +58,14 @@ export default {
   methods: {
     addSpace() {
       SpaceApi.addSpace(this.newSpace).then(response => {
+         if(response.data.success){
+         this.$toasted.show('Successfully added space!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+        }
         this.newSpace = {}
         Emitter.$emit('addSpace')
         this.$refs.newspace.hide()

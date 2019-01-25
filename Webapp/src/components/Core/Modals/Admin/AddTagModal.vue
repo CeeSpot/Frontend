@@ -37,6 +37,12 @@ export default {
       }
       adminTagsApi.addTag(data, this.selectedTab).then((response) => {
         if (response.data.success) {
+         this.$toasted.show('Successfully added tag!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
           data.tag.id = response.data.data.insertId
           Emitter.$emit('addTag', [this.selectedTab, data.tag])
           this.$refs.NewTagModal.hide()

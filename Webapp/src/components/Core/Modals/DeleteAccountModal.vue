@@ -46,6 +46,12 @@ export default {
       auth.deleteUser(data).then((resp) => {
         if (resp.data.success) {
           this.$store.dispatch('logout')
+         this.$toasted.show('Successfully deleted user!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
         } else {
           this.$toasted.show('Failed to delete this account.',
             {

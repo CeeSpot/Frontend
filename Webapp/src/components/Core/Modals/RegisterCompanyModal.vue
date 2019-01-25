@@ -136,6 +136,12 @@ export default {
       if (this.passwordMatch && this.emailCorrect) {
         auth.registerCompany(this.form).then((resp) => {
           if (resp.data.success) {
+          this.$toasted.show('Successfully registered company!',
+                {
+                  position: 'top-center',
+                  duration: 3000
+                }
+            )
             this.$refs.RegisterCompanyModal.hide()
             this.form = {
               username: '',

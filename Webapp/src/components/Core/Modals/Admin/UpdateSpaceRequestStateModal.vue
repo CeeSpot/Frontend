@@ -53,6 +53,12 @@ export default {
       RequestApi.updateReservationState(this.activeSRequest, approved).then(response => {
         if (response.data.success && response.data.authorised) {
           Emitter.$emit('updateStateSpaceRequest', this.activeSRequest)
+         this.$toasted.show('Successfully updated reservation state!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
           this.$refs.spacerequest.hide()
         } else {
           if (!response.data.authorised) {

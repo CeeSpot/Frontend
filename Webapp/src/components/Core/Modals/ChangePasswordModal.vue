@@ -89,6 +89,12 @@ export default {
         auth.changePassword(this.form, this.type).then((data) => {
           if (data.data.success === true) {
             this.$refs.ChangePasswordModal.hide()
+            this.$toasted.show('Successfully changed password!',
+                  {
+                    position: 'top-center',
+                    duration: 3000
+                  }
+            )
             if (this.type === 1) {
               Emitter.$emit('userPasswordChanged', data.data.token)
             } else if (this.type === 2) {

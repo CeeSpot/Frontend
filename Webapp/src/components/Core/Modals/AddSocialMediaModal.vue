@@ -109,8 +109,14 @@ export default {
         website: this.website
       }
       socialMediaApi.addResourceSite(post).then((resp) => {
-        console.log(resp)
-        console.log(this.resp)
+         if(resp.data.success){
+         this.$toasted.show('Successfully added socialmedia links!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+        }
         if (this.type === 1) {
           Emitter.$emit('updatedSocialMediaSiteForUser', resp.data.token)
         } else if (this.type === 2) {
