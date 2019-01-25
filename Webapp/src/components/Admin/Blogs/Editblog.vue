@@ -91,7 +91,6 @@ export default {
                 duration: 3000
               }
           )
-          location.href = '/admin/blogs/'
         } else {
           this.$toasted.show('Something went wrong try again later!',
               {
