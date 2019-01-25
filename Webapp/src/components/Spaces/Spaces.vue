@@ -56,7 +56,17 @@ export default {
     }
   },
   mounted() {
-      SpaceApi.getSpaces().then(response => this.spaces = response.data.data);
+      SpaceApi.getSpaces().then(response => {
+          if(!response.data.success){
+           this.$toasted.show('Failed load spaces try again later',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+           )
+          }
+          this.spaces = response.data.data
+          });
   },
     computed: {
         spaceList() {

@@ -21,7 +21,7 @@
                                     <h4>Community</h4>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad, alias aperiam.</p>
                                     <b-button variant="outline-danger" href="/community">
-                                        Community members
+                                        Community
                                     </b-button>
                                 </b-card>
                             </b-col>
@@ -39,7 +39,7 @@
                                     <h4>Spaces</h4>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur ducimus.</p>
                                     <b-button variant="outline-danger" href="/spaces">
-                                        Available spaces
+                                        Spaces
                                     </b-button>
                                 </b-card>
                             </b-col>
@@ -191,12 +191,12 @@
     .big-card {
         /*transform: scale(1.3);*/
         font-size: 1.2em;
-        height: 220px;
+        min-height: 220px;
     }
 
     .normal-card {
         font-size: 1em;
-        height: 200px;
+        min-height: 200px;
     }
 
     #bookATour {

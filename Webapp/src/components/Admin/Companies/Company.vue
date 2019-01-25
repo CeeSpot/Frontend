@@ -47,6 +47,14 @@ export default {
       if (resp.data.authorised) {
         this.authorised = true
         CommunityApi.getCompany(this.$route.params.id).then(response => {
+          if(!response.data.success){
+          this.$toasted.show('Failed to load company!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+          }
           this.company = response.data.company;
         })
       } else {

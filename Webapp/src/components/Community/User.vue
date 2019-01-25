@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid style="margin-top: 100px;">
+  <b-container fluid style="margin-top: 90px;">
     <b-row class="main-bg">
       <b-container>
         <b-row  align-v="start" class="d-flex flex-row">
@@ -180,7 +180,12 @@ export default {
           this.user = response.data.user
           this.imageURL = '/static/images/users/' + this.id + '.png';
         } else {
-          this.getUser()
+          this.$toasted.show('Failed load user try again later',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+           )
         }
       }).catch(() => {
         this.getUser()

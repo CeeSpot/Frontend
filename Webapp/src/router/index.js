@@ -1,15 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Landingpage/Home' // Home base page
-import Community from '@/components/Community/Community' // Community base page
-import Spaces from '@/components/Spaces/Spaces' // Spaces base page
-import Space from '@/components/Spaces/Space' // Space base page
-import Events from '@/components/Events/Events' // Events base page
-import Event from '@/components/Events/Event' // Event base page
-import Contact from '@/components/Contact/Contact' // Contact base page
+import Community from '@/components/Community/Community'
+import Spaces from '@/components/Spaces/Spaces'
+import Space from '@/components/Spaces/Space'
+import Events from '@/components/Events/Events'
+import Event from '@/components/Events/Event'
+import Contact from '@/components/Contact/Contact'
+import Success from '@/components/Contact/Success'
+import About from '@/components/About/About'
+import PrivacyStatement from '@/components/PrivacyStatement/PrivacyStatement'
 import User from '@/components/Community/User'
-import Blogs from '@/components/Blog/Blogs' // Community base page
-import Blog from '@/components/Blog/Blog' // Community base page
+import Blogs from '@/components/Blog/Blogs'
+import Blog from '@/components/Blog/Blog'
 
 // Authentication
 import Register from '@/components/Core/Authentication/RegisterAndLogin'
@@ -90,6 +93,11 @@ export default new Router({
       path: '/contact',
       name: 'Contact',
       component: Contact
+    },
+    {
+      path: '/contact/success',
+      name: 'Success',
+      component: Success
     },
     {
       path: '/lr',
@@ -195,6 +203,16 @@ export default new Router({
       path: '/admin/tags',
       name: 'AdminTags',
       component: AdminTags
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: About
+    },
+    {
+      path: '/privacy-statement',
+      name: 'PrivacyStatement',
+      component: PrivacyStatement
     }
   ]
 })

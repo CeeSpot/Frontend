@@ -46,7 +46,17 @@
     mounted() {
       Emitter.$on('authorised', () => {
         this.authorised = true
-        CommunityApi.getCompanies().then((response) => this.companies = response.data.data)
+        CommunityApi.getCompanies().then((response) => {
+          if(!response.data.success){
+            this.$toasted.show('Failed to load companies!',
+                {
+                  position: 'top-center',
+                  duration: 3000
+                }
+            )
+          }
+          this.companies = response.data.data
+          })
       })
     }
   }

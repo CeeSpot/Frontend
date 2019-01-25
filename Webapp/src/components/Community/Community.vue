@@ -120,7 +120,12 @@ export default {
         if (response.data.success) {
           this.tags = response.data.data
         } else {
-          this.getTags()
+           this.$toasted.show('Failed load tags try again later',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+           )
         }
       }).catch((err) => {
         console.log(err)
@@ -132,7 +137,12 @@ export default {
         if (response.data.success) {
           this.companies = response.data.data
         } else {
-          this.getCompanies()
+            this.$toasted.show('Failed load companies try again later',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+           )
         }
       }).catch(() => {
         this.getCompanies()
@@ -143,7 +153,12 @@ export default {
         if (response.data.success) {
           this.users = response.data.data
         } else {
-          this.getUsers()
+            this.$toasted.show('Failed load users try again later',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+           )
         }
       }).catch(() => {
         this.getUsers()

@@ -30,52 +30,53 @@
                             <form>
                                 <b-row>
                                     <b-col md="4">
-                                        <label :for="name">Name</label>
+                                        <label>Name</label>
                                     </b-col>
                                     <b-col md="8">
-                                        <b-form-input :id="name" :name="name" :type="text"></b-form-input>
+                                        <b-form-input id="name" v-model="name" name="name" type="text"></b-form-input>
                                     </b-col>
                                 </b-row>
                                 <b-row class="mt-1">
                                     <b-col md="4">
-                                        <label :for="name">Email</label>
+                                        <label>Email</label>
                                     </b-col>
                                     <b-col md="8">
-                                        <b-form-input :id="email" :name="email" :type="email"></b-form-input>
+                                        <b-form-input id="email" v-model="to" name="email" type="text"></b-form-input>
                                     </b-col>
                                 </b-row>
                                 <b-row class="mt-1">
                                     <b-col md="4">
-                                        <label :for="phone">Phone</label>
+                                        <label>Phone</label>
                                     </b-col>
                                     <b-col md="8">
-                                        <b-form-input :id="phone" :name="phone" :type="phone"></b-form-input>
+                                        <b-form-input id="phone" v-model="phone" name="phone" type="text"></b-form-input>
                                     </b-col>
                                 </b-row>
                                 <b-row class="mt-1">
                                     <b-col md="4">
-                                        <label :for="subject">Subject</label>
+                                        <label>Subject</label>
                                     </b-col>
                                     <b-col md="8">
-                                        <b-form-input :id="subject" :name="subject" :type="text"></b-form-input>
+                                        <b-form-input id="subject" v-model="subject" name="subject" type="text"></b-form-input>
                                     </b-col>
                                 </b-row>
                                 <b-row class="mt-1">
                                     <b-col md="4">
-                                        <label :for="message">Message</label>
+                                        <label>Message</label>
                                     </b-col>
                                     <b-col md="8">
                                         <b-form-textarea id="message"
+                                                         v-model="message"
                                                          name="message"
-                                                         :rows="3"
-                                                         :max-rows="6">
+                                                         rows="3"
+                                                         max-rows="6">
                                         </b-form-textarea>
                                     </b-col>
                                 </b-row>
                                 <b-row class="mt-1">
                                     <b-col md="4"></b-col>
                                     <b-col md="8">
-                                        <b-button variant="danger" block>Send message</b-button>
+                                        <b-button v-on:click="sendMail" variant="danger" block>Send message</b-button>
                                     </b-col>
                                 </b-row>
                             </form>
@@ -101,14 +102,32 @@
 
 
 <script>
+  import contact from '@/services/api/contact.js'
+
   export default {
     name: 'Contact',
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        name: '',
+        to: '',
+        phone: '',
+        subject: '',
+        message: ''
       }
     },
     mounted() {
+    },
+    methods: {
+      sendMail() {
+        contact.sendMail({
+          to: this.to,
+          name: this.name,
+          phone: this.phone,
+          subject: this.subject,
+          message: this.message
+        });
+        this.$router.push({path: '/contact/success'})
+      }
     }
   }
 </script>

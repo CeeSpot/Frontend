@@ -93,6 +93,14 @@ import uploadFile from '@/services/api/uploadFile.js'
     },
     mounted() {
       blogApi.getBlog(this.id).then(response => {
+       if(!response.data.success){
+            this.$toasted.show('Failed load blog try again later',
+                {
+                    position: 'top-center',
+                    duration: 3000
+                }
+            )
+        }
         this.blog = response.data.data[0] 
         this.blogUrl = window.location.href;
       });
