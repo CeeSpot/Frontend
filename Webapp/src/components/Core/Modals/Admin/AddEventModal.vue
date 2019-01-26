@@ -50,6 +50,12 @@ export default {
           this.$refs.newEventModal.hide()
           this.newEvent = {}
           Emitter.$emit('newAdminEventAdded')
+         this.$toasted.show('Successfully added event!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
         } else {
           if (!response.data.authorised) {
             location.href  = '/'

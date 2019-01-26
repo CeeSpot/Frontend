@@ -15,8 +15,7 @@ export default {
         'x-access-token': store.state.jwt
       }
     })
-  },
-  getUpcoming() {
+  },getUpcoming() {
     return axios.get('/api/events/upcoming', {
       headers: {
         'x-access-token': store.state.jwt

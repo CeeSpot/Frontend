@@ -3,42 +3,38 @@
     <b-row>
       <admin-menu v-bind:active="active"></admin-menu>
       <b-col md="8" v-if="authorised">
-        <b-row>
-          <div class="toggle">
-            <div class="switch">
-              <input type="radio" class="switch-input" v-on:change="toggle('spaces')" name="view"
-                     value="week" id="week" checked>
-              <label for="week"
-                     class="switch-label switch-label-off">&nbsp;Spaces</label>
-              <input type="radio" class="switch-input" v-on:change="toggle('tours')" name="view"
-                     value="month" id="month">
-              <label for="month"
-                     class="switch-label switch-label-on">&nbsp; Tours</label>
-              <span class="switch-selection"></span>
-            </div>
-          </div>
-        </b-row>
-        <b-row v-if="showRequests" id="cards-container">
-          <b-col cols="12" v-for="srequest in spaceRequests">
-            <AdminCard
-              :firstcol="formatDate(srequest.date)"
-              :secondcol="srequest.space_title"
-              target="#" v-b-modal.spacerequest v-on:click.native="setSRfields(srequest)"></AdminCard>
-          </b-col>
-        </b-row>
-        <b-row v-if="!showRequests" id="cards-container">
-          <h1>TOURSSSSSS</h1>
-          <b-col cols="12" v-for="trequest in tourRequests">
-            <AdminCard
-              :firstcol="formatDate(trequest.date)"
-              secondcol=""
-              target="#"></AdminCard>
-          </b-col>
-        </b-row>
+        <b-card no-body class="no-scale">
+          <b-tabs card v-model="selectedTab">
+            <b-tab title="Spaces" active>
+              <b-row v-for="srequest in spaceRequests" id="user-list-item">
+                  <AdminCard
+                    :firstcol="formatDate(srequest.date)"
+                    :secondcol="srequest.space_title"
+                    target="#" v-b-modal.spacerequest v-on:click.native="setSRfields(srequest)"></AdminCard>
+              </b-row>
+            </b-tab>
+            <b-tab title="Tours">
+              <b-row v-for="trequest in tourRequests" id="user-list-item">
+                  <AdminCard
+                    :firstcol="formatDate(trequest.date)"
+                    secondcol=""
+                    target="#"></AdminCard>
+              </b-row>
+            </b-tab>
+            <b-tab title="Events">
+               <b-row v-for="erequest in eventRequests" id="user-list-item">
+                  <AdminCard
+                    :firstcol="formatDate(erequest.start)"
+                    :secondcol="erequest.title"
+                    target="#" v-b-modal.eventrequest v-on:click.native="setERfields(erequest)"></AdminCard>
+              </b-row>
+            </b-tab>
+          </b-tabs>
+        </b-card>
       </b-col>
     </b-row>
-    <action-button color="red" :fixed="true" icon="plus" v-b-modal.spacerequest></action-button>
     <update-space-request-state-modal :activeSRequest="activeSRequest"></update-space-request-state-modal>
+    <request-event-modal :activeERequest="activeERequest"></request-event-modal>
   </b-container>
 </template>
 
@@ -49,6 +45,7 @@ import ActionButton from '@/components/Core/Other/ActionButton'
 import AdminCard from '@/components/Core/Other/AdminCard'
 import RequestApi from '@/services/api/admin/requests.js'
 import UpdateSpaceRequestStateModal from '@/components/Core/Modals/Admin/UpdateSpaceRequestStateModal'
+import RequestEventModal from '@/components/Core/Modals/Admin/RequestEventModal'
 
 export default {
   name: "requests",
@@ -56,7 +53,8 @@ export default {
     AdminMenu,
     ActionButton,
     AdminCard,
-    UpdateSpaceRequestStateModal
+    UpdateSpaceRequestStateModal,
+    RequestEventModal
   },
   data() {
     return {
@@ -64,29 +62,32 @@ export default {
       showRequests: true,
       spaceRequests: [],
       tourRequests: [],
+      eventRequests: [],
       activeSRequest: {},
-      authorised: false
+      activeERequest: {},
+      authorised: false,
+      selectedTab: 0
     }
   },
   methods: {
     formatDate(date) {
       return moment(date).format('DD-MM-YYYY')
     },
-    toggle(type) {
-      if (type === 'tours') this.showRequests = false;
-      else this.showRequests = true;
-    },
     setSRfields(srequest) {
       this.activeSRequest = srequest;
-      // let stringdate = moment(this.activeSRequest.date).format('DD-MM-YYYY')
       this.activeSRequest.stringdate = moment(this.activeSRequest.date).format('DD-MM-YYYY');
+    },
+    setERfields(erequest) {
+      this.activeERequest = erequest;
+      this.activeERequest.startdate = moment(this.activeERequest.start).format('DD-MM-YYYY hh:mm');
+      this.activeERequest.enddate = moment(this.activeERequest.end).format('DD-MM-YYYY hh:mm');
     },
     getSpaceRequests () {
       RequestApi.getSpaceRequests().then(response => {
         if (response.data.success) {
           this.spaceRequests = response.data.data;
         } else {
-          this.$toasted.show('Failed to space requests!',
+          this.$toasted.show('Failed to load space requests!',
               {
                 position: 'top-center',
                 duration: 3000
@@ -94,16 +95,35 @@ export default {
           )
         }
       }).catch(() => this.getSpaceRequests())
+    },
+    getEventRequests() {
+      RequestApi.getEventRequests().then(response => {
+        if (response.data.success) {
+          this.eventRequests = response.data.data;
+        } else {
+          this.$toasted.show('Failed to load event requests!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+        }
+      }).catch(() => this.getEventRequests())
     }
   },
   mounted() {
     Emitter.$on('authorised', () => {
       this.authorised = true
-      this.getSpaceRequests()
+      this.getSpaceRequests();
+      this.getEventRequests();
     })
     Emitter.$on('updateStateSpaceRequest', (activeSRequest) => {
       let index = this.spaceRequests.findIndex(x => x.id === activeSRequest.id)
       this.spaceRequests.splice(index, 1)
+    })
+    Emitter.$on('updateStateEventRequest', (activeERequest) => {
+      let index = this.eventRequests.findIndex(x => x.id === activeERequest.id)
+      this.eventRequests.splice(index, 1)
     })
   }
 }

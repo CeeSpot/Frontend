@@ -1,34 +1,26 @@
 <template>
 
-  <b-modal ref="spacerequest" id="spacerequest" title="Verzoek ruimte">
+  <b-modal ref="eventrequest" id="eventrequest" title="Verzoek event">
     <b-row>
       <b-col>
-        <h3>Boeking {{activeSRequest.space_title}}</h3>
+          <h3>Event {{activeERequest.title}}</h3>
         <table class="table table-borderless">
           <tbody>
           <tr>
-            <th>Naam:</th>
-            <td>{{activeSRequest.name}}</td>
+            <th>Description:</th>
+            <td>{{activeERequest.small_description}}</td>
           </tr>
           <tr>
-            <th>Telefoon:</th>
-            <td>{{activeSRequest.phone}}</td>
+            <th>Location:</th>
+            <td>{{activeERequest.location_address}} {{activeERequest.location_city}} {{activeERequest.name}} {{activeERequest.postalcode}}</td>
           </tr>
           <tr>
-            <th>Email:</th>
-            <td>{{activeSRequest.email}}</td>
+            <th>Start:</th>
+            <td>{{activeERequest.startdate}}</td>
           </tr>
           <tr>
-            <th>Datum:</th>
-            <td>{{activeSRequest.stringdate}}</td>
-          </tr>
-          <tr>
-            <th>Starttijd:</th>
-            <td>{{activeSRequest.start}}</td>
-          </tr>
-          <tr>
-            <th>Eindtijd:</th>
-            <td>{{activeSRequest.end}}</td>
+            <th>End:</th>
+            <td>{{activeERequest.enddate}}</td>
           </tr>
           </tbody>
         </table>
@@ -37,7 +29,7 @@
     <footer slot="modal-footer">
       <b-row>
         <b-col>
-          <b-btn variant="primary" v-on:click="approveDeclineSR(1)">Goedkeuren</b-btn>
+          <b-btn variant="primary" v-on:click="approve()">Goedkeuren</b-btn>
         </b-col>
       </b-row>
     </footer>
@@ -47,19 +39,19 @@
 <script>
 import RequestApi from '@/services/api/admin/requests.js'
 export default {
-  name: 'UpdateSpaceRequestStateModal',
+  name: 'RequestEventModal',
   methods: {
-    approveDeclineSR(approved) {
-      RequestApi.updateReservationState(this.activeSRequest, approved).then(response => {
+    approve() {
+        RequestApi.approveEvent(this.activeERequest.id).then(response => {
         if (response.data.success && response.data.authorised) {
-          Emitter.$emit('updateStateSpaceRequest', this.activeSRequest)
-         this.$toasted.show('Successfully updated reservation state!',
+         Emitter.$emit('updateStateEventRequest', this.activeERequest)
+         this.$toasted.show('Successfully updated event state!',
               {
                 position: 'top-center',
                 duration: 3000
               }
           )
-          this.$refs.spacerequest.hide()
+          this.$refs.eventrequest.hide()
         } else {
           if (!response.data.authorised) {
             this.$router.push({path: '/'})
@@ -86,7 +78,7 @@ export default {
       })
     }
   },
-  props: ['activeSRequest']
+  props: ['activeERequest']
 }
 </script>
 
