@@ -107,7 +107,6 @@ export default {
     }
   },
   created () {
-    console.log('companies' + JSON.stringify(this.companies))
     for (let i = 0; i < this.companies.length; i++) {
       this.options.push({
         value: this.companies[i].id,

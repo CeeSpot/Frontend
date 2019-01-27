@@ -1,11 +1,11 @@
 <template>
-  <b-container fluid style="margin-top: 100px;">
+  <b-container fluid style="margin-top: 90px;">
     <b-row style="background: linear-gradient(to right, #1d2337 40%,#1d2337);padding-top: 50px;padding-bottom: 150px;">
       <b-container>
         <b-row>
           <b-col md="2">
             <b-img rounded="circle" width="200" height="200" class="image-border"
-                   src="https://www.theceespot.nl/img/school-of-AI-simply-scaled-640.jpg"></b-img>
+                   v-bind:src="imageURL"></b-img>
           </b-col>
           <b-col md="9" class="text-white ml-5">
             <b-row>
@@ -110,6 +110,7 @@
 <script>
 import eventApi from '@/services/api/events.js'
 import moment from 'moment'
+import uploadFile from '@/services/api/uploadFile.js'
 
 export default {
   name: 'Event',
@@ -118,7 +119,8 @@ export default {
       event: [],
       participants: [],
       user: [],
-      user_attend: false
+      user_attend: false,
+      imageURL: ''
     }
   },
   created () {
@@ -147,6 +149,15 @@ export default {
          }
         this.event = response.data.data
         this.user = this.$store.getters.getUser
+
+        uploadFile.checkIfFileExists(this.imageBaseURL + '/event/' + this.event.id + '.jpg')
+          .then((res) => {
+            this.imageURL = this.imageBaseURL + '/event/' + this.event.id + '.jpg';
+          })
+          .catch((err) => {
+            this.imageURL = '/static/images/header.jpg';
+          });
+
         if (this.event.show_attendees) {
           this.participants = response.data.data.participants
           if (this.user) {

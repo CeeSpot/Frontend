@@ -43,9 +43,10 @@
     <b-row v-if="showMemberContainer">
       <b-col md="4" v-for="user in filterSearchAndUserTags()" :key="user.id">
         <b-card
+            :id="'cardImgprofile' + user.id"
           :key="user.id"
           :title="fullName(user.first_name, user.insertions, user.last_name)"
-          img-src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+          v-bind:img-src="getImage(user.id, 'profile')"
           img-alt="Image"
           img-top
           tag="article"
@@ -95,6 +96,7 @@
 import CommunityApi from '@/services/api/community.js'
 import TagApi from '@/services/api/tags.js'
 import Tag from '@/components/Core/Other/Tag' // Import the navigation into the base app
+import uploadFile from '@/services/api/uploadFile.js'
 
 export default {
   name: 'Community',
@@ -115,6 +117,16 @@ export default {
     this.getUsers()
   },
   methods: {
+    getImage(id, type) {
+      uploadFile.checkIfFileExists(this.imageBaseURL + '/' + type + '/' + id + '.jpg')
+        .then((res) => {
+          document.getElementById('cardImg' + type + id).src = this.imageBaseURL + '/' + type + '/' + id + '.jpg'
+          console.log(document.getElementById('cardImg' + type + id).src);
+        })
+        .catch((err) => {
+          document.getElementById('cardImg' + type + id).src = '/static/images/header.jpg'
+        });
+    },
     getTags () {
       TagApi.getUserTags().then((response) => {
         if (response.data.success) {

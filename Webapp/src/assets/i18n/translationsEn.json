@@ -32,7 +32,10 @@
       "community-button": "Community",
       "book-a-tour-button": "Book a tour!",
       "spaces-button": "Spaces",
-      "book-a-tour2-button": "Book a tour!"
+      "book-a-tour2-button": "Book a tour!",
+      "community-card": "Check out our community!",
+      "book-a-tour-card": "Book a tour to check our location out.",
+      "spaces-card": "Take a look at our available spaces."
     },
     "spaces": {
       "spaces": "Spaces"

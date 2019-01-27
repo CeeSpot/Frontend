@@ -17,7 +17,7 @@
                             <b-col md="4">
                                 <b-card class="no-scale shadow-sm normal-card bg-white">
                                     <h4>{{$t('home.community')}}</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad, alias aperiam.</p>
+                                    <p>{{$t('home.community-card')}}</p>
                                     <b-button variant="outline-danger" href="/community">
                                         {{$t('home.community-button')}}
                                     </b-button>
@@ -26,16 +26,16 @@
                             <b-col md="4">
                                 <b-card class="no-scale shadow-lg big-card te">
                                     <h3>{{$t('home.book-a-tour')}}</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad animi dignissimos ipsa.</p>
+                                    <p>{{$t('home.book-a-tour-card')}}</p>
                                     <b-button variant="danger" href="/contact">
-                                       {{$t('home.book-a-tour-button')}}
+                                        {{$t('home.book-a-tour-button')}}
                                     </b-button>
                                 </b-card>
                             </b-col>
                             <b-col md="4">
                                 <b-card class="no-scale shadow-sm normal-card">
                                     <h4>{{$t('home.spaces')}}</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur ducimus.</p>
+                                    <p>{{$t('home.spaces-card')}}</p>
                                     <b-button variant="outline-danger" href="/spaces">
                                         {{$t('home.spaces-button')}}
                                     </b-button>
@@ -56,7 +56,7 @@
                                 <div v-html="communitytext"></div>
                             </b-col>
                             <b-col md="4" class="text-right">
-                                <b-img src="/static/images/guy.png" rounded class="shadow"></b-img>
+                                <b-img :src="this.imageBaseURL + '/home_community/image.jpg'" fluid rounded class="shadow"></b-img>
                             </b-col>
                         </b-row>
                     </b-container>
@@ -74,14 +74,14 @@
                                 <p>Unlimited coffee available</p>
                             </b-col>
                             <b-col md="4">
-                                <font-awesome-icon style="font-size: 4.5em;" icon="coffee"/>
-                                <h2>Great coffee!</h2>
-                                <p>Unlimited coffee available</p>
+                                <font-awesome-icon style="font-size: 4.5em;" icon="globe"/>
+                                <h2>Fast internet</h2>
+                                <p>There is a very fast connection</p>
                             </b-col>
                             <b-col md="4">
-                                <font-awesome-icon style="font-size: 4.5em;" icon="coffee"/>
-                                <h2>Great coffee!</h2>
-                                <p>Unlimited coffee available</p>
+                                <font-awesome-icon style="font-size: 4.5em;" icon="users"/>
+                                <h2>Nice community</h2>
+                                <p>There is an awesome community</p>
                             </b-col>
                         </b-row>
                     </b-container>
@@ -99,25 +99,11 @@
                             </b-col>
                         </b-row>
                         <b-row class="text-center">
-                            <b-col md="4">
+                            <b-col md="4" v-for="company in companies" :key="company.id">
                                 <b-card>
                                     <b-img src="/static/images/ceecee-logo-black.svg" fluid></b-img>
                                     <br><br>
-                                    <h4>the cee spot</h4>
-                                </b-card>
-                            </b-col>
-                            <b-col md="4">
-                                <b-card>
-                                    <b-img src="/static/images/ceecee-logo-black.svg" fluid></b-img>
-                                    <br><br>
-                                    <h4>the cee spot</h4>
-                                </b-card>
-                            </b-col>
-                            <b-col md="4">
-                                <b-card>
-                                    <b-img src="/static/images/ceecee-logo-black.svg" fluid></b-img>
-                                    <br><br>
-                                    <h4>the cee spot</h4>
+                                    <h4>{{ company.name }}</h4>
                                 </b-card>
                             </b-col>
                         </b-row>
@@ -149,6 +135,8 @@
   import axios from 'axios'
   import Carousel from '@/components/Core/Carousel/Carousel' // Import the navigation into the base app
   import websiteApi from '@/services/api/website.js'
+  import community from '@/services/api/community'
+
   export default {
     name: 'Landingpage',
     data() {
@@ -158,24 +146,31 @@
         storytext: '',
         communitytext: '',
         partners: '',
-        booktour: ''
+        booktour: '',
+        companies: []
       }
     },
     mounted() {
-    websiteApi.getText().then(response => {
-      if(this.language === "en") {
-        this.storytext = response.data.data[4].value_en;
-        this.communitytext = response.data.data[2].value_en;
-        this.partners = response.data.data[5].value_en;
-        this.booktour = response.data.data[1].value_en;
-      } else {
-        this.storytext = response.data.data[4].value_nl;
-        this.communitytext = response.data.data[2].value_nl;
-        this.partners = response.data.data[5].value_nl;
-        this.booktour = response.data.data[1].value_nl;
-      }
-      console.log(response);
-    })
+      websiteApi.getText().then(response => {
+        if (this.language === "en") {
+          this.storytext = response.data.data[4].value_en;
+          this.communitytext = response.data.data[2].value_en;
+          this.partners = response.data.data[5].value_en;
+          this.booktour = response.data.data[1].value_en;
+        } else {
+          this.storytext = response.data.data[4].value_nl;
+          this.communitytext = response.data.data[2].value_nl;
+          this.partners = response.data.data[5].value_nl;
+          this.booktour = response.data.data[1].value_nl;
+        }
+        console.log(response);
+      })
+
+      community.getCompanies().then((response) => {
+        for (let i = 0; i < 3; i++) {
+          this.companies.push(response.data.data[i]);
+        }
+      });
     },
     components: {
       Carousel

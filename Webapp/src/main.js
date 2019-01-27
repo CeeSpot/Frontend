@@ -40,6 +40,7 @@ import {faTwitter} from '@fortawesome/free-brands-svg-icons/faTwitter'
 import {faLinkedin} from '@fortawesome/free-brands-svg-icons/faLinkedin'
 import {faSave} from '@fortawesome/free-solid-svg-icons/faSave'
 import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck'
+import {faGlobe} from '@fortawesome/free-solid-svg-icons/faGlobe'
 import {fab} from '@fortawesome/free-brands-svg-icons' // Imports brand icons
 import {far} from '@fortawesome/free-regular-svg-icons'
 import {fas} from '@fortawesome/free-solid-svg-icons'

@@ -32,7 +32,10 @@
       "community-button": "Community",
       "book-a-tour-button": "Boek een toer!",
       "spaces-button": "Ruimtes",
-      "book-a-tour2-button": "Boek een toer!"
+      "book-a-tour2-button": "Boek een toer!",
+      "community-card": "Bekijk onze community!",
+      "book-a-tour-card": "Boek een tour om onze locatie te bekijken.",
+      "spaces-card": "Bekijk onze beschikbare spaces."
     },
     "spaces": {
       "spaces": "Ruimtes"

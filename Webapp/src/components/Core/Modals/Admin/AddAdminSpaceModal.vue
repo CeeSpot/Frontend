@@ -5,6 +5,13 @@
       <b-col cols="12">
         <b-form-input class="mb15" v-model="newSpace.title" type="text"></b-form-input>
       </b-col>
+      <b-col cols="12">
+        <label for="file">Upload file: </label>
+        <b-form-file @change="onFileChanged" v-model="file" :state="Boolean(file)"
+                     placeholder="Choose a file..."></b-form-file>
+        <div class="mt-3">Selected file: {{file && file.name}}</div>
+
+      </b-col>
 
       <b-col cols="12"><label>Omschrijving:</label></b-col>
       <b-col cols="12">
@@ -48,18 +55,25 @@
 
 <script>
 import SpaceApi from '@/services/api/spaces.js'
+import uploadFile from '@/services/api/uploadFile.js'
+
 export default {
   name: 'AddAdminSpaceModal',
   data () {
     return {
-      newSpace: {}
+      newSpace: {},
+      file: null
     }
   },
   methods: {
+    onFileChanged(event) {
+      this.file = event.target.files[0]
+    },
     addSpace() {
       SpaceApi.addSpace(this.newSpace).then(response => {
          if(response.data.success){
-         this.$toasted.show('Successfully added space!',
+           uploadFile.uploadFile(response.data.insertId, 'spaces', this.file)
+           this.$toasted.show('Successfully added space!',
               {
                 position: 'top-center',
                 duration: 3000

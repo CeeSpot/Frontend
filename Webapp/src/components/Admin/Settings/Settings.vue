@@ -16,6 +16,25 @@
             </div>
           </div>
         </b-card>
+        <b-card class="no-scale">
+          <div>
+            <h2 class="text-center">Homepage community picture</h2>
+            <b-row class="text-center">
+              <b-col>
+                <b-img fluid style="max-height: 150px;" :src="this.imageBaseURL + '/home_community/image.jpg'" alt="Community image"></b-img>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <label for="file">Upload file: </label>
+                <b-form-file @change="onFileChanged" v-model="file" :state="Boolean(file)"
+                             placeholder="Choose a file..."></b-form-file>
+                <div class="mt-3">Selected file: {{file && file.name}}</div>
+                <b-button v-on:click="saveImage()">Save image</b-button>
+              </b-col>
+            </b-row>
+          </div>
+        </b-card>
       </b-col>
     </b-row>
   </b-container>
@@ -25,6 +44,7 @@
 import AdminMenu from '@/components/Admin/AdminMenu'
 import ActionButton from '@/components/Core/Other/ActionButton'
 import settingsApi from '@/services/api/admin/settings.js'
+import uploadFile from '@/services/api/uploadFile.js'
 
 export default {
   name: "event",
@@ -37,10 +57,14 @@ export default {
       active: "Settings",
       settings: [],
       blogActive: false,
-      authorised: false
+      authorised: false,
+      file: null
     }
   },
   methods: {
+    saveImage() {
+      uploadFile.uploadFile('image', 'home_community', this.file)
+    },
     toggle() {
       this.blogActive = !this.blogActive;
       let data = {
