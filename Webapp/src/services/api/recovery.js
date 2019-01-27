@@ -1,10 +1,16 @@
 import axios from 'axios'
 
 export default{
-  sendRecoveryMail (data) {
+  sendRecoveryMailUser (data) {
     return axios.post('/api/user/recovery', data);
   },
-  editPassword (data) {
+  editPasswordUser (data) {
     return axios.put('/api/user/recovery', data);
-  }
+  },
+  sendRecoveryMailCompany (data) {
+    return axios.post('/api/company/recovery', data);
+  },
+  editPasswordCompany (data) {
+    return axios.put('/api/company/recovery', data);
+  },
 }

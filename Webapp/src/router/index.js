@@ -242,7 +242,7 @@ export default new Router({
       component: ForgotPassword
     },
     {
-      path: '/forgot-password-edit/:id',
+      path: '/forgot-password-edit/:type/:id',
       name: 'EditPassword',
       component: EditPassword
     }

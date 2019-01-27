@@ -44,30 +44,55 @@ export default {
   },
   created() {
       this.id = this.$route.params.id;
+      this.type = this.$route.params.type;
   },
   methods: {
       saveNewPassword() {
+          if(this.type == 'user'){
             let data = {
                 newPassword: this.newPassword,
                 recoverystring: this.id
             }
-          recoveryApi.editPassword(data).then(response => {
-            if(response.data.success){
-                    this.$toasted.show('Successfully changed password!',
-                        {
-                            position: 'top-center',
-                            duration: 3000
-                        }
-                    )
-            } else {
-                    this.$toasted.show('Something went wrong try again later!',
-                        {
-                            position: 'top-center',
-                            duration: 3000
-                        }
-                )
+            recoveryApi.editPasswordUser(data).then(response => {
+              if(response.data.success){
+                      this.$toasted.show('Successfully changed password!',
+                          {
+                              position: 'top-center',
+                              duration: 3000
+                          }
+                      )
+              } else {
+                      this.$toasted.show('Something went wrong try again later!',
+                          {
+                              position: 'top-center',
+                              duration: 3000
+                          }
+                  )
+              }
+          });
+        } else if (this.type == 'company') {
+            let data = {
+                newPassword: this.newPassword,
+                recoverystring: this.id
             }
-        });
+            recoveryApi.editPasswordCompany(data).then(response => {
+              if(response.data.success){
+                      this.$toasted.show('Successfully changed password!',
+                          {
+                              position: 'top-center',
+                              duration: 3000
+                          }
+                      )
+              } else {
+                      this.$toasted.show('Something went wrong try again later!',
+                          {
+                              position: 'top-center',
+                              duration: 3000
+                          }
+                  )
+              }
+          });
+        }
       }
   },
   mounted() {

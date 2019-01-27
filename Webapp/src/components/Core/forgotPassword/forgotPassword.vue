@@ -10,6 +10,16 @@
             </b-col>
           </b-row>
               <b-row>
+              <b-col md="10" offset-md="1">
+                <b-form-group>
+                  <b-form-radio-group v-model="selected"
+                                      :options="options"
+                                      name="radioInline">
+                  </b-form-radio-group>
+                </b-form-group>
+              </b-col>
+            </b-row>
+              <b-row>
                 <b-col md="10" offset-md="1">
                     <b-form-group id="emailGroup"
                                 label="Email"
@@ -39,33 +49,63 @@ export default {
   name: 'ForgotPassword',
   data() {
     return {
-        email: ''
+        email: '',
+        selected: 1,
+        options: [
+        { text: 'User', value: 1 },
+        { text: 'Company', value: 2 }
+        ]
     }
   },
   methods: {
       sendRecoveryMail() {
-        let data = {
-            email: this.email
-        }
-        recoveryApi.sendRecoveryMail(data).then(response => {
-            if(response.data.success){
-                    this.email = '';
-                    this.$toasted.show('Successfully send recovery mail!',
-                        {
-                            position: 'top-center',
-                            duration: 3000
-                        }
-                    )
-            } else {
-                    this.email = '';
-                    this.$toasted.show('No user found with this email!',
-                        {
-                            position: 'top-center',
-                            duration: 3000
-                        }
-                )
+          if(this.selected == 1){
+            let data = {
+                email: this.email
             }
-        });
+            recoveryApi.sendRecoveryMailUser(data).then(response => {
+                if(response.data.success){
+                        this.email = '';
+                        this.$toasted.show('Successfully send recovery mail!',
+                            {
+                                position: 'top-center',
+                                duration: 3000
+                            }
+                        )
+                } else {
+                        this.email = '';
+                        this.$toasted.show('No company found with this email!',
+                            {
+                                position: 'top-center',
+                                duration: 3000
+                            }
+                    )
+                }
+            });
+        } else {
+            let data = {
+                email: this.email
+            }
+            recoveryApi.sendRecoveryMailCompany(data).then(response => {
+                if(response.data.success){
+                        this.email = '';
+                        this.$toasted.show('Successfully send recovery mail!',
+                            {
+                                position: 'top-center',
+                                duration: 3000
+                            }
+                        )
+                } else {
+                        this.email = '';
+                        this.$toasted.show('No user found with this email!',
+                            {
+                                position: 'top-center',
+                                duration: 3000
+                            }
+                    )
+                }
+            });
+        }
       }
   },
   mounted() {
