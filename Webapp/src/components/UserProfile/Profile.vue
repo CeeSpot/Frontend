@@ -550,7 +550,6 @@ export default {
           )
         }
       }).catch((err) => {
-        console.log(err)
         this.$toasted.show('Failed to change your information',
           {
             position: 'top-center',

@@ -12,6 +12,12 @@
         <b-card class="no-scale" title="Account info">
           <b-form-input class="mb15" type="text" v-model="user.email" placeholder="Email"></b-form-input>
           <b-form-input class="mb15" type="text" v-model="user.username" placeholder="Username"></b-form-input>
+            <b-form-select v-model="user.user_role_id">
+              <option v-for="option in roles"
+                      v-bind:value="option.value" :selected="option.value === user.user_role_id ? 'selected' : ''">
+                 {{option.text}}
+              </option>
+            </b-form-select>
         </b-card>
       </b-col>
       <b-col cols="6">
@@ -74,7 +80,8 @@ export default {
   data() {
     return {
       user: {},
-      authorised: false
+      authorised: false,
+      roles: []
     }
   },
   methods: {
@@ -88,10 +95,37 @@ export default {
       });
     },
     updateUser() {
-      let data = {data: this.user}
+      let userRoleId = this.user.user_role_id
+      delete this.user.user_role_id
+      let data = {user: this.user}
       AdminUserApi.updateUser(data).then(response => {
-        alert('user successfully updated')
-      });
+        if (response.data.success) {
+          AdminUserApi.updateUserRole({data: {id: this.user.id, role: userRoleId}}).then((resp) => {
+            if (resp.data.success) {
+              this.$toasted.show('Successfully changed the user\'s information',
+                {
+                  position: 'top-center',
+                  duration: 3000
+                }
+              )
+            } else {
+              this.$toasted.show('Failed to change the user\'s information',
+                {
+                  position: 'top-center',
+                  duration: 3000
+                }
+              )
+            }
+          })
+        } else {
+          this.$toasted.show('Failed to change the user\'s information',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+          )
+        }
+      })
     },
     back() {
       this.$router.push({path: '/admin/users'});
@@ -101,7 +135,17 @@ export default {
     AuthorisationApi.isAdmin().then((resp) => {
       if (resp.data.authorised) {
         this.authorised = true
-        CommunityApi.getUser(this.$route.params.id).then((response) => this.user = response.data.user);
+        AdminUserApi.getRoles().then((response) => {
+          for (let i = 0; i < response.data.data.length; i++) {
+            this.roles.push({
+              value: response.data.data[i].id,
+              text: response.data.data[i].name
+            })
+          }
+        })
+        CommunityApi.getUser(this.$route.params.id).then((response) => {
+          this.user = response.data.user
+        });
       } else {
         location.href = '/'
       }
