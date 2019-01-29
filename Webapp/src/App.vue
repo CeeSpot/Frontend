@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <navigation></navigation>
+    <navigation v-if="!showHomeNav"></navigation>
     <div id="main" role="main">
       <router-view/>
     </div>
@@ -18,10 +18,14 @@
     name: 'App',
     data() {
       return {
-        token: ''
+        token: '',
+        showHomeNav: false
       }
     },
     mounted() {
+      if(this.$route.name === 'Landingpage') {
+        this.showHomeNav = true;
+      }
 //      Emitter.$on('tokenReceived', (token) => {
 //        localStorage.setItem(JSON_TOKEN, JSON.stringify(token))
 //        this.token = token
