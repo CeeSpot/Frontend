@@ -39,11 +39,13 @@
           <b-col>
             <b-card class="no-scale">
               <b-row>
-                <h2>{{$t('space.book-a-space')}}</h2>
+                <b-col>
+                  <h2>{{$t('space.book-a-space')}}</h2>
+                </b-col>
               </b-row>
               <b-row>
                 <b-col>
-                  <span>{{space.costs}}</span>
+                  <span>Cost: {{space.costs}}</span>
                 </b-col>
               </b-row>
               <b-row v-if="loggedIn" class="mt-2">
