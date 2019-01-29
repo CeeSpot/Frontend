@@ -49,12 +49,12 @@ export default {
       blogApi.getBlogs().then((response) => 
       {
       if(!response.data.success){
-          this.$toasted.show('Failed to load blogs!',
-              {
-                position: 'top-center',
-                duration: 3000
-              }
-          )
+        this.$toasted.show('Failed to load blogs!',
+          {
+            position: 'top-center',
+            duration: 3000
+          }
+        )
       }
       this.blogs = response.data.data
       }
