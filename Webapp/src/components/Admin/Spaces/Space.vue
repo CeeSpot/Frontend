@@ -1,5 +1,6 @@
 <template>
-    <b-container style="margin-top: 150px;">
+    <b-container style="margin-top: 170px;">
+    <admin-back-button target="events" @click.native="back()"></admin-back-button>
     <b-col cols="4" class="text-center" offset="4" style="margin-bottom: 20px;">
 
     </b-col>
@@ -48,11 +49,6 @@
             v-on:click.native="updateSpace"></action-button>
           </b-col>
         </b-row>
-        <b-row class="mt-3">
-          <b-col>
-              <action-button color="red" :fixed="false" icon="chevron-left" @click.native="back()"></action-button>
-          </b-col>
-        </b-row>
     </div>
     </b-container>
 </template>
@@ -63,12 +59,14 @@
  // import AdminEventApi from '@/services/api/admin/spaces.js'
   import moment from 'moment'
   import ActionButton from '@/components/Core/Other/ActionButton'
+  import AdminBackButton from '@/components/Core/Other/AdminBackButton'
 
   export default {
     name: "space",
     components: {
       AdminMenu,
-      ActionButton
+      ActionButton,
+    AdminBackButton
     },
     data() {
       return {

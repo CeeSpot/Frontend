@@ -126,7 +126,7 @@ export default {
   mounted() {
     SpaceApi.getSpace(this.$route.params.id).then(response => {
       this.space = response.data.data;
-      console.log(response);
+     // console.log(response);
       uploadFile.checkIfFileExists(this.imageBaseURL + '/spaces/' + this.$route.params.id + '.jpg')
         .then((res) => {
           this.imageURL = this.imageBaseURL + '/spaces/' + this.$route.params.id + '.jpg';

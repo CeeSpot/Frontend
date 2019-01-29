@@ -1,5 +1,6 @@
 <template>
-  <b-container v-if="authorised" style="margin-top: 150px;">
+  <b-container v-if="authorised" style="margin-top: 170px;">
+  <admin-back-button target="events" @click.native="back()"></admin-back-button>
     <b-form-group label="Name" label-for="companyName">
       <b-form-input id="companyName" class="mb15" type="text" v-model="company.name"></b-form-input>
     </b-form-group>
@@ -16,11 +17,6 @@
       <b-form-input id="companyPhone" class="mb15" type="tel" v-model="company.phone"></b-form-input>
     </b-form-group>
     <div class="fab-buttons">
-      <b-row class="mt-3">
-        <b-col>
-          <action-button color="red" :fixed="false" icon="chevron-left" @click.native="back()"></action-button>
-        </b-col>
-      </b-row>
     </div>
   </b-container>
 </template>
@@ -31,12 +27,14 @@ import CommunityApi from '@/services/api/community.js'
 import TagApi from '@/services/api/tags.js'
 import ActionButton from '@/components/Core/Other/ActionButton'
 import AuthorisationApi from '@/services/api/Authorisation.js'
+import AdminBackButton from '@/components/Core/Other/AdminBackButton'
 
 export default {
   name: 'company',
   components: {
     AdminMenu,
-    ActionButton
+    ActionButton,
+    AdminBackButton
   },
   data() {
     return {

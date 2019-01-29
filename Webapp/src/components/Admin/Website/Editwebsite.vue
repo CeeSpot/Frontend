@@ -1,5 +1,6 @@
 <template>
-  <b-container v-if="authorised" style="margin-top: 150px;">
+  <b-container v-if="authorised" style="margin-top: 170px;">
+  <admin-back-button target="events" @click.native="back()"></admin-back-button>
     <b-row>
       <b-col>
         <h1>{{text.key}}</h1>
@@ -23,11 +24,6 @@
           <action-button color="red" :fixed="false" icon="save" @click.native="editWebsite()"></action-button>
         </b-col>
       </b-row>
-      <b-row class="mt-3">
-        <b-col>
-          <action-button color="red" :fixed="false" icon="chevron-left" @click.native="back()"></action-button>
-        </b-col>
-      </b-row>
     </div>
   </b-container>
 </template>
@@ -38,12 +34,14 @@ import {VueEditor} from 'vue2-editor'
 import AuthorisationApi from '@/services/api/Authorisation.js'
 import websiteApi from '@/services/api/website.js'
 import adminWebsiteApi from '@/services/api/admin/website.js'
+import AdminBackButton from '@/components/Core/Other/AdminBackButton'
 
 export default {
   name: 'editwebsite',
   components: {
     ActionButton,
-    VueEditor
+    VueEditor,
+    AdminBackButton
   },
   data() {
     return {

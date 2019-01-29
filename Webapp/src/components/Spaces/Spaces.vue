@@ -116,4 +116,8 @@
         color: #E60000;
         font-size: 25px;
     }
+
+    p{
+        min-height: 120px;
+    }
 </style>
