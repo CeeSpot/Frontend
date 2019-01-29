@@ -81,7 +81,7 @@
                         </b-card>
                     </b-col>
                     <b-col>
-                        <b-card class="no-scale">
+                        <b-card class="no-scale" img-src="/static/images/location.png">
                             <ul class="list-unstyled">
                                 <li><span class="font-weight-bold">the cee spot</span></li>
                                 <li>Brouwerijstraat 1</li>
