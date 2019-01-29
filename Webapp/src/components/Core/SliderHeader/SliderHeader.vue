@@ -26,7 +26,7 @@
                 <b-col class="mt-5 pl-5">
                     <h1 style="width: 300px;" class="font-weight-bold">{{ eventTitle | truncate(30, '...')}}</h1>
                     <h2 style="width: 300px;">{{ getDateAsText(eventDate) }}</h2>
-                    <b-button id="signUpButton" href="#">Sign up!</b-button>
+                    <b-button id="signUpButton" v-bind:href='getEventRoute(eventId)'>Sign up!</b-button>
                 </b-col>
             </b-row>
         </b-container>
@@ -72,6 +72,9 @@
       },
       getDateAsText(date) {
         return moment(date).format('DD-MM-YYYY')
+      },
+      getEventRoute(id) {
+        return encodeURI('/event/' + id + '/' + this.eventTitle);
       }
     },
     mounted() {
@@ -82,33 +85,32 @@
           amountOfSlides = data.data.data.length;
         }
 
-        console.log(amountOfSlides);
-
-
         for(let i = 0; i < amountOfSlides; i++){
           uploadFile.checkIfFileExists(this.imageBaseURL + '/event/' + data.data.data[i].id + '.jpg').then((res) => {
             this.slides.push({
               eventTitle: data.data.data[i].title,
               eventDate: data.data.data[i].start,
-              eventImg: this.imageBaseURL + '/event/' + data.data.data[i].id+ '.jpg',
+              eventImg: this.imageBaseURL + '/event/' + data.data.data[i].id + '.jpg',
               eventId: data.data.data[i].id
             });
 
             if(i === 0) {
               this.eventTitle = data.data.data[i].title;
+              this.eventDate = data.data.data[i].start;
+              this.eventId = data.data.data[i].id;
             }
           }).catch((err) => {
             this.slides.push({
               eventTitle: data.data.data[i].title,
-              eventDate: data.data.data[i].date,
+              eventDate: data.data.data[i].start,
               eventImg: '/static/images/header.png',
               eventId: data.data.data[i].id
             });
 
-            this.set('slides', this.slides);
-
             if(i === 0) {
               this.eventTitle = data.data.data[i].title;
+              this.eventDate = data.data.data[i].start;
+              this.eventId = data.data.data[i].id;
             }
           });
         }
