@@ -7,6 +7,6 @@ export default {
       headers: {
         'x-access-token': store.state.jwt
       }
-    });
-  },
+    })
+  }
 }

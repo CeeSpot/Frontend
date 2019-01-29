@@ -2,6 +2,15 @@
 
   <b-modal ref="newEventModal" id="newevent" title="Nieuw evenement">
     <b-form-input class="mb15" v-model="newEvent.title" type="text" placeholder="Titel"></b-form-input>
+    <b-row>
+    <b-col>
+      <label for="file">Upload file: </label>
+      <b-form-file @change="onFileChanged" v-model="file" :state="Boolean(file)"
+                   placeholder="Choose a file..."></b-form-file>
+      <div class="mt-3">Selected file: {{file && file.name}}</div>
+
+    </b-col>
+    </b-row>
     <b-form-textarea class="mb15" rows="3" v-model="newEvent.description" type="text"
                      placeholder="Omschrijving"></b-form-textarea>
     <b-form-textarea class="mb15" rows="2" v-model="newEvent.small_description" type="text"
@@ -31,22 +40,27 @@
 <script>
 import AdminEventApi from '@/services/api/admin/events.js'
 import moment from 'moment'
+import uploadFile from '@/services/api/uploadFile.js'
 
 export default {
   name: 'AddEventModal',
   data () {
     return {
-      newEvent: {}
+      newEvent: {},
+      file: null
     }
   },
   methods: {
-
+    onFileChanged(event) {
+      this.file = event.target.files[0]
+    },
     addEvent() {
       this.newEvent.start = moment(this.newEvent.start).format('YYYY-MM-DD HH:mm:ss');
       this.newEvent.end = moment(this.newEvent.end).format('YYYY-MM-DD HH:mm:ss');
 
       AdminEventApi.addEvent({event: this.newEvent}).then(response => {
         if (response.data.success && response.data.authorised) {
+          uploadFile.uploadFile(response.data.insertId, 'event', this.file)
           this.$refs.newEventModal.hide()
           this.newEvent = {}
           Emitter.$emit('newAdminEventAdded')

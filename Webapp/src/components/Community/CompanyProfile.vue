@@ -10,7 +10,7 @@
             <div class="image-wrapper" id="baseImg"
                  v-bind:style="{height: '150px',
                                 width: '150px',
-                                backgroundImage: 'url(\'../static/images/users/6.png\')',
+                                backgroundImage: 'url(\'/static/images/users/6.png\')',
                                 backgroundSize: 'cover',
                                 borderRadius: '50%'}" v-on:click="selectImage()">
               <div class="image-overlay">

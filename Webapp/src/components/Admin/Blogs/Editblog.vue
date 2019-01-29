@@ -91,7 +91,6 @@ export default {
                 duration: 3000
               }
           )
-          location.href = '/admin/blogs/'
         } else {
           this.$toasted.show('Something went wrong try again later!',
               {
@@ -118,8 +117,23 @@ export default {
           blog_id: this.id
         }
       }
-      AdminBlogApi.deleteBlog(data).then(response => {
-        location.href = '/admin/blogs/'
+       AdminBlogApi.deleteBlog(data).then(response => {
+        if(response.data.success){
+          this.$toasted.show('Successfully deleted blog!',
+                  {
+                    position: 'top-center',
+                    duration: 3000
+                  }
+          )
+          location.href = '/admin/blogs/'
+        } else {
+           this.$toasted.show('Something went wrong try again later!',
+                  {
+                    position: 'top-center',
+                    duration: 3000
+                  }
+          )
+        }
       })
     }
   },

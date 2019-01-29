@@ -15,6 +15,13 @@
     <b-form-group label="Name" label-for="companyPhone">
       <b-form-input id="companyPhone" class="mb15" type="tel" v-model="company.phone"></b-form-input>
     </b-form-group>
+    <div class="fab-buttons">
+      <b-row class="mt-3">
+        <b-col>
+          <action-button color="red" :fixed="false" icon="chevron-left" @click.native="back()"></action-button>
+        </b-col>
+      </b-row>
+    </div>
   </b-container>
 </template>
 
@@ -40,6 +47,9 @@ export default {
   methods: {
     formatDate(date) {
       return moment(date).format('DD-MM-YYYY')
+    },
+    back() {
+      this.$router.push({path: '/admin/companies'})
     }
   },
   mounted() {
@@ -48,12 +58,12 @@ export default {
         this.authorised = true
         CommunityApi.getCompany(this.$route.params.id).then(response => {
           if(!response.data.success){
-          this.$toasted.show('Failed to load company!',
+            this.$toasted.show('Failed to load company!',
               {
                 position: 'top-center',
                 duration: 3000
               }
-          )
+            )
           }
           this.company = response.data.company;
         })

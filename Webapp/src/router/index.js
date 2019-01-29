@@ -13,6 +13,8 @@ import PrivacyStatement from '@/components/PrivacyStatement/PrivacyStatement'
 import User from '@/components/Community/User'
 import Blogs from '@/components/Blog/Blogs'
 import Blog from '@/components/Blog/Blog'
+import ForgotPassword from '@/components/Core/forgotPassword/forgotPassword'
+import EditPassword from '@/components/Core/forgotPassword/editPassword'
 
 // Authentication
 import Register from '@/components/Core/Authentication/RegisterAndLogin'
@@ -233,6 +235,16 @@ export default new Router({
       path: '*',
       name: 'NotFoundComponent',
       component: NotFoundComponent
+    },
+    {
+      path: '/forgot-password',
+      name: 'ForgotPassword',
+      component: ForgotPassword
+    },
+    {
+      path: '/forgot-password-edit/:type/:id',
+      name: 'EditPassword',
+      component: EditPassword
     }
   ]
 })

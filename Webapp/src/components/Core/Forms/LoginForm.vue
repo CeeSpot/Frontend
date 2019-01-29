@@ -45,6 +45,7 @@
       <b-col md="10" offset-md="1">
         <b-button type="submit" variant="primary">Submit</b-button>
         <b-link class="ml-2" v-on:click="goToRegister()">No account?</b-link>
+        <b-link class="ml-2" v-on:click="gotToForgot()">Forgot password?</b-link>
       </b-col>
     </b-row>
   </b-form>
@@ -82,6 +83,9 @@ export default {
   methods: {
     goToRegister () {
       Emitter.$emit('goToRegisterFromLogin')
+    },
+    gotToForgot() {
+      window.location.href = '/forgot-password';
     },
     onSubmit(evt) {
       evt.preventDefault()

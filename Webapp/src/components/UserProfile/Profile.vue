@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid style="margin-top: 100px;">
+  <b-container fluid style="margin-top: 90px;">
     <b-row style="background: linear-gradient(to right, #1d2337 40%,#1d2337);padding-top: 50px;padding-bottom: 150px;">
       <b-container>
         <b-row align-v="start">
@@ -7,7 +7,7 @@
             <div class="image-wrapper" id="baseImg"
                  v-bind:style="{height: '150px',
                                 width: '150px',
-                                backgroundImage: 'url(\'../static/images/users/6.png\')',
+                                backgroundImage: 'url(' + imageURL + ')',
                                 backgroundSize: 'cover',
                                 borderRadius: '50%'}" v-on:click="selectImage()">
               <div class="image-overlay">
@@ -467,7 +467,8 @@ export default {
       addressInfoEditting: false,
       companies: [],
       tags: [],
-      date: null
+      date: null,
+      imageURL: ''
     }
   },
   methods: {
@@ -549,7 +550,6 @@ export default {
           )
         }
       }).catch((err) => {
-        console.log(err)
         this.$toasted.show('Failed to change your information',
           {
             position: 'top-center',
@@ -575,7 +575,17 @@ export default {
           this.$store.dispatch('logout')
         }
         this.user = response.data.user
-        console.log(this.user)
+        uploadFile.checkIfFileExists(this.imageBaseURL + '/profile/' + this.user.id + '.jpg')
+          .then((res) => {
+            console.log("bestaat");
+            this.imageURL = this.imageBaseURL + '/profile/' + this.user.id + '.jpg';
+            console.log(this.imageURL);
+          })
+          .catch((err) => {
+            console.log("bestaat niet");
+            this.imageURL = '/static/images/header.jpg';
+            console.log(this.imageURL);
+          });
         this.compare(response.data.user.social_media_sites, response.data.sites)
         this.type = response.data.type
       }).catch((err) => {
@@ -643,9 +653,7 @@ export default {
     })
   },
   mounted() {
-    this.getProfile()
-    let imageURL = ""
-    uploadFile.checkIfFileExists(this.user.id);
+    this.getProfile();
   }
 }
 </script>

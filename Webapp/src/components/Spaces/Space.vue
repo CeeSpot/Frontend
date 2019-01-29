@@ -1,11 +1,11 @@
 <template>
-  <b-container fluid style="margin-top: 100px;">
+  <b-container fluid style="margin-top: 90px;">
     <b-row style="background: linear-gradient(to right, #1d2337 40%,#1d2337);padding-top: 50px;padding-bottom: 150px;">
       <b-container>
         <b-row>
           <b-col md="2">
             <b-img rounded="circle" width="200" height="200" class="image-border"
-                   src="https://www.theceespot.nl/img/school-of-AI-simply-scaled-640.jpg"></b-img>
+                   v-bind:src="imageURL"></b-img>
           </b-col>
           <b-col md="9" class="text-white ml-5">
             <b-row>
@@ -17,9 +17,9 @@
             </b-row>
             <b-row class="mt-3">
               <b-col class="opacity-text-8" md="12">
-                {{space.capacity}} <br/>
-                {{space.targets}} <br/>
-                {{space.facilities}}
+                <font-awesome-icon icon="users"/>&nbsp;{{space.capacity}} <br/>
+                Targets: {{space.targets}} <br/>
+                Facilities: {{space.facilities}}
               </b-col>
             </b-row>
           </b-col>
@@ -39,11 +39,13 @@
           <b-col>
             <b-card class="no-scale">
               <b-row>
-                <h2>{{$t('space.book-a-space')}}</h2>
+                <b-col>
+                  <h2>{{$t('space.book-a-space')}}</h2>
+                </b-col>
               </b-row>
               <b-row>
                 <b-col>
-                  <span>{{space.costs}}</span>
+                  <span>Cost: {{space.costs}}</span>
                 </b-col>
               </b-row>
               <b-row v-if="loggedIn" class="mt-2">
@@ -58,8 +60,10 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col md="12">
-          <full-calendar :events="reservations" :config="config"></full-calendar>
+          <b-col md="12" class="mb-5">
+            <div class="p-2" style="background-color: white;">
+              <full-calendar :events="reservations" :config="config"></full-calendar>
+            </div>
           </b-col>
         </b-row>
       </b-container>
@@ -115,12 +119,21 @@ import VueMasonryGallery from '@/components/Core/Other/VueMasonryGallery';
 import SpaceApi from '@/services/api/spaces.js';
 import Authorisation from '@/services/api/Authorisation.js';
 import moment from 'moment';
+import uploadFile from '@/services/api/uploadFile.js'
 
 export default {
   name: "Space",
   mounted() {
     SpaceApi.getSpace(this.$route.params.id).then(response => {
       this.space = response.data.data;
+      console.log(response);
+      uploadFile.checkIfFileExists(this.imageBaseURL + '/spaces/' + this.$route.params.id + '.jpg')
+        .then((res) => {
+          this.imageURL = this.imageBaseURL + '/spaces/' + this.$route.params.id + '.jpg';
+        })
+        .catch((err) => {
+          this.imageURL = '/static/images/header.jpg';
+        });
       this.booking.space_id = this.space.id;
       this.booking.space_title = this.space.title;
       
@@ -138,6 +151,7 @@ export default {
       loggedIn: false,
       eventSources: [],
       reservations: [],
+      imageURL: '',
       config: {
         header: {
   left:   'title',

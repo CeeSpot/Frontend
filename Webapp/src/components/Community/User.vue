@@ -3,12 +3,16 @@
     <b-row class="main-bg">
       <b-container>
         <b-row  align-v="start" class="d-flex flex-row">
-          <b-col lg="auto" md="auto" sm="auto" cols="auto" clas="d-flex flex-column">
-            <div class="image-wrapper" id="baseImg"
-                 v-bind:style="{backgroundImage: 'url(\'../static/images/users/6.png\')',
+          <b-col cols="auto">
+            <!--<div style="background-image: url('/static/images/header.jpg'); width: 150px; height: 150px; background-position: center center; background-size: cover;"></div>-->
+            <div class="image-wrapper"
+                 v-bind:style="{height: '150px',
+                                width: '150px',
+                                backgroundImage: 'url(' + imageURL + ')',
                                 backgroundSize: 'cover',
-                                borderRadius: '50%'}">
-            </div>
+                                backgroundPosition: 'center center',
+                                borderRadius: '50%'}"></div>
+
           </b-col>
           <b-col class="text-white d-flex flex-column flex-grow">
 
@@ -161,6 +165,7 @@
 <script>
 import CommunityApi from '@/services/api/community.js'
 import Tag from '@/components/Core/Other/Tag' // Import the navigation into the base app
+import uploadFile from '@/services/api/uploadFile.js'
 
 export default {
   name: 'User',
@@ -178,7 +183,13 @@ export default {
       CommunityApi.getUser(this.id).then((response) => {
         if (response.data.success) {
           this.user = response.data.user
-          this.imageURL = '/static/images/users/' + this.id + '.png';
+          uploadFile.checkIfFileExists(this.imageBaseURL + '/profile/' + this.user.id + '.jpg')
+            .then((res) => {
+              this.imageURL = this.imageBaseURL + '/profile/' + this.user.id + '.jpg';
+            })
+            .catch((err) => {
+              this.imageURL = '/static/images/header.jpg';
+            });
         } else {
           this.$toasted.show('Failed load user try again later',
             {
@@ -187,8 +198,6 @@ export default {
             }
            )
         }
-      }).catch(() => {
-        this.getUser()
       })
     },
     getCompanyLink(id, name) {

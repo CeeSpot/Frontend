@@ -23,8 +23,5 @@ export default{
         'x-access-token': store.state.jwt
       }
     })
-  },
-  getParticipants (eventId) {
-    return axios.get('/api/events/participants/' + eventId)
   }
 }

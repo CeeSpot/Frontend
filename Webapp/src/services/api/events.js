@@ -10,13 +10,13 @@ export default {
     })
   },
   getEventCategories() {
-    return axios.get('/api/eventcategories', {
+    return axios.get('/api/events/categories', {
       headers: {
         'x-access-token': store.state.jwt
       }
     })
   },getUpcoming() {
-    return axios.get('/api/eventsupcoming', {
+    return axios.get('/api/events/upcoming', {
       headers: {
         'x-access-token': store.state.jwt
       }

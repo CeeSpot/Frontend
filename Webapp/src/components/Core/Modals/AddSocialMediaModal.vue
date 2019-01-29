@@ -29,19 +29,6 @@
                         v-model="smr.url"></b-form-input>
         </b-input-group>
       </b-form-group>
-
-      <!--<b-form-group v-for="smr in smrs" v-bind:id="smr.site + 'fg'"-->
-                    <!--v-bind:label="smr.site | capitalize"-->
-                    <!--v-bind:label-for="smr.site + 'fi'" :key="smr.site">-->
-        <!--<b-input-group-prepend>-->
-          <!--<b-btn variant="outline-info" v-bind:class="smr.site">{{smr.site}}.com/</b-btn>-->
-        <!--</b-input-group-prepend>-->
-        <!--<b-form-input v-bind:id="smr.site + 'fi'"-->
-                      <!--type="text"-->
-                      <!--v-model="smr.url"></b-form-input>-->
-      <!--</b-form-group>-->
-
-
       <b-form-group v-for="smr in sites" v-bind:id="smr.site + 'fg'"
                     v-bind:label="smr.site | capitalize"
                     v-bind:label-for="smr.site + 'fi'" :key="smr.site">
@@ -109,20 +96,28 @@ export default {
         website: this.website
       }
       socialMediaApi.addResourceSite(post).then((resp) => {
-         if(resp.data.success){
-         this.$toasted.show('Successfully added socialmedia links!',
-              {
-                position: 'top-center',
-                duration: 3000
-              }
+        if (resp.data.success) {
+          this.$toasted.show('Successfully added socialmedia links!',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
+          )
+
+          if (this.type === 1) {
+            Emitter.$emit('updatedSocialMediaSiteForUser', resp.data.token)
+          } else if (this.type === 2) {
+            Emitter.$emit('updatedSocialMediaSiteForCompany', resp.data.token)
+          }
+          this.$refs.AddSocialMediaModal.hide()
+        } else {
+          this.$toasted.show('Failed to change socials',
+            {
+              position: 'top-center',
+              duration: 3000
+            }
           )
         }
-        if (this.type === 1) {
-          Emitter.$emit('updatedSocialMediaSiteForUser', resp.data.token)
-        } else if (this.type === 2) {
-          Emitter.$emit('updatedSocialMediaSiteForCompany', resp.data.token)
-        }
-        this.$refs.AddSocialMediaModal.hide()
       }).catch((err) => {
         console.log(err);
         this.$refs.AddSocialMediaModal.hide()
@@ -139,31 +134,38 @@ export default {
   label {
     font-weight: bold;
   }
-  .twitter,.twitter:hover {
+
+  .twitter, .twitter:hover {
     color: #1da1f2;
-    border-color:#1da1f2;
+    border-color: #1da1f2;
   }
-  .facebook,.facebook:hover {
+
+  .facebook, .facebook:hover {
     color: #3b5998;
-    border-color:#3b5998;
+    border-color: #3b5998;
   }
-  .instagram,.instagram:hover {
+
+  .instagram, .instagram:hover {
     color: #e1306c;
-    border-color:#e1306c;
+    border-color: #e1306c;
   }
-  .linkedin,.linkedin:hover {
+
+  .linkedin, .linkedin:hover {
     color: #0077b5;
-    border-color:#0077b5;
+    border-color: #0077b5;
   }
-  .medium,.medium:hover {
+
+  .medium, .medium:hover {
     color: #00ab6c;
-    border-color:#00ab6c;
+    border-color: #00ab6c;
   }
-  .github,.github:hover,.website,.website:hover {
+
+  .github, .github:hover, .website, .website:hover {
     color: #4078c0;
-    border-color:#4078c0;
+    border-color: #4078c0;
   }
+
   .btn-outline-info:hover {
-    background:none;
+    background: none;
   }
 </style>
