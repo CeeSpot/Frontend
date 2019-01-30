@@ -176,7 +176,7 @@ export default {
         AdminEventApi.addEvent({event: this.form}).then(response => {
           if (response.data.success && response.data.authorised) {
             uploadFile.uploadFile(response.data.insertId, 'event', this.file)
-            this.$refs.formModal.hide()
+            this.$refs.newEventModal.hide()
             this.form = {}
             this.startAfterEnd = false
             this.failedMessage = ''
