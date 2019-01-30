@@ -1,8 +1,6 @@
 <template>
   <b-container class="p-3 container-margin">
-    <b-row id="upcoming-header">
-      <b-col><h1>{{$t('events.upcoming-events')}}</h1></b-col>
-    </b-row>
+    <!--
     <b-row id="upcoming-container">
       <b-col cols="12" md="4" xl="4" lg="4" v-for="upcoming in upcomingEvents"
              v-on:click="routeToEvent(upcoming.id, upcoming.title)">
@@ -17,10 +15,7 @@
             </div>
           </b-card>
       </b-col>
-    </b-row>
-    <b-row id="allevents-header">
-      <b-col><h1>{{$t('events.all-events')}}</h1></b-col>
-    </b-row>
+    </b-row> -->
     <b-row style="height: 40px;">
       <b-col xs="6" v-if="showCalendar">
         <b-button style="background-color: white; color: black; height: 30px; line-height: 15px;"
@@ -70,8 +65,30 @@
                        @event-selected="eventSelected"></full-calendar>
       </b-col>
     </b-row>
+    <b-row v-if="!showCalendar && upcomingList.length > 0" id="upcoming-header">
+      <b-col><h1>{{$t('events.upcoming-events')}}</h1></b-col>
+    </b-row>
     <b-row class="mt-3" v-bind:class="{'show': !showCalendar, 'hidden': showCalendar}">
-      <b-col md="4" v-for="calEvent in eventList">
+      <b-col md="4" v-for="calEvent in upcomingList">
+        <a v-on:click="routeToEvent(calEvent.id, calEvent.title)" style="color: black;">
+          <b-card>
+            <div :id="'calEventpic' + calEvent.id" class="card-img-top"
+                 v-bind:style="{ backgroundImage: 'url(' + getImage(calEvent.id, 'event', 'calEvent') + ')' }"></div>
+            <div class="pl-3 pr-3">
+              <h4 class="card-title">{{calEvent.title}}</h4>
+              <p style="font-size: 1em;">
+                {{getDateFormat(calEvent.start)}} @ {{getTimeFormat(calEvent.start)}} - {{getTimeFormat(calEvent.end)}}
+              </p>
+            </div>
+          </b-card>
+        </a>
+      </b-col>
+    </b-row>
+    <b-row v-if="!showCalendar && pastList.length > 0" id="upcoming-header">
+      <b-col><h1>{{$t('events.past-events')}}</h1></b-col>
+    </b-row>
+    <b-row class="mt-3" v-bind:class="{'show': !showCalendar, 'hidden': showCalendar}">
+      <b-col md="4" v-for="calEvent in pastList">
         <a v-on:click="routeToEvent(calEvent.id, calEvent.title)" style="color: black;">
           <b-card>
             <div :id="'calEventpic' + calEvent.id" class="card-img-top"
@@ -244,7 +261,8 @@ export default {
       upcomingEvents: [],
       form: {},
       startAfterEnd: null,
-      failedMessage: ''
+      failedMessage: '',
+      pastEvents: []
     }
   },
   mixins: [
@@ -305,6 +323,25 @@ export default {
         )
       }
       this.upcomingEvents = response.data.data
+    }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+    });
+
+    eventApi.getPast().then(response => {
+      if (!response.data.success) {
+        this.$toasted.show('Failed to load past events try again later!',
+          {
+            position: 'top-center',
+            duration: 3000
+          }
+        )
+      }
+      this.pastEvents = response.data.data
     }).catch((err) => {
         this.$toasted.show('Something went wrong, please try again',
               {
@@ -408,11 +445,16 @@ export default {
     }
   },
   computed: {
-    eventList() {
-      return this.events.filter(event => {
+    pastList() {
+      return this.pastEvents.filter(event => {
         return event.title.toLowerCase().includes(this.search.toLowerCase())
       })
-    }
+    },
+    upcomingList() {
+      return this.upcomingEvents.filter(event => {
+        return event.title.toLowerCase().includes(this.search.toLowerCase())
+      })
+    },
   }
 }
 </script>

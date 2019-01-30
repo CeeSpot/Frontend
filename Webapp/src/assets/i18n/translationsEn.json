@@ -10,7 +10,8 @@
       "day": "Day",
       "search": " Search...",
       "upcoming-events": "Upcoming events",
-      "all-events": "All events"
+      "all-events": "All events",
+      "past-events": "Past events"
     },
     "event": {
       "login-to-join": "Login to join this event!",

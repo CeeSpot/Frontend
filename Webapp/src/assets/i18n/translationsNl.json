@@ -10,7 +10,8 @@
       "day": "Dag",
       "search": " Search...",
       "upcoming-events": "Aankomende evenementen",
-      "all-events": "Alle evenementen"
+      "all-events": "Alle evenementen",
+      "past-events": "Oude evenementen"
     },
     "event": {
       "login-to-join": "Login om deel te nemen!",
