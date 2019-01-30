@@ -222,38 +222,16 @@ export default {
     }
   },
   methods: {
-    addReservation() {
-      this.booking.date = moment(this.booking.date).format('YYYY-MM-DD');
-      this.booking.start = moment(this.booking.start).format('HH:mm');
-      this.booking.end = moment(this.booking.end).format('HH:mm');
-      SpaceApi.checkAvailability(this.booking).then(response => {
-        if (response.data.success && response.data.authorised) {
-          this.$refs.bookspace.hide()
-          this.$toasted.show('Successfully added your reservation',
-            {
-              position: 'top-center',
-              duration: 3000
-            }
-          )
-        } else {
-          // brownie needs to add this
-        }
-      }).catch((err) => {
-          this.$toasted.show('Something went wrong, please try again',
-              {
-                position: 'top-center',
-                duration: 3000
-              }
-          )
-      });
-    },
     closeModal() {
       this.$refs.bookspace.hide()
     },
     addReservation() {
-      let start = moment(moment(this.form.start).format('HH:mm'), 'hh:mm')
-      let end = moment(moment(this.form.end).format('HH:mm'), 'hh:mm')
+      let start = moment(moment(this.form.start).format('HH:mm'), 'HH:mm')
+      let end = moment(moment(this.form.end).format('HH:mm'), 'HH:mm')
       this.startAfterEnd = moment(start).isBefore(moment(end))
+      console.log(start)
+      console.log(end)
+      console.log('hello')
       this.failedMessage = ''
       if (this.startAfterEnd) {
         SpaceApi.checkAvailability({
@@ -277,6 +255,7 @@ export default {
               }
             )
           } else {
+            console.log(response)
             this.failedMessage = response.data.data
           }
         }).catch((err) => {
@@ -324,8 +303,8 @@ export default {
         .catch((err) => {
           this.imageURL = '/static/images/header.jpg';
         });
-      this.booking.space_id = this.space.id;
-      this.booking.space_title = this.space.title;
+      this.form.space_id = this.space.id;
+      this.form.space_title = this.space.title;
 
       this.reservations = this.space.reservations;
     })

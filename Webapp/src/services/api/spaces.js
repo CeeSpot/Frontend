@@ -40,6 +40,8 @@ export default {
   },
   checkAvailability(booking) {
     let data = {reservation: booking};
+    console.log(data.reservation.start)
+    console.log(data.reservation.end)
     return axios.post('/api/spaces/book', data, {
       headers: {
         'x-access-token': store.state.jwt
