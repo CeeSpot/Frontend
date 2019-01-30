@@ -68,7 +68,7 @@
             <!-- Tags-->
             <b-row class="mt-3">
               <b-col>
-                <ul>
+                <ul id="tagList">
                   <li v-for="tag in user.tags" :key="tag.id" >
                     <div :id="'tag' + tag.id"
                          class="btn-ceecee-oval-red">{{tag.description}}
@@ -239,14 +239,14 @@ export default {
     padding-bottom: 20px;
   }
 
-  ul {
+  #tagList {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
   }
 
-  li {
+  #tagList > li {
     float: left;
   }
 

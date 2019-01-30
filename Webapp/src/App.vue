@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <navigation></navigation>
+    <navigation v-if="!showHomeNav"></navigation>
     <div id="main" role="main">
       <router-view/>
     </div>
     <div id="footer" class="footer">
-      <page-footer></page-footer>
+      <page-footer v-if="showFooter"></page-footer>
     </div>
   </div>
 </template>
@@ -18,16 +18,20 @@
     name: 'App',
     data() {
       return {
-        token: ''
+        token: '',
+        showHomeNav : false,
+        showFooter  : true
       }
     },
     mounted() {
-//      Emitter.$on('tokenReceived', (token) => {
-//        localStorage.setItem(JSON_TOKEN, JSON.stringify(token))
-//        this.token = token
-//        window.location.href = '/'
-//      });
-//      this.token = JSON.parse(localStorage.getItem(JSON_TOKEN))
+      console.log(this.$route.fullPath.substring(0, 6));
+      if('/admin' === this.$route.fullPath.substring(0, 6)) {
+        this.showFooter = false;
+      }
+
+      if(this.$route.name === 'Landingpage') {
+        this.showHomeNav = true;
+      }
     },
     components: {
       Navigation,

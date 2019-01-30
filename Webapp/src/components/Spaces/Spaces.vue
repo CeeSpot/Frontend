@@ -130,6 +130,10 @@ export default {
     font-size: 25px;
   }
 
+  p{
+      min-height: 120px;
+  }
+
   .card-body {
     padding: 0 !important;
   }

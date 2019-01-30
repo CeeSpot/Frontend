@@ -6,14 +6,16 @@
     <b-row id="upcoming-container">
       <b-col cols="12" md="4" xl="4" lg="4" v-for="upcoming in upcomingEvents"
              v-on:click="routeToEvent(upcoming.id, upcoming.title)">
-        <b-card class="upc-card"
-                :id="'upcomingpic' + upcoming.id"
-                :style="{ backgroundImage: 'url(' + getImage(upcoming.id, 'event', 'upcoming') + ')' }">
-          <div class="upc-title">
-            <strong>{{upcoming.title}}<br/></strong>
-            <span>{{getDateFormat(upcoming.start)}} @ {{getTimeFormat(upcoming.start)}} - {{getTimeFormat(upcoming.end)}}</span>
-          </div>
-        </b-card>
+        <b-card>
+            <div :id="'calEventpic' + upcoming.id" class="card-img-top"
+                 v-bind:style="{ backgroundImage: 'url(' + getImage(upcoming.id, 'event', 'calEvent') + ')' }"></div>
+            <div class="pl-3 pr-3">
+              <h4 class="card-title">{{upcoming.title}}</h4>
+              <p style="font-size: 1em;">
+                {{getDateFormat(upcoming.start)}} @ {{getTimeFormat(upcoming.start)}} - {{getTimeFormat(upcoming.end)}}
+              </p>
+            </div>
+          </b-card>
       </b-col>
     </b-row>
     <b-row id="allevents-header">
@@ -60,6 +62,8 @@
       </b-col>
     </b-row>
     <b-row class="mt-3" v-bind:class="{'show':showCalendar, 'hidden':!showCalendar}">
+    <b-col cols="12"><b-button v-on:click="downloadiCal">Download iCal</b-button></b-col>
+    
       <b-col>
         <full-calendar ref="CalendarRef"
                        :event-sources="eventSources" :config="config"
@@ -76,9 +80,6 @@
               <h4 class="card-title">{{calEvent.title}}</h4>
               <p style="font-size: 1em;">
                 {{getDateFormat(calEvent.start)}} @ {{getTimeFormat(calEvent.start)}} - {{getTimeFormat(calEvent.end)}}
-              </p>
-              <p>
-                {{ calEvent.small_description }}
               </p>
             </div>
           </b-card>
@@ -314,6 +315,9 @@ export default {
           document.getElementById(kind + 'pic' + id).style.backgroundImage = 'url(\'/static/images/header.jpg\')'
         });
     },
+    downloadiCal(){
+      eventApi.getiCalAllEvents();
+    },
     eventSelected(event, jsEvent, view) {
       location.href = '/event/' + event.id + '/' + event.title;
     },
@@ -421,6 +425,9 @@ export default {
   }
   .card-body{
     padding: 0 !important;
+  }
+  .card-title{
+    min-height: 100px;
   }
   .card-img-top {
     display: block;

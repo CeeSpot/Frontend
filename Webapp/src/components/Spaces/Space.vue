@@ -169,9 +169,6 @@ import {required, email} from 'vuelidate/lib/validators'
 
 export default {
   name: "Space",
-  mounted() {
-
-  },
   data() {
     return {
       modalIsVisible: false,
@@ -294,6 +291,7 @@ export default {
     })
     SpaceApi.getSpace(this.$route.params.id).then(response => {
       this.space = response.data.data;
+      // console.log(response);
       uploadFile.checkIfFileExists(this.imageBaseURL + '/spaces/' + this.$route.params.id + '.jpg')
         .then((res) => {
           this.imageURL = this.imageBaseURL + '/spaces/' + this.$route.params.id + '.jpg';
@@ -301,8 +299,8 @@ export default {
         .catch((err) => {
           this.imageURL = '/static/images/header.jpg';
         });
-      this.form.space_id = this.space.id;
-      this.form.space_title = this.space.title;
+      this.booking.space_id = this.space.id;
+      this.booking.space_title = this.space.title;
 
       this.reservations = this.space.reservations;
     })

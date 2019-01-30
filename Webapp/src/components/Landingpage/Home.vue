@@ -1,8 +1,6 @@
 <template>
     <div>
-        <b-container fluid style="padding: 0; margin-top: 80px;">
-            <carousel></carousel>
-        </b-container>
+        <slider-header></slider-header>
         <b-container fluid class="bg-light pb-5" style="min-height: 400px; padding-top: 80px;">
             <b-row style="padding-bottom: 80px;">
                 <b-col md="12">
@@ -133,7 +131,7 @@
 
 <script>
   import axios from 'axios'
-  import Carousel from '@/components/Core/Carousel/Carousel' // Import the navigation into the base app
+  import SliderHeader from '@/components/Core/SliderHeader/SliderHeader' // Import the navigation into the base app
   import websiteApi from '@/services/api/website.js'
   import community from '@/services/api/community'
 
@@ -163,7 +161,6 @@
           this.partners = response.data.data[5].value_nl;
           this.booktour = response.data.data[1].value_nl;
         }
-        console.log(response);
       })
 
       community.getCompanies().then((response) => {
@@ -173,7 +170,7 @@
       });
     },
     components: {
-      Carousel
+      SliderHeader
     }
   }
 </script>

@@ -1,5 +1,6 @@
 <template>
-  <b-container v-if="authorised" style="margin-top: 150px;">
+  <b-container v-if="authorised" style="margin-top: 170px;">
+  <admin-back-button target="events" @click.native="back()"></admin-back-button>
     <b-row>
       <b-col>
         <label for="inputTitle">Title:</label>
@@ -49,11 +50,6 @@
           <action-button color="red" :fixed="false" icon="save" @click.native="addBlog()"></action-button>
         </b-col>
       </b-row>
-      <b-row class="mt-3">
-        <b-col>
-          <action-button color="red" :fixed="false" icon="chevron-left" @click.native="back()"></action-button>
-        </b-col>
-      </b-row>
     </div>
   </b-container>
 </template>
@@ -66,12 +62,15 @@ import {VueEditor} from 'vue2-editor'
 import Multiselect from 'vue-multiselect'
 import blogApi from '@/services/api/blogs.js'
 import AuthorisationApi from '@/services/api/Authorisation.js'
+import AdminBackButton from '@/components/Core/Other/AdminBackButton'
+
 export default {
   name: 'addblog',
   components: {
     ActionButton,
     VueEditor,
-    Multiselect
+    Multiselect,
+    AdminBackButton
   },
   data() {
     return {
@@ -120,6 +119,9 @@ export default {
           }
         })
       }
+    },
+    back() {
+      location.href = '/admin/blogs/'
     }
   },
   mounted() {

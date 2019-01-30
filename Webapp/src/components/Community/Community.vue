@@ -312,6 +312,10 @@ export default {
     padding-left: 0rem;
   }
 
+  .card-text{
+    min-height: 120px;
+  }
+
   .form-group-search .form-control-icon {
     position: absolute;
     z-index: 2;

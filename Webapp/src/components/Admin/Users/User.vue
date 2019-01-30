@@ -1,5 +1,6 @@
 <template>
-  <b-container v-if="authorised" style="margin-top: 150px;">
+  <b-container v-if="authorised" style="margin-top: 170px;">
+  <admin-back-button target="events" @click.native="back()"></admin-back-button>
     <b-row>
       <b-col cols="6">
         <b-card class="no-scale" title="Personal info">
@@ -54,11 +55,6 @@
             v-on:click.native="updateUser"></action-button>
         </b-col>
       </b-row>
-      <b-row class="mt-3">
-        <b-col>
-          <action-button color="red" :fixed="false" icon="chevron-left" v-on:click.native="back()"></action-button>
-        </b-col>
-      </b-row>
     </div>
   </b-container>
 </template>
@@ -70,12 +66,14 @@ import AdminUserApi from '@/services/api/admin/users.js'
 import moment from 'moment'
 import ActionButton from '@/components/Core/Other/ActionButton'
 import AuthorisationApi from '@/services/api/Authorisation.js'
+import AdminBackButton from '@/components/Core/Other/AdminBackButton'
 
 export default {
   name: "user",
   components: {
     AdminMenu,
-    ActionButton
+    ActionButton,
+    AdminBackButton
   },
   data() {
     return {
