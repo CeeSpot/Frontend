@@ -140,9 +140,13 @@ export default {
           )
         }
       }).catch((err) => {
-        console.log(err)
-        this.getTags()
-      })
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     },
     getCompanies() {
       CommunityApi.getCompanies().then((response) => {
@@ -156,9 +160,14 @@ export default {
             }
           )
         }
-      }).catch(() => {
-        this.getCompanies()
-      })
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+    });
     },
     getUsers() {
       CommunityApi.getUsers().then((response) => {
@@ -172,9 +181,14 @@ export default {
             }
           )
         }
-      }).catch(() => {
-        this.getUsers()
-      })
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     },
     toggle: function (value) {
       if (value === 'members') {

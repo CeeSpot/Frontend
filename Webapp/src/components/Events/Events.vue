@@ -166,6 +166,13 @@ export default {
         )
       }
       this.events = response.data.data
+    }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
     });
     eventApi.getUpcoming().then(response => {
       if (!response.data.success) {
@@ -177,6 +184,13 @@ export default {
         )
       }
       this.upcomingEvents = response.data.data
+    }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
     });
   },
   methods: {
@@ -240,9 +254,21 @@ export default {
         if (response.data.success && response.data.authorised) {
           this.newEvent = {};
           EventApi.getEvents().then(response => this.events = response.data.data)
+          this.$toasted.show('Succesfully added event.',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
         }
         this.$refs.newEventModal.hide();
       }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
         this.$refs.newEventModal.hide();
       });
     }

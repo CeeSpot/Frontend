@@ -123,7 +123,14 @@ export default {
             }
           )
         }
-      })
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     },
     back() {
       this.$router.push({path: '/admin/users'});

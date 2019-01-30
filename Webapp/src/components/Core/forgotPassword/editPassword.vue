@@ -69,7 +69,14 @@ export default {
                           }
                   )
               }
-          });
+          }).catch((err) => {
+                this.$toasted.show('Something went wrong, please try again',
+                    {
+                        position: 'top-center',
+                        duration: 3000
+                    }
+                )
+            });
         } else if (this.type == 'company') {
             let data = {
                 newPassword: this.newPassword,
@@ -91,7 +98,14 @@ export default {
                           }
                   )
               }
-          });
+          }).catch((err) => {
+                this.$toasted.show('Something went wrong, please try again',
+                    {
+                        position: 'top-center',
+                        duration: 3000
+                    }
+                )
+            });
         }
       }
   },

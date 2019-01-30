@@ -80,7 +80,14 @@ export default {
         )
       }
       this.spaces = response.data.data
-    });
+    }).catch((err) => {
+          this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     websiteApi.getOneText(8).then(response => {
       if (this.language === "en") {
         this.text = response.data.data[0].value_en;

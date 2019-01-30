@@ -71,7 +71,14 @@ export default {
         //     break
         // }
         this.$refs.EditTagModal.hide()
-      })
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     },
   },
   props: ['selectedTab', 'selectedTagName', 'selectedId']

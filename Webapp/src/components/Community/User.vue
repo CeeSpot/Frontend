@@ -198,7 +198,14 @@ export default {
             }
            )
         }
-      })
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+    });
     },
     getCompanyLink(id, name) {
       name = name.replace(/\s+/g, '-').toLowerCase()

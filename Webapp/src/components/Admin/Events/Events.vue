@@ -79,9 +79,14 @@ export default {
               }
           )
         }
-      }).catch(() => {
-        this.getEventCategories()
-      })
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     }
   },
   mounted() {

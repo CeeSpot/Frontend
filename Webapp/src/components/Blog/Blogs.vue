@@ -148,7 +148,14 @@
         }
         this.tags = response.data.data
       }
-      );
+      ).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+    });
     },
     created() {
       blogApi.getBlogs().then(response => {
@@ -161,7 +168,14 @@
             )
         }
         this.blogs = response.data.data;
-      });
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+    });
     },
     computed: {
       blogList() {

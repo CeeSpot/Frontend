@@ -63,7 +63,6 @@ export default {
                 duration: 3000
               }
           )
-          location.href = '/admin/website/'
         } else {
           this.$toasted.show('Something went wrong try again later!',
               {
@@ -72,6 +71,13 @@ export default {
               }
           )
         }
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
       });
     },
     back() {

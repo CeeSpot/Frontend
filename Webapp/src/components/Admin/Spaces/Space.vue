@@ -113,7 +113,14 @@
                       }
                   )
               }
-              });
+              }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
       },
       back() {
         location.href = '/admin/spaces/'

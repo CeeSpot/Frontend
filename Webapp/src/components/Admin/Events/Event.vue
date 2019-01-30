@@ -143,6 +143,12 @@ export default {
         if (!err.data.authorised) {
           this.$router.push({path: '/'})
         }
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
       })
     },
     back () {

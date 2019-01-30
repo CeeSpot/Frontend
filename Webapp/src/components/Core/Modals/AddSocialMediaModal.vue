@@ -119,7 +119,12 @@ export default {
           )
         }
       }).catch((err) => {
-        console.log(err);
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+        )
         this.$refs.AddSocialMediaModal.hide()
       });
       console.log(post);

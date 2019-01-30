@@ -61,8 +61,13 @@ export default {
           )
         }
       }).catch((err) => {
-        console.error(err)
-      })
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+    });
     },
     closeModal () {
       this.$refs.DeleteAccountModal.hide()

@@ -185,8 +185,13 @@ export default {
           // brownie needs to add this
         }
       }).catch((err) => {
-        // brownie needs to add this
-      })
+          this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     },
     getData() {
       // In the real environment,the backend will return a new image array based on the parameter group.

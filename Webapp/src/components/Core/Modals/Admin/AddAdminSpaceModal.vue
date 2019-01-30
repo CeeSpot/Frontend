@@ -83,7 +83,14 @@ export default {
         this.newSpace = {}
         Emitter.$emit('addSpace')
         this.$refs.newspace.hide()
-      })
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     }
   }
 }
