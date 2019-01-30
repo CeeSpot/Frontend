@@ -25,27 +25,37 @@
       <b-form-group label="Password" label-for="password">
         <b-form-input id="password"
                       type="password"
-                      v-model="form.password">
+                      :state="!$v.form.password.$invalid"
+                      aria-describedby="passwordFeedback"
+                      v-model="form.password" required>
         </b-form-input>
+        <b-form-invalid-feedback id="passwordFeedback">
+          Password is required
+        </b-form-invalid-feedback>
       </b-form-group>
       <b-form-group label="New password" label-for="newPassword">
-        <b-form-input v-on:keyup.native="passwordsMatch"
+        <b-form-input
                       id="newPassword"
                       type="password"
-                      v-model="form.newPassword">
+                      :state="!$v.form.newPassword.$invalid"
+                      aria-describedby="newPasswordFeedback"
+                      v-model="form.newPassword" required>
         </b-form-input>
+        <b-form-invalid-feedback id="newPasswordFeedback">
+          Password is required and must be atleast 5 characters long
+        </b-form-invalid-feedback>
       </b-form-group>
       <b-form-group label="Repeat new password" label-for="repeatNewPassword">
-        <b-form-input v-on:keyup.native="passwordsMatch"
+        <b-form-input
                       id="repeatNewPassword"
                       type="password"
-                      v-bind:style="{borderColor: passwordsMatchColor}"
-                      v-model="form.repeatNewPassword">
+                      aria-describedby="repeatNewPasswordFeedback"
+                      :state="!$v.form.repeatNewPassword.$invalid"
+                      v-model="form.repeatNewPassword" required>
         </b-form-input>
-        <small id="passwordGroup__BV_description_" class="form-text">
-          <span v-if="passwordMatch" class="text-success">Passwords match</span>
-          <span v-if="!passwordMatch && passwordMatch != null" class="text-danger">Passwords do not match</span>
-        </small>
+        <b-form-invalid-feedback id="repeatNewPasswordFeedback">
+          New passwords must match
+        </b-form-invalid-feedback>
       </b-form-group>
     </b-form>
 
@@ -53,7 +63,8 @@
       <b-row>
         <b-col>
           <b-btn variant="secondary" v-on:click="closeModal">Cancel</b-btn>
-          <b-btn variant="primary" v-on:click="onSubmit">Save</b-btn>
+          <b-btn variant="primary" v-on:click="onSubmit"
+                 :disabled="$v.form.$invalid">Save</b-btn>
         </b-col>
       </b-row>
     </footer>
@@ -62,6 +73,8 @@
 
 <script>
 import auth from '@/services/api/Authentication.js'
+import { validationMixin } from 'vuelidate'
+import {required, minLength, sameAs} from 'vuelidate/lib/validators'
 
 export default {
   name: 'ChangePasswordModal',
@@ -69,15 +82,28 @@ export default {
     return {
       name: 'ChangePasswordModal',
       url: '',
-      form: {
-        password: '',
-        newPassword: '',
-        repeatNewPassword: ''
-      },
+      form: {},
       passwordChangedMessage: '',
       passwordMatch: null,
       passwordsMatchColor: '#ced4da',
       selected: -1
+    }
+  },
+  mixins: [
+    validationMixin
+  ],
+  validations: {
+    form: {
+      password: {
+        required
+      },
+      newPassword: {
+        required,
+        minLength: minLength(5)
+      },
+      repeatNewPassword: {
+        sameAsPassword: sameAs('newPassword')
+      }
     }
   },
   methods: {
@@ -109,8 +135,7 @@ export default {
           this.passwordsMatchColor = '#ced4da'
           this.passwordMatch = null
         }).catch((err) => {
-          alert(JSON.stringify(err))
-          this.passwordChangedMessage = err.data
+          this.passwordChangedMessage = err
         })
       } else {
         this.passwordChangedMessage = 'New passwords must match'

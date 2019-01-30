@@ -98,8 +98,8 @@ export default {
       return moment(date).format('DD-MM-YYYY')
     },
     deleteEvent (event) {
-      let data = {data: {event_id: this.event.id}}
-      AdminEventApi.deleteEvent(data).then(response => {
+      AdminEventApi.deleteEvent({event_id: this.event.id}).then(response => {
+        console.log(response)
         if (response.data.success && response.data.authorised) {
           this.$router.push({path: '/admin/events'})
         } else {

@@ -17,7 +17,7 @@
             </div>
           </b-col>
           <b-col md="9" class="text-white">
-            <b-button style="position: absolute;right: 0;top: 0;z-index: 8;" variant="light" v-b-modal.RegisterCompanyModal>Add company</b-button>
+            <b-button style="position: absolute;right: 0;top: 0;z-index: 8;" variant="light" v-if="canMakeCompanyProfile" v-b-modal.RegisterCompanyModal>Add company</b-button>
             <b-row style="z-index:7;">
               <b-col md="12">
                 <h2 class="text-white">
@@ -315,7 +315,7 @@
                       <b style="padding-left: 5px;">Username</b>
                     </b-col>
                     <b-col style="padding-left: 45px;">
-                      <span class="text-primary edit">{{user.username}}</span>
+                      <span class="text-dark">{{user.username}}</span>
                     </b-col>
                   </b-row>
 
@@ -414,7 +414,7 @@
     <social-media-modal v-bind:sites="socialMediaSites" v-bind:smrs="user.social_media_sites"
                         v-bind:resourceId="user.id" v-bind:type="type"
                         v-bind:website="user.website"></social-media-modal>
-    <change-password-modal v-bind:username="user.username" v-bind:userid="user.id"></change-password-modal>
+    <change-password-modal v-bind:username="user.username" v-bind:userid="user.id" :type="type"></change-password-modal>
     <company-role-modal v-bind:companies="companies" v-bind:user_companies="user.companies"></company-role-modal>
     <user-tags-modal v-bind:tags="tags" v-bind:user_tags="user.tags"></user-tags-modal>
     <delete-account-modal :id="user.id"></delete-account-modal>
@@ -429,6 +429,7 @@ import Tag from '@/components/Core/Other/Tag'
 import CommunityApi from '@/services/api/community.js'
 import TagsApi from '@/services/api/tags.js'
 import auth from '@/services/api/Authentication.js'
+import authorisation from '@/services/api/Authorisation.js'
 import uploadFile from '@/services/api/uploadFile.js'
 
 import socialMediaModal from '@/components/Core/Modals/AddSocialMediaModal'
@@ -468,7 +469,8 @@ export default {
       companies: [],
       tags: [],
       date: null,
-      imageURL: ''
+      imageURL: '',
+      canMakeCompanyProfile: false
     }
   },
   methods: {
@@ -654,6 +656,11 @@ export default {
   },
   mounted() {
     this.getProfile();
+    authorisation.allowCreateCompanyPage().then((resp) => {
+      this.canMakeCompanyProfile = resp.data.success && resp.data.authorised
+    }).catch((err) => {
+      this.canMakeCompanyProfile = false
+    })
   }
 }
 </script>
