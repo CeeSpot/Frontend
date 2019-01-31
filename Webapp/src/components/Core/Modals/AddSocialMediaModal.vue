@@ -16,6 +16,11 @@
       </b-row>
     </div>
 
+    <b-row>
+      <b-col>
+        <b-alert show variant="danger" v-if="failedMessage.length > 0">{{failedMessage}}</b-alert>
+      </b-col>
+    </b-row>
     <b-form @submit="onSubmit">
       <b-form-group v-for="smr in smrs" v-bind:id="smr.site + 'fg'"
                     v-bind:label="smr.site | capitalize"
@@ -47,10 +52,16 @@
           <b-input-group-prepend>
             <b-btn variant="outline-info" class="website">website</b-btn>
           </b-input-group-prepend>
-          <b-form-input id="website"
+          <b-form-input v-on:keyup.native="validURI" id="website"
                         type="text"
+                        v-bind:style="{borderColor: validWebsiteColor}"
                         v-model="website"></b-form-input>
+
         </b-input-group>
+        <small id="website__BV_description_" class="form-text">
+            <span v-if="!validWebsite && validWebsite != null"
+                  class="text-danger">Website doesn't have a valid link</span>
+        </small>
       </b-form-group>
     </b-form>
 
@@ -74,12 +85,32 @@ export default {
     return {
       name: 'SocialMediaModal',
       url: '',
-      selected: -1
+      selected: -1,
+      validWebsite: null,
+      validWebsiteColor: '#ced4da',
+      failedMessage: ''
     }
   },
   methods: {
+    validURI() {
+      if (this.website.length > 0) {
+        let pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name and extension
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?'+ // port
+          '(\\/[-a-z\\d%@_.~+&:]*)*'+ // path
+          '(\\?[;&a-z\\d%@_.,~+&:=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        if (!pattern.test(this.website)) {
+          this.validWebsite = false
+          this.validWebsiteColor = '#bd2130'
+        } else {
+          this.validWebsite = true
+          this.validWebsiteColor = '#ced4da'
+        }
+      }
+    },
     closeModal() {
-
       this.$refs.AddSocialMediaModal.hide()
     },
     onSubmit(evt) {
@@ -87,43 +118,38 @@ export default {
     },
     saveSocialMedia(evt) {
       evt.preventDefault();
-
-      let post = {
-        resource_id: this.resourceId,
-        social_media_resource_sites: this.smrs,
-        sites: this.sites,
-        type: this.type,
-        website: this.website
-      }
-      socialMediaApi.addResourceSite(post).then((resp) => {
-        if (resp.data.success) {
-          this.$toasted.show('Successfully added socialmedia links!',
-            {
-              position: 'top-center',
-              duration: 3000
-            }
-          )
-
-          if (this.type === 1) {
-            Emitter.$emit('updatedSocialMediaSiteForUser', resp.data.token)
-          } else if (this.type === 2) {
-            Emitter.$emit('updatedSocialMediaSiteForCompany', resp.data.token)
-          }
-          this.$refs.AddSocialMediaModal.hide()
-        } else {
-          this.$toasted.show('Failed to change socials',
-            {
-              position: 'top-center',
-              duration: 3000
-            }
-          )
+      if (this.validWebsite || (!this.validWebsite && this.website.length === 0) || this.validWebsite === null) {
+        let post = {
+          resource_id: this.resourceId,
+          social_media_resource_sites: this.smrs,
+          sites: this.sites,
+          type: this.type,
+          website: this.website
         }
-      }).catch((err) => {
-        console.log(err);
-        this.$refs.AddSocialMediaModal.hide()
-      });
-      console.log(post);
+        socialMediaApi.addResourceSite(post).then((resp) => {
+          if (resp.data.success) {
+            this.$toasted.show('Successfully added socialmedia links!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+            )
 
+            if (this.type === 1) {
+              Emitter.$emit('updatedSocialMediaSiteForUser', resp.data.token)
+            } else if (this.type === 2) {
+              Emitter.$emit('updatedSocialMediaSiteForCompany', resp.data.token)
+            }
+            this.$refs.AddSocialMediaModal.hide()
+          } else {
+            this.failedMessage = 'Something went wrong, please try again.'
+          }
+        }).catch((err) => {
+          this.failedMessage = 'Something went wrong, please try again.'
+        });
+      } else {
+        this.failedMessage = 'Please make sure that your website is a valid url'
+      }
     }
   },
   props: ['sites', 'smrs', 'resourceId', 'type', 'website']

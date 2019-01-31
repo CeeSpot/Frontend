@@ -1,15 +1,12 @@
 <template>
-    <div style="margin-top: 150px;">
+    <div id="containerDiv">
         <b-container fluid id="sliderContainer">
             <b-row style="height: inherit;">
                 <b-col style="height: inherit;" class="p-0">
-                <swiper ref="mySwiper" style="height: 100%;" :options="swiperOption" @slideChange="slideChanged">
-
-                    <!-- slides -->
-                    <swiper-slide class="swiper-slider" style="background-image: url('/static/images/header.png')" data-title="Event 1" data-date="28-01-2019" data-eventid="1"></swiper-slide>
-                    <swiper-slide class="swiper-slider" style="background-image: url('/static/images/header.jpg')" data-title="Event 2" data-date="29-01-2019" data-eventid="2"></swiper-slide>
-                    <!-- Optional controls -->
-                </swiper>
+                    <swiper ref="mySwiper" style="height: 100%;" :options="swiperOption" @slideChange="slideChanged">
+                        <swiper-slide v-for="slide in this.slides" class="swiper-slider"
+                                      v-bind:style="{ backgroundImage: 'url(' + slide.eventImg + ')' }"></swiper-slide>
+                    </swiper>
                 </b-col>
             </b-row>
         </b-container>
@@ -20,29 +17,16 @@
                 </b-col>
                 <b-col xs="10" class="pt-5">
                     <b-navbar toggleable="md">
-
-                        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
-                        <b-collapse is-nav id="nav_collapse" class="navbar">
-
-                            <!-- Right aligned nav items -->
-                            <b-navbar-nav class="ml-auto font-weight-bold">
-                                <b-nav-item href="#">Link</b-nav-item>
-                                <b-nav-item href="#">Link</b-nav-item>
-                                <b-nav-item href="#">Link</b-nav-item>
-                                <b-nav-item href="#">Link</b-nav-item>
-                            </b-navbar-nav>
-
-                        </b-collapse>
+                        <menu-list></menu-list>
                     </b-navbar>
 
                 </b-col>
             </b-row>
             <b-row style="color: white;">
                 <b-col class="mt-5 pl-5">
-                    <h1 class="font-weight-bold">{{ eventTitle }}</h1>
-                    <h2 style="width: 300px;">{{ eventDate }}</h2>
-                    <b-button id="signUpButton" href="#">Sign up!</b-button>
+                    <h1 style="width: 300px;" class="font-weight-bold">{{ eventTitle | truncate(30, '...')}}</h1>
+                    <h2 style="width: 300px;">{{ getDateAsText(eventDate) }}</h2>
+                    <b-button id="signUpButton" v-bind:href='getEventRoute(eventId)'>Sign up!</b-button>
                 </b-col>
             </b-row>
         </b-container>
@@ -53,9 +37,11 @@
   import 'swiper/dist/css/swiper.css'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
   import eventApi from '@/services/api/events.js'
-
-export default {
-    name: "test",
+  import MenuList from "../Navigation/MenuList";
+  import uploadFile from '@/services/api/uploadFile.js'
+  import moment from 'moment'
+  export default {
+    name: "slider-header",
     data() {
       return {
         swiperOption: {
@@ -64,22 +50,12 @@ export default {
           autoplay: {
             delay: 5000
           },
+          allowTouchMove: false
         },
         eventTitle: '',
         eventDate: '',
         eventId: '',
-        slides: [
-          {
-            eventTitle: 'Event 1',
-            eventDate : '29-02-2019',
-            eventId   : '1'
-          },
-          {
-            eventTitle: 'Event 2',
-            eventDate : '05-03-2019',
-            eventId   : '2'
-          }
-        ]
+        slides: [],
       }
     },
     computed: {
@@ -93,40 +69,57 @@ export default {
         this.eventTitle = activeSlide.eventTitle;
         this.eventDate  = activeSlide.eventDate;
         this.eventId    = activeSlide.eventId;
+      },
+      getDateAsText(date) {
+        return moment(date).format('DD-MM-YYYY')
+      },
+      getEventRoute(id) {
+        return encodeURI('/event/' + id + '/' + this.eventTitle);
       }
     },
     mounted() {
 
       eventApi.getUpcoming().then((data) => {
-        for(let i = 0; i < 3; i++){
-          console.log(data.data.data[i]);
+        let amountOfSlides = 3;
+        if(data.data.data.length < 3) {
+          amountOfSlides = data.data.data.length;
+        }
+
+        for(let i = 0; i < amountOfSlides; i++){
           uploadFile.checkIfFileExists(this.imageBaseURL + '/event/' + data.data.data[i].id + '.jpg').then((res) => {
             this.slides.push({
               eventTitle: data.data.data[i].title,
-              eventDate: data.data.data[i].date,
-              img: this.imageBaseURL + '/event/' + data.data.data[i].id+ '.jpg',
+              eventDate: data.data.data[i].start,
+              eventImg: this.imageBaseURL + '/event/' + data.data.data[i].id + '.jpg',
               eventId: data.data.data[i].id
             });
+
+            if(i === 0) {
+              this.eventTitle = data.data.data[i].title;
+              this.eventDate = data.data.data[i].start;
+              this.eventId = data.data.data[i].id;
+            }
           }).catch((err) => {
             this.slides.push({
               eventTitle: data.data.data[i].title,
-              eventDate: data.data.data[i].date,
-              img: '/static/images/header.png',
+              eventDate: data.data.data[i].start,
+              eventImg: '/static/images/header.png',
               eventId: data.data.data[i].id
-
             });
+
+            if(i === 0) {
+              this.eventTitle = data.data.data[i].title;
+              this.eventDate = data.data.data[i].start;
+              this.eventId = data.data.data[i].id;
+            }
           });
-        }
-        if(this.slides.length > 0) {
-          this.eventTitle = this.slides[0].eventTitle;
-          this.eventDate = this.slides[0].eventDate;
-          this.eventId = this.slides[0].eventId;
         }
       });
 
 
     },
     components: {
+      MenuList,
       swiper,
       swiperSlide
     }
@@ -134,6 +127,9 @@ export default {
 </script>
 
 <style scoped>
+    #containerDiv {
+        height: 800px;
+    }
     #headerContainer {
         height: 700px;
         background-image: url("/static/images/rect.svg");

@@ -245,6 +245,11 @@ export default new Router({
       path: '/forgot-password-edit/:type/:id',
       name: 'EditPassword',
       component: EditPassword
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: Test
     }
   ]
 })

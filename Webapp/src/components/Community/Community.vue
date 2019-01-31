@@ -41,16 +41,14 @@
       </b-col>
     </b-row>
     <b-row v-if="showMemberContainer">
-      <b-col md="4" v-for="user in filterSearchAndUserTags()" :key="user.id">
+      <b-col lg="4" md="6" sm="6" cols="12" v-for="user in filterSearchAndUserTags()" :key="user.id">
         <b-card
-            :id="'cardImgprofile' + user.id"
+          :id="'cardImgprofile' + user.id"
           :key="user.id"
-          :title="fullName(user.first_name, user.insertions, user.last_name)"
-          v-bind:img-src="getImage(user.id, 'profile')"
-          img-alt="Image"
-          img-top
           tag="article"
           v-on:click="routeToMember(user.id, user.first_name, user.insertions, user.last_name)">
+          <img :id="'memberpic' + user.id" class="card-img-top" :alt="'Image ' + user.first_name" :src="getImage(user.id, 'member', 'profile')" >
+          <h4 class="card-title">{{fullName(user.first_name, user.insertions, user.last_name)}}</h4>
           <p class="card-text">
             {{descriptionLimited(user.description)}}
           </p>
@@ -58,15 +56,16 @@
       </b-col>
     </b-row>
     <b-row v-if="showCompanyContainer">
-      <b-col md="4" v-for="company in companyList" :key="company.id">
+      <b-col lg="4" md="6" sm="6" cols="12" v-for="company in companyList" :key="company.id">
         <b-card
           :key="company.id"
-          :title="company.name"
-          img-src="https://images.unsplash.com/photo-1525904971217-668a1229f701?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-          img-alt="Image"
-          img-top
           tag="article"
           v-on:click="routeToCompany(company.id, company.name)">
+          <img :id="'companypic' + company.id"
+               class="card-img-top"
+               :alt="'Image ' + company.name"
+               :src="getImage(company.id, 'company', 'profile')" >
+          <h4 class="card-title">{{company.name}}</h4>
           <p class="card-text">
             {{descriptionLimited(company.description)}}
           </p>
@@ -77,12 +76,13 @@
       <b-col md="4" v-for="entity in filteredList">
         <b-card
           :key="entity.id"
-          :title="entity.name"
-          img-src="https://images.unsplash.com/photo-1525904971217-668a1229f701?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-          img-alt="Image"
-          img-top
           tag="article"
           v-on:click="routeToEntity(entity.id, entity.type, entity.name)">
+          <img :id="entity.type + 'pic' + entity.id"
+               class="card-img-top"
+               :alt="'Image ' + entity.name"
+               :src="getImage(entity.id, entity.type , entity.picType)" >
+          <h4 class="card-title">{{entity.name}}</h4>
           <p class="card-text">
             {{entity.description}}
           </p>
@@ -100,7 +100,7 @@ import uploadFile from '@/services/api/uploadFile.js'
 
 export default {
   name: 'Community',
-  data () {
+  data() {
     return {
       companies: [],
       users: [],
@@ -111,72 +111,84 @@ export default {
       searchList: []
     }
   },
-  mounted () {
+  mounted() {
     this.getCompanies()
     this.getTags()
     this.getUsers()
   },
   methods: {
-    getImage(id, type) {
+    getImage(id, kind, type) {
       uploadFile.checkIfFileExists(this.imageBaseURL + '/' + type + '/' + id + '.jpg')
         .then((res) => {
-          return this.imageBaseURL + '/' + type + '/' + id + '.jpg'
-          // document.getElementById('cardImg' + type + id).src = this.imageBaseURL + '/' + type + '/' + id + '.jpg'
-          // console.log(document.getElementById('cardImg' + type + id).src);
+          document.getElementById(kind + 'pic' + id).src = this.imageBaseURL + '/' + type + '/' + id + '.jpg'
+          console.log(document.getElementById(kind + 'pic' + id).src)
         })
         .catch((err) => {
-          return '/static/images/header.jpg'
-          // document.getElementById('cardImg' + type + id).src = '/static/images/header.jpg'
+          document.getElementById(kind + 'pic' + id).src = '/static/images/header.jpg'
         });
     },
-    getTags () {
+    getTags() {
       TagApi.getUserTags().then((response) => {
         if (response.data.success) {
           this.tags = response.data.data
         } else {
-           this.$toasted.show('Failed load tags try again later',
+          this.$toasted.show('Failed load tags try again later',
             {
               position: 'top-center',
               duration: 3000
             }
-           )
+          )
         }
       }).catch((err) => {
-        console.log(err)
-        this.getTags()
-      })
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     },
-    getCompanies () {
+    getCompanies() {
       CommunityApi.getCompanies().then((response) => {
         if (response.data.success) {
           this.companies = response.data.data
         } else {
-            this.$toasted.show('Failed load companies try again later',
+          this.$toasted.show('Failed load companies try again later',
             {
               position: 'top-center',
               duration: 3000
             }
-           )
+          )
         }
-      }).catch(() => {
-        this.getCompanies()
-      })
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+    });
     },
-    getUsers () {
+    getUsers() {
       CommunityApi.getUsers().then((response) => {
         if (response.data.success) {
           this.users = response.data.data
         } else {
-            this.$toasted.show('Failed load users try again later',
+          this.$toasted.show('Failed load users try again later',
             {
               position: 'top-center',
               duration: 3000
             }
-           )
+          )
         }
-      }).catch(() => {
-        this.getUsers()
-      })
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     },
     toggle: function (value) {
       if (value === 'members') {
@@ -210,7 +222,7 @@ export default {
         this.selectedTags.push(id)
       }
     },
-    filterSearchAndUserTags () {
+    filterSearchAndUserTags() {
       let newUserList = []
       let filteredTags = 0
       this.userList.forEach(user => {
@@ -230,17 +242,17 @@ export default {
       }
       return newUserList
     },
-    routeToMember (id, firstName, insertions, lastName) {
+    routeToMember(id, firstName, insertions, lastName) {
       let full = this.fullName(firstName, insertions, lastName)
       full = full.replace(/\s+/g, '-').toLowerCase()
       location.href = '/user/' + id + '/' + full
     },
-    routeToCompany (id, name) {
+    routeToCompany(id, name) {
       name = name.replace(/\s+/g, '-').toLowerCase()
       location.href = '/company/' + id + '/' + name
     },
-    routeToEntity (id, type, name) {
-        name = name.replace(/\s+/g, '-').toLowerCase()
+    routeToEntity(id, type, name) {
+      name = name.replace(/\s+/g, '-').toLowerCase()
       if (type === 'company') {
         location.href = '/company/' + id + '/' + name
       } else {
@@ -250,23 +262,23 @@ export default {
   },
   components: {},
   computed: {
-    userList () {
+    userList() {
       return this.users.filter(user => {
         return this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase())
       })
     },
-    companyList () {
+    companyList() {
       return this.companies.filter(company => {
         return company.name.toLowerCase().includes(this.search.toLowerCase())
       })
     },
-    filteredList () {
+    filteredList() {
       this.searchList = []
 
       this.users.forEach(user => {
         if (this.fullName(user.first_name, user.insertions, user.last_name).toLowerCase().includes(this.search.toLowerCase())) {
           let entity = {
-            id: user.id, type: 'user', name: this.fullName(user.first_name, user.insertions, user.last_name),
+            id: user.id, type: 'user', picType: 'profile', name: this.fullName(user.first_name, user.insertions, user.last_name),
             description: this.descriptionLimited(user.description)
           }
           this.searchList.push(entity)
@@ -276,7 +288,7 @@ export default {
       this.companies.forEach(company => {
         if (company.name.toLowerCase().includes(this.search.toLowerCase())) {
           let entity = {
-            id: company.id, type: 'company', name: company.name,
+            id: company.id, type: 'company', picType: 'company', name: company.name,
             description: this.descriptionLimited(company.description)
           }
           this.searchList.push(entity)
@@ -285,12 +297,12 @@ export default {
 
       return this.searchList
     },
-    showMemberContainer () {
+    showMemberContainer() {
       if (this.showMembers && this.search.length === 0) {
         return true
       }
     },
-    showCompanyContainer () {
+    showCompanyContainer() {
       if (!this.showMembers && this.search.length === 0) {
         return true
       }
@@ -314,6 +326,10 @@ export default {
     padding-left: 0rem;
   }
 
+  .card-text{
+    min-height: 120px;
+  }
+
   .form-group-search .form-control-icon {
     position: absolute;
     z-index: 2;
@@ -331,6 +347,7 @@ export default {
   .card-img-top {
     display: block;
     margin: 25px auto auto;
+    margin-top: 0;
     border-radius: 50%;
     height: 145px;
     width: 145px;
@@ -338,6 +355,7 @@ export default {
 
   .card-title {
     text-align: center;
+    margin-top: 20px;
   }
 
   .card-text {

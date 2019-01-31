@@ -71,6 +71,19 @@ export default {
         is_on: this.blogActive
       };
       settingsApi.toggleBlog(data).then(response => {
+        this.$toasted.show('Succesfully changed blog status',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
       });
     }
   },

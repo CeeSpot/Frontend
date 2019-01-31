@@ -52,7 +52,14 @@ export default {
           )
         }
         this.userList = response.data.data
-      })
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     })
   }
 }

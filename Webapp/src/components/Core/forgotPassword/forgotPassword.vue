@@ -74,13 +74,20 @@ export default {
                         )
                 } else {
                         this.email = '';
-                        this.$toasted.show('No company found with this email!',
+                        this.$toasted.show('No user found with this email!',
                             {
                                 position: 'top-center',
                                 duration: 3000
                             }
                     )
                 }
+            }).catch((err) => {
+                this.$toasted.show('Something went wrong, please try again',
+                    {
+                        position: 'top-center',
+                        duration: 3000
+                    }
+                )
             });
         } else {
             let data = {
@@ -97,13 +104,20 @@ export default {
                         )
                 } else {
                         this.email = '';
-                        this.$toasted.show('No user found with this email!',
+                        this.$toasted.show('No company found with this email!',
                             {
                                 position: 'top-center',
                                 duration: 3000
                             }
                     )
                 }
+            }).catch((err) => {
+                this.$toasted.show('Something went wrong, please try again',
+                    {
+                        position: 'top-center',
+                        duration: 3000
+                    }
+                )
             });
         }
       }

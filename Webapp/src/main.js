@@ -45,6 +45,8 @@ import {fab} from '@fortawesome/free-brands-svg-icons' // Imports brand icons
 import {far} from '@fortawesome/free-regular-svg-icons'
 import {fas} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome' // Imports the font awesome core js
+import { validationMixin } from "vuelidate"
+import { required, minLength } from "vuelidate/lib/validators"
 
 import Toasted from 'vue-toasted' // Toast messages
 
@@ -67,6 +69,9 @@ library.add(faUsers)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon) // create the vue-component so you can use it
 
+Vue.use(validationMixin)
+Vue.use(required)
+Vue.use(minLength)
 Vue.config.productionTip = false // production release
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
@@ -158,6 +163,14 @@ export const store = new Vuex.Store({
     }
   }
 })
+
+Vue.filter('truncate', function(text, length, clamp){
+  clamp = clamp || '...';
+  var node = document.createElement('div');
+  node.innerHTML = text;
+  var content = node.textContent;
+  return content.length > length ? content.slice(0, length) + clamp : content;
+});
 
 Vue.filter('capitalize', function (value) {
   if (!value) return ''
