@@ -120,11 +120,13 @@ export default {
     getImage(id, type) {
       uploadFile.checkIfFileExists(this.imageBaseURL + '/' + type + '/' + id + '.jpg')
         .then((res) => {
-          document.getElementById('cardImg' + type + id).src = this.imageBaseURL + '/' + type + '/' + id + '.jpg'
-          console.log(document.getElementById('cardImg' + type + id).src);
+          return this.imageBaseURL + '/' + type + '/' + id + '.jpg'
+          // document.getElementById('cardImg' + type + id).src = this.imageBaseURL + '/' + type + '/' + id + '.jpg'
+          // console.log(document.getElementById('cardImg' + type + id).src);
         })
         .catch((err) => {
-          document.getElementById('cardImg' + type + id).src = '/static/images/header.jpg'
+          return '/static/images/header.jpg'
+          // document.getElementById('cardImg' + type + id).src = '/static/images/header.jpg'
         });
     },
     getTags () {
