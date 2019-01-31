@@ -63,7 +63,23 @@ export default {
   },
   methods: {
     saveImage() {
-      uploadFile.uploadFile('image', 'home_community', this.file)
+      uploadFile.uploadFile('image', 'home_community', this.file).then(response => {
+          if(response.data.success){
+            this.$toasted.show('Succesfully upload image',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+          } else {
+             this.$toasted.show('Something went wrong, try again later!',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+          }
+      })
     },
     toggle() {
       this.blogActive = !this.blogActive;
