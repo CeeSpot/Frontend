@@ -11,7 +11,7 @@
             </b-row>
         </b-container>
         <b-container fluid id="headerContainer">
-            <b-row>
+            <b-row id="topMenuBar">
                 <b-col xs="2" class="pt-5 pl-5">
                     <b-img src="/static/images/ceespot_logo.svg" class="mt-4"></b-img>
                 </b-col>
@@ -179,4 +179,7 @@
         }
     }
 
+    #topMenuBar {
+        background: linear-gradient(to bottom, #E60000, rgba(91, 91, 91, 0) 100%);
+    }
 </style>
