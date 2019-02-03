@@ -64,7 +64,7 @@
   }
 
   #footer {
-    margin-top: 50px !important;
+    margin-top: 80px !important;
   }
 
 </style>
