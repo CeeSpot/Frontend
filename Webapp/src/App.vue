@@ -64,7 +64,7 @@
   }
 
   #footer {
-    padding-top: 50px !important;
+    margin-top: 50px !important;
   }
 
 </style>
