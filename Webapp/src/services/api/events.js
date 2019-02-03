@@ -72,5 +72,12 @@ export default {
       // Do something with error
       console.log('Failed to get iCal file')
   });
+  },
+  getPast() {
+    return axios.get('/api/events/past', {
+      headers: {
+        'x-access-token': store.state.jwt
+      }
+    })
   }
 }

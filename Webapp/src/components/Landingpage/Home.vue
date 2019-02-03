@@ -1,8 +1,6 @@
 <template>
     <div>
-        <b-container fluid style="padding: 0; margin-top: 80px;">
-            <carousel></carousel>
-        </b-container>
+        <slider-header></slider-header>
         <b-container fluid class="bg-light pb-5" style="min-height: 400px; padding-top: 80px;">
             <b-row style="padding-bottom: 80px;">
                 <b-col md="12">
@@ -89,23 +87,32 @@
             </b-row>
         </b-container>
         <b-container fluid style="padding-top: 80px; padding-bottom: 80px;">
-            <b-row class="mt-5">
+            <b-row>
                 <b-col md="12">
                     <b-container>
                         <b-row>
                             <b-col md="12">
                                 <h1>{{$t('home.meet-our-partners')}}</h1>
-                                <div v-html="partners"></div>
                             </b-col>
                         </b-row>
                         <b-row class="text-center">
-                            <b-col md="4" v-for="company in companies" :key="company.id">
-                                <b-card>
-                                    <b-img src="/static/images/ceecee-logo-black.svg" fluid></b-img>
-                                    <br><br>
-                                    <h4>{{ company.name }}</h4>
-                                </b-card>
-                            </b-col>
+                          <partner :img="'/static/images/partners/gemeenteenschede.jpg'" :nameDutch="'Gemeente Enschede'" :nameEn="'Municipality of Enschede'"></partner>
+                          <partner :img="'/static/images/partners/rabobank.jpg'" :nameDutch="'Rabobank'" :nameEn="'Banking'"></partner>
+                          <partner :img="'/static/images/partners/roctwente.jpg'" :nameDutch="'ROC van Twente'" :nameEn="'Educational institute'"></partner>
+                          <partner :img="'/static/images/partners/desingeladvocaten.jpg'" :nameDutch="'De Singel Advocaten'" :nameEn="'Advocacy'"></partner>
+                          <partner :img="'/static/images/partners/eshuisaccountant.jpg'" :nameDutch="'Eshuis Accountancy'" :nameEn="'Accountancy and advice'"></partner>
+                          <partner :img="'/static/images/partners/saxion.jpg'" :nameDutch="'Saxion'" :nameEn="'Higher education'"></partner>
+                          <partner :img="'/static/images/partners/subvice.jpg'" :nameDutch="'Subvice'" :nameEn="'Creative subsidy advice'"></partner>
+                          <partner :img="'/static/images/partners/trimm.jpg'" :nameDutch="'TRIMM'" :nameEn="'Full service web agency'"></partner>
+                          <partner :img="'/static/images/partners/presentmedia.jpg'" :nameDutch="'Present Media'" :nameEn="'Online strategists'"></partner>
+                          <partner :img="'/static/images/partners/innovadis.jpg'" :nameDutch="'Innovadis'" :nameEn="'Connectors of systems'"></partner>
+                          <partner :img="'/static/images/partners/handstand.jpg'" :nameDutch="'Handstand'" :nameEn="'Marketing strategists'"></partner>
+                          <partner :img="'/static/images/partners/brightlightstudios.jpg'" :nameDutch="'Brightlight Studios'" :nameEn="'Marketing & Business development'"></partner>
+                          <partner :img="'/static/images/partners/muze.jpg'" :nameDutch="'Muze'" :nameEn="'Complex problems, simple solutions'"></partner>
+                          <partner :img="'/static/images/partners/pronksnor.jpg'" :nameDutch="'Pronksnor'" :nameEn="'Eccentric events and experiences'"></partner>
+
+
+
                         </b-row>
                     </b-container>
                 </b-col>
@@ -132,50 +139,50 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import Carousel from '@/components/Core/Carousel/Carousel' // Import the navigation into the base app
-  import websiteApi from '@/services/api/website.js'
-  import community from '@/services/api/community'
+import SliderHeader from '@/components/Core/SliderHeader/SliderHeader' // Import the navigation into the base app
+import websiteApi from '@/services/api/website.js'
+import community from '@/services/api/community'
+import partner from '@/components/Core/Other/Partner' // Import the navigation into the base app
 
-  export default {
-    name: 'Landingpage',
-    data() {
-      return {
-        msg: 'Welcome to Your Vue.js App',
-        text: [],
-        storytext: '',
-        communitytext: '',
-        partners: '',
-        booktour: '',
-        companies: []
-      }
-    },
-    mounted() {
-      websiteApi.getText().then(response => {
-        if (this.language === "en") {
-          this.storytext = response.data.data[4].value_en;
-          this.communitytext = response.data.data[2].value_en;
-          this.partners = response.data.data[5].value_en;
-          this.booktour = response.data.data[1].value_en;
-        } else {
-          this.storytext = response.data.data[4].value_nl;
-          this.communitytext = response.data.data[2].value_nl;
-          this.partners = response.data.data[5].value_nl;
-          this.booktour = response.data.data[1].value_nl;
-        }
-        console.log(response);
-      })
-
-      community.getCompanies().then((response) => {
-        for (let i = 0; i < 3; i++) {
-          this.companies.push(response.data.data[i]);
-        }
-      });
-    },
-    components: {
-      Carousel
+export default {
+  name: 'Landingpage',
+  data() {
+    return {
+      msg: 'Welcome to Your Vue.js App',
+      text: [],
+      storytext: '',
+      communitytext: '',
+      partners: '',
+      booktour: '',
+      companies: []
     }
+  },
+  mounted() {
+    websiteApi.getText().then(response => {
+      if (this.language === "en") {
+        this.storytext = response.data.data[4].value_en;
+        this.communitytext = response.data.data[2].value_en;
+        this.partners = response.data.data[5].value_en;
+        this.booktour = response.data.data[1].value_en;
+      } else {
+        this.storytext = response.data.data[4].value_nl;
+        this.communitytext = response.data.data[2].value_nl;
+        this.partners = response.data.data[5].value_nl;
+        this.booktour = response.data.data[1].value_nl;
+      }
+    })
+
+    community.getCompanies().then((response) => {
+      for (let i = 0; i < 3; i++) {
+        this.companies.push(response.data.data[i]);
+      }
+    });
+  },
+  components: {
+    SliderHeader,
+    partner
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -183,7 +190,6 @@
     .bg-light {
         background-color: #fcfcfc;
     }
-
     .card {
         /*padding-left: 20px;*/
         background-image: url("/static/images/rectangle.svg");

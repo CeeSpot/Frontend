@@ -139,17 +139,28 @@ export default {
     },
     onSubmit (evt) {
       evt.preventDefault()
-      auth.register(this.form).then((resp) => {
-        console.log(resp)
-        if (resp.data.success) {
-          Emitter.$emit('registerred', resp.data.token)
+
+      if (this.passwordMatch && this.emailCorrect) {
+
+        auth.register(this.form).then((resp) => {
+          console.log(resp)
+          if (resp.data.success) {
+            Emitter.$emit('registerred', resp.data.token)
+          } else {
+            this.registerFailedMessage = resp.data.data
+          }
+        }).catch((err) => {
+          this.registerFailedMessage = err
+        })
+      } else {
+        if (!this.passwordMatch && this.emailCorrect) {
+          this.registerFailedMessage = 'Passwords do not match.'
+        } else if (!this.emailCorrect && this.passwordMatch) {
+          this.registerFailedMessage = 'Email is not in the right format'
         } else {
-          this.registerFailedMessage = resp.data.data
+          this.registerFailedMessage = 'Passwords do not match and emails is not in the right format'
         }
-      }).catch((resp) => {
-        console.log(resp)
-        this.registerFailedMessage = resp.data.data;
-      })
+      }
     },
     passwordsMatch: function (event) {
       if (this.form.password === this.form.passwordRepeat) {

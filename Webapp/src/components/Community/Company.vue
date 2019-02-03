@@ -148,9 +148,13 @@ export default {
         self.type = response.data.type
         console.log(response.data.company)
       }).catch((err) => {
-        console.log(err)
-        this.failedMessage = 'Failed loading data, please '
-      })
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+    });
     },
     routeToMember (id, name) {
       // let full = this.fullName(firstName, insertions, lastName)

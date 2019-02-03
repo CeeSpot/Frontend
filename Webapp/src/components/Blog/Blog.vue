@@ -103,6 +103,13 @@ import uploadFile from '@/services/api/uploadFile.js'
         }
         this.blog = response.data.data[0] 
         this.blogUrl = window.location.href;
+      }).catch((err) => {
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
       });
 
       uploadFile.checkIfFileExists(this.imageBaseURL + '/blogs_header/' + this.id + '.jpg')

@@ -1,5 +1,6 @@
 <template>
-  <b-container v-if="authorised" style="margin-top: 150px;">
+  <b-container v-if="authorised" style="margin-top: 170px;">
+  <admin-back-button target="events" @click.native="back()"></admin-back-button>
     <b-col cols="4" class="text-center" offset="4" style="margin-bottom: 20px;">
     </b-col>
     <b-row>
@@ -64,11 +65,6 @@
             v-on:click.native="updateEvent"></action-button>
         </b-col>
       </b-row>
-      <b-row class="mt-3">
-        <b-col>
-          <action-button color="red" :fixed="false" icon="chevron-left" @click.native="back()"></action-button>
-        </b-col>
-      </b-row>
     </div>
   </b-container>
 </template>
@@ -79,13 +75,15 @@ import EventApi from '@/services/api/events.js'
 import AdminEventApi from '@/services/api/admin/events.js'
 import moment from 'moment'
 import ActionButton from '@/components/Core/Other/ActionButton'
+import AdminBackButton from '@/components/Core/Other/AdminBackButton'
 import AuthorisationApi from '@/services/api/Authorisation.js'
 
 export default {
   name: 'event',
   components: {
     AdminMenu,
-    ActionButton
+    ActionButton,
+    AdminBackButton
   },
   data() {
     return {
@@ -100,8 +98,8 @@ export default {
       return moment(date).format('DD-MM-YYYY')
     },
     deleteEvent (event) {
-      let data = {data: {event_id: this.event.id}}
-      AdminEventApi.deleteEvent(data).then(response => {
+      AdminEventApi.deleteEvent({event_id: this.event.id}).then(response => {
+        console.log(response)
         if (response.data.success && response.data.authorised) {
           this.$router.push({path: '/admin/events'})
         } else {
@@ -145,6 +143,12 @@ export default {
         if (!err.data.authorised) {
           this.$router.push({path: '/'})
         }
+        this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
       })
     },
     back () {

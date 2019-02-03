@@ -168,7 +168,14 @@ export default {
             })
           }
         }
-      })
+      }).catch((err) => {
+          this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     },
     fullName (first_name, insertion, last_name) {
       let full_name
@@ -199,7 +206,14 @@ export default {
                   }
                 );
         }
-      })
+      }).catch((err) => {
+          this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     },
     removeUserEvent () {
       let data = {
@@ -226,7 +240,14 @@ export default {
             }
           )
         }
-      })
+      }).catch((err) => {
+          this.$toasted.show('Something went wrong, please try again',
+              {
+                position: 'top-center',
+                duration: 3000
+              }
+          )
+      });
     }
   }
 }

@@ -31,8 +31,13 @@
             <b-form-input id="name"
                           type="email"
                           v-model="form.name"
+                          aria-describedby="nameFeedback"
+                          :state="!$v.form.name.$invalid"
                           required>
             </b-form-input>
+            <b-form-invalid-feedback id="nameFeedback">
+              Name is required
+            </b-form-invalid-feedback>
           </b-form-group>
         </b-col>
       </b-row>
@@ -41,16 +46,16 @@
           <b-form-group id="emailGroup"
                         label="Email"
                         label-for="email">
-            <b-form-input v-on:keyup.native="checkEmail" id="email"
+            <b-form-input id="email"
                           type="email"
-                          v-bind:style="{borderColor: emailCorrectColor}"
                           v-model="form.email"
+                          aria-describedby="emailFeedback"
+                          :state="!$v.form.email.$invalid"
                           required>
             </b-form-input>
-            <small id="passwordGroup__BV_description_" class="form-text">
-            <span v-if="!emailCorrect && emailCorrect != null"
-                  class="text-danger">Email doesn't have the right format</span>
-            </small>
+            <b-form-invalid-feedback id="emailFeedback">
+              Email is required and must be of valid format
+            </b-form-invalid-feedback>
           </b-form-group>
         </b-col>
       </b-row>
@@ -62,8 +67,13 @@
             <b-form-input id="userName"
                           type="text"
                           v-model="form.username"
+                          aria-describedby="usernameFeedback"
+                          :state="!$v.form.username.$invalid"
                           required>
             </b-form-input>
+            <b-form-invalid-feedback id="usernameFeedback">
+              Username is required and must be 5 characters
+            </b-form-invalid-feedback>
           </b-form-group>
         </b-col>
       </b-row>
@@ -72,11 +82,16 @@
           <b-form-group id="passwordGroup"
                         label="Password"
                         label-for="password">
-            <b-form-input v-on:keyup.native="passwordsMatch" id="password"
+            <b-form-input id="password"
                           type="password"
                           v-model="form.password"
+                          :state="!$v.form.password.$invalid"
+                          aria-describedby="passwordFeedback"
                           required>
             </b-form-input>
+            <b-form-invalid-feedback id="passwordFeedback">
+              Password is required and must be atleast 5 characters long
+            </b-form-invalid-feedback>
           </b-form-group>
         </b-col>
       </b-row>
@@ -85,16 +100,16 @@
           <b-form-group id="passwordGroupRepeat"
                         label="Repeat Password"
                         label-for="passwordRepeat">
-            <b-form-input v-on:keyup.native="passwordsMatch" id="passwordRepeat"
+            <b-form-input id="passwordRepeat"
                           type="password"
-                          v-bind:style="{borderColor: passwordsMatchColor}"
                           v-model="form.passwordRepeat"
+                          aria-describedby="newPasswordFeedback"
+                          :state="!$v.form.passwordRepeat.$invalid"
                           required>
             </b-form-input>
-            <small id="passwordGroup__BV_description_" class="form-text">
-              <span v-if="passwordMatch" class="text-success">Passwords match</span>
-              <span v-if="!passwordMatch && passwordMatch != null" class="text-danger">Passwords do not match</span>
-            </small>
+            <b-form-invalid-feedback id="newPasswordFeedback">
+              New passwords must match
+            </b-form-invalid-feedback>
           </b-form-group>
         </b-col>
       </b-row>
@@ -103,7 +118,8 @@
       <b-row>
         <b-col>
           <b-btn variant="secondary" v-on:click="closeModal">Cancel</b-btn>
-          <b-btn variant="primary" v-on:click="registerCompanyAccount">Register</b-btn>
+          <b-btn variant="primary" v-on:click="registerCompanyAccount"
+                 :disabled="$v.form.$invalid">Register</b-btn>
         </b-col>
       </b-row>
     </footer>
@@ -112,53 +128,68 @@
 
 <script>
 import auth from '@/services/api/Authentication.js'
+import { validationMixin } from 'vuelidate'
+import {required, minLength, sameAs, email} from 'vuelidate/lib/validators'
+
 export default {
   name: 'registerCompanyAccount',
   data () {
     return {
-      form: {
-        username: '',
-        password: '',
-        passwordRepeat: '',
-        email: '',
-        name: ''
-      },
-      passwordMatch: null,
-      passwordsMatchColor: '#ced4da',
-
-      emailCorrect: null,
-      emailCorrectColor: '#ced4da',
+      form: {},
       failedMessage: ''
+    }
+  },
+  mixins: [
+    validationMixin
+  ],
+  validations: {
+    form: {
+      name: {
+        required
+      },
+      username: {
+        required,
+        minLength: minLength(5)
+      },
+      password: {
+        required,
+        minLength: minLength(5)
+      },
+      passwordRepeat: {
+        sameAsPassword: sameAs('password')
+      },
+      email: {
+        required, email
+      }
     }
   },
   methods: {
     registerCompanyAccount() {
-      if (this.passwordMatch && this.emailCorrect) {
-        auth.registerCompany(this.form).then((resp) => {
-          if (resp.data.success) {
+      auth.registerCompany(this.form).then((resp) => {
+        if (resp.data.success) {
           this.$toasted.show('Successfully registered company!',
-                {
-                  position: 'top-center',
-                  duration: 3000
-                }
-            )
-            this.$refs.RegisterCompanyModal.hide()
-            this.form = {
-              username: '',
-              password: '',
-              passwordRepeat: '',
-              email: '',
-              name: ''
+            {
+              position: 'top-center',
+              duration: 3000
             }
-            this.passwordMatch = null
-            this.emailCorrect = null
-          } else {
-            this.failedMessage = resp.data.data
+          )
+          this.$refs.RegisterCompanyModal.hide()
+          this.form = {
+            username: '',
+            password: '',
+            passwordRepeat: '',
+            email: '',
+            name: ''
           }
-        }).catch((err) => {
-          this.failedMessage = err.data.data
-        })
-      }
+          this.passwordMatch = null
+          this.emailCorrect = null
+        } else {
+          this.failedMessage = resp.data.data
+        }
+      }).catch((err) => {
+        this.failedMessage = err
+      })
+
     },
     closeModal() {
       this.$refs.RegisterCompanyModal.hide()
