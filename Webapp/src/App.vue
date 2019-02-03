@@ -63,4 +63,8 @@
     margin-bottom: 60px;
   }
 
+  #footer {
+    padding-top: 50px !important;
+  }
+
 </style>
