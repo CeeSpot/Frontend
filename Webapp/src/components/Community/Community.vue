@@ -124,7 +124,7 @@ export default {
           console.log(document.getElementById(kind + 'pic' + id).src)
         })
         .catch((err) => {
-          document.getElementById(kind + 'pic' + id).src = '/static/images/header.jpg'
+          document.getElementById(kind + 'pic' + id).src = '/static/images/placeholder.svg'
         });
     },
     getTags() {
