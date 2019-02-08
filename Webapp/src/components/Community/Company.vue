@@ -4,7 +4,7 @@
       <b-container>
         <b-row>
           <b-col md="2">
-            <b-img rounded="circle" fluid v-bind:src="'../static/images/users/6.png'"></b-img>
+            <b-img rounded="circle" fluid v-bind:src="'../static/images/placeholder.svg'"></b-img>
           </b-col>
           <b-col md="8" class="text-white ml-3">
             <b-row>

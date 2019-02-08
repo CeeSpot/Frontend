@@ -188,7 +188,7 @@ export default {
               this.imageURL = this.imageBaseURL + '/profile/' + this.user.id + '.jpg';
             })
             .catch((err) => {
-              this.imageURL = '/static/images/header.jpg';
+              this.imageURL = '/static/images/placeholder.svg';
             });
         } else {
           this.$toasted.show('Failed load user try again later',
